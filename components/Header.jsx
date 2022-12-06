@@ -1,6 +1,6 @@
 import { React } from "react";
 import { StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
-import { ColorsApp } from "./Colors";
+import { ColorsApp } from "../constants/Colors";
 import { Header, Icon } from "@rneui/themed";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";

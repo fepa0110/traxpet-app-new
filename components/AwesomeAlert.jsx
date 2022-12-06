@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { React } from "react";
 import AwesomeAlert from "react-native-awesome-alerts";
-import { ColorsApp } from "./Colors";
+import { ColorsApp } from "../constants/Colors";
+
 
 const Alert = (props) => {
   const [showAlert, setShowAlert] = useState(true);
