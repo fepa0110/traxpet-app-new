@@ -17,7 +17,6 @@ const Alert = (showAlert, alertTitle, alertMessage, confirmText, onConfirmFuncti
       confirmButtonColor={ColorsApp.primaryColor}
       onConfirmPressed={() => {
         onConfirmFunction()
-        setShowAlert(false)
       }}
     />
   );
