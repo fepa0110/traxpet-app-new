@@ -3,22 +3,20 @@ import { React } from "react";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { ColorsApp } from "../constants/Colors";
 
-
-const Alert = (props) => {
-  const [showAlert, setShowAlert] = useState(true);
+const Alert = (showAlert, alertTitle, alertMessage, confirmText, onConfirmFunction) => {
   return (
     <AwesomeAlert
       show={showAlert}
       showProgress={false}
-      title={props.alertTitle}
-      message={props.alertMessage}
+      title={alertTitle}
+      message={alertMessage}
       closeOnTouchOutside={true}
       closeOnHardwareBackPress={false}
       showConfirmButton={true}
-      confirmText="Ok"
+      confirmText={confirmText}
       confirmButtonColor={ColorsApp.primaryColor}
       onConfirmPressed={() => {
-        props.onConfirmFunction()
+        onConfirmFunction()
         setShowAlert(false)
       }}
     />
