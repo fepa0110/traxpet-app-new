@@ -1,17 +1,25 @@
 import { React } from "react";
-import { StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { ColorsApp } from "../constants/Colors";
-import { Header, Icon } from "@rneui/themed";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Header } from "@rneui/themed";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 const TraxpetHeader = (props) => {
+  const navigation = useNavigation();
+  const goBack = () => {
+    navigation.goBack();
+  };
   return (
-    <SafeAreaProvider>
+    <View>
       <Header
         containerStyle={styles.headerContainer}
         leftComponent={
-          <TouchableOpacity onPress={() => {}}>
-            <Ionicons name="arrow-back-outline" size={24} color="white" />
+          <TouchableOpacity onPress={goBack}>
+            <Ionicons
+              name="arrow-back-outline"
+              size={24}
+              color={ColorsApp.primaryBackgroundColor}
+            />
           </TouchableOpacity>
         }
         centerComponent={{
@@ -20,11 +28,15 @@ const TraxpetHeader = (props) => {
         }}
         rightComponent={
           <TouchableOpacity onPress={() => props.rightFunction()}>
-            <Ionicons name="refresh-outline" size={24} color="white" />
+            <Ionicons
+              name="refresh-outline"
+              size={24}
+              color={ColorsApp.primaryBackgroundColor}
+            />
           </TouchableOpacity>
         }
       />
-    </SafeAreaProvider>
+    </View>
   );
 };
 
@@ -32,7 +44,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: "center",
     backgroundColor: ColorsApp.primaryColor,
-    height: 65,
+    height: 60,
   },
   title: {
     flex: 2,

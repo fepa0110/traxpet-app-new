@@ -1,12 +1,17 @@
 import { React } from "react";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, TouchableOpacity, Text, View } from "react-native";
 import { ColorsApp } from "../constants/Colors";
-import { Header, Icon } from "@rneui/themed";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Header } from "@rneui/themed";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 const TraxpetHeaderHome = (props) => {
+  const navigation = useNavigation();
+
+  const goNotificationsScreen = () => {
+    navigation.navigate("NotificationsScreen")
+  }
   return (
-    <SafeAreaProvider>
+    <View>
       <Header
         containerStyle={styles.headerContainer}
         centerComponent={
@@ -15,18 +20,37 @@ const TraxpetHeaderHome = (props) => {
             source={require("../assets/traxpetBlack.png")}
           />
         }
+        rightComponent={
+          <TouchableOpacity
+            onPress={goNotificationsScreen}
+            style={styles.rightComponent}
+          >
+            <Ionicons
+              name={
+                props.notificaciones.length == 0
+                  ? "notifications-outline"
+                  : "notifications"
+              }
+              size={25}
+              color={ColorsApp.naranjaClaro}
+            />
+            <Text style={styles.textNotification}>
+              {props.notificaciones.length}
+            </Text>
+          </TouchableOpacity>
+        }
       />
-    </SafeAreaProvider>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  rightComponent: { paddingTop: 10, flexDirection: "row" },
   headerContainer: {
-    alignItems: "center",
     backgroundColor: ColorsApp.primaryColor,
-    height: 65,
+    height: 60,
   },
-  title: {
+  textNotification: {
     flex: 2,
     fontSize: 18,
     color: "#fff",
