@@ -13,42 +13,35 @@ import { ColorsApp } from "../constants/Colors";
 const UserPublicationStack = createNativeStackNavigator();
 
 const UserPublicationNavigation = () => {
-    return (
-        <UserPublicationStack.Navigator
-            screenOptions={{
-                headerShown: false,
-                headerTintColor: ColorsApp.secondaryColor,
-                headerStyle: {
-                    backgroundColor: ColorsApp.primaryColor,
-                },
-            }}
-        >
-            <UserPublicationStack.Screen
-                name="ListPublicationScreen"
-                component={ListPublicationScreen}
-            />
+  return (
+    <UserPublicationStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerTintColor: ColorsApp.secondaryColor,
+        headerStyle: {
+          backgroundColor: ColorsApp.primaryColor,
+        },
+      }}
+    >
+      <UserPublicationStack.Screen
+        name="UserPublicationScreen"
+        component={UserPublicationScreen}
+      />
 
-            <UserPublicationStack.Screen
-                name="UserPublicationScreen"
-                component={UserPublicationScreen}
-            />
-
-            <UserPublicationStack.Screen
-                name="EditPublicationScreen"
-                component={EditPublicationScreen}
-            />
-            <UserPublicationStack.Screen
-                name="LocationEditWebScreen"
-                component={LocationEditWebScreen}
-            />
-            <UserPublicationStack.Screen
-                name="LocationEditScreen"
-                component={LocationEditScreen}
-            />
-
-        </UserPublicationStack.Navigator>
-
-    );
+      <UserPublicationStack.Screen
+        name="EditPublicationScreen"
+        component={EditPublicationScreen}
+      />
+      <UserPublicationStack.Screen
+        name="LocationEditWebScreen"
+        component={LocationEditWebScreen}
+      />
+      <UserPublicationStack.Screen
+        name="LocationEditScreen"
+        component={LocationEditScreen}
+      />
+    </UserPublicationStack.Navigator>
+  );
 };
 
 export default UserPublicationNavigation;
