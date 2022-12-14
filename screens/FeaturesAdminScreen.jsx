@@ -36,7 +36,7 @@ const FeaturesAdminScreen = () => {
   let Item = ({ title }) => {
     return (
       <View style={styles.item}>
-        <Text style={{ color: ColorsApp.primaryTextColor }}> {title}</Text>
+        <Text > {title}</Text>
       </View>
     );
   };
@@ -57,6 +57,9 @@ const FeaturesAdminScreen = () => {
             <Entypo
               name="chevron-left"
               size={24}
+              
+              
+              export default FeaturesAdminScreen
               color={ColorsApp.secondaryColor}
               style={{ paddingRight: 5 }}
 
@@ -88,7 +91,8 @@ const FeaturesAdminScreen = () => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("NewFeatureAdminScreen")}
-          ><Ionicons name="add-outline" size={24} color={ColorsApp.secondaryColor} />
+          >
+            <Ionicons name="add-outline" size={34} color={ColorsApp.secondaryColor} />
           </TouchableOpacity>
         </View>
       </SafeAreaView>

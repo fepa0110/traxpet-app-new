@@ -1,8 +1,8 @@
 import { Text, View, TouchableOpacity,StyleSheet } from "react-native";
-import React ,{useState} from 'react'
+import React  from 'react'
 import { ColorsApp } from '../constants/Colors';
-import { Header, Icon } from "@rneui/themed";
-import { Entypo } from '@expo/vector-icons'; 
+import { Header } from "@rneui/themed";
+import { Entypo} from "@expo/vector-icons";
 
 const AdministrationScreen = ({ navigation }) => {
     return (

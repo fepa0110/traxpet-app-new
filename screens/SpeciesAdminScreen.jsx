@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Entypo ,EvilIcons,Ionicons} from "@expo/vector-icons";
 
 const SpeciesAdminScreen = () => {
+
   const navigation = useNavigation();
   const [especieValues, setEspecieValues] = useState([]);
   const [especieSeleccionada, setEspecieSeleccionada] = useState([]);
@@ -22,9 +23,9 @@ const SpeciesAdminScreen = () => {
   const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
-   
     getEspeciesData();
-  });
+    disableEspecie();
+  }, []);
   const getEspeciesData = async () => {
     const resp = await fetch(urlServer + "/especies");
     const data = await resp.json();
@@ -68,23 +69,25 @@ const SpeciesAdminScreen = () => {
     return (
       <View style={styles.item}>
         {!title.deshabilitado ? (
-          <Text style={{ color: ColorsApp.primaryTextColor }}>
+          <Text >
             {" "}
             {title.nombre}
           </Text>
         ) : (
-          <Text style={{ color: ColorsApp.primaryTextColor }}>
+          <Text>
             {title.nombre + "\t\t\t(Deshabilitado)"}
           </Text>
         )}
         <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
           <TouchableOpacity
             style={styles.buttonEdit}
-            onPress={() =>
-              navigation.navigate("EditSpecieScreen", {
+            onPress={() => navigation.navigate
+                  ("EditSpecieAdminScreen", {
                 especie: title.nombre,
               })
             }
+            
+            
           >
             <Entypo name="pencil" size={24} color={ColorsApp.terciaryColor} />
           </TouchableOpacity>
@@ -159,7 +162,7 @@ const SpeciesAdminScreen = () => {
             style={styles.button}
             onPress={() => navigation.navigate("NewSpecieAdminScreen")}
           >
-            <Ionicons name="add-outline" size={45}  color={ColorsApp.secondaryColor}/>
+            <Ionicons name="add-outline" size={34} color={ColorsApp.secondaryColor} />
           </TouchableOpacity>
         </View>
       </SafeAreaView>
