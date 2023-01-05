@@ -5,7 +5,6 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    ActivityIndicator,
 } from "react-native";
 
 import { Input, Divider } from "@rneui/themed";
@@ -24,6 +23,7 @@ import validator from 'validator'
 
 import { Alert } from '../components/Alert'
 import LoadingIndicator from "../components/LoadingIndicator";
+import LargePrimaryButton from "../components/LargePrimaryButton";
 
 const LoginScreen = () => {
     const navigation = useNavigation();
@@ -240,8 +240,12 @@ const LoginScreen = () => {
             />
 
             <View style={styles.buttonsContainer}>
+                <LargePrimaryButton 
+                    title="Ingresar" 
+                    actionFunction={() => { sendLogIn() }}
+                    disabled={!(validUser && validPassword)}/>
                 {/* Boton ingresar */}
-                <TouchableOpacity
+                {/* <TouchableOpacity
                 style={styles.buttonIngresar}
                 onPress={() => {
                     sendLogIn();
@@ -249,13 +253,13 @@ const LoginScreen = () => {
                 disabled={!(validUser && validPassword)}
                 >
                 <Text style={styles.buttonIngresarText}>Ingresar</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <Divider
                 orientation="horizontal"
                 color="#AAA"
                 width={1}
-                style={{ width: 150, paddingTop: 10 }}
+                style={{ width: 150, paddingTop: 15 }}
                 />
 
                 {/* Boton registrarse */}
