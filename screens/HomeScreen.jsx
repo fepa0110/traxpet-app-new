@@ -13,13 +13,14 @@ import { ColorsApp } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
+import { urlServer } from "../constants/constants";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [publicaciones, setPublicaciones] = useState([]);
   const [notificaciones, setNotificaciones] = useState([]);
-  const urlServer =
-    "http://if012pf.fi.mdn.unp.edu.ar:28002/traxpet-server/rest";
+  // const urlServer =
+  //   "http://if012pf.fi.mdn.unp.edu.ar:28002/traxpet-server/rest";
 
   const getPublicaciones = async () => {
     const response = await fetch(`${urlServer}/publicaciones/usuario/Teo`);
