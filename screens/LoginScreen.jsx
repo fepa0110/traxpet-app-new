@@ -17,9 +17,13 @@ import { useNavigation } from "@react-navigation/native";
 
 import { urlServer } from "../constants/constants";
 import { ColorsApp } from "../constants/Colors";
-
 import { useSelector, useDispatch } from "react-redux";
 import { logIn } from "../redux/slices/userSlice";
+
+import validator from 'validator'
+
+import { Alert } from '../components/Alert'
+import LoadingIndicator from "../components/LoadingIndicator";
 
 const LoginScreen = () => {
     const navigation = useNavigation();
@@ -67,12 +71,13 @@ const LoginScreen = () => {
     };
 
     const validateUserInput = (userValue) => {
-        if (userValue === "") {
-        showErrorMessageUser("No puede estar vacio");
-        setValidUser(false);
-        } else {
-        setValidUser(true);
-        hideErrorMessageUser();
+        if (validator.isEmpty(userValue)) {
+            showErrorMessageUser("No puede estar vacio");
+            setValidUser(false);
+        } 
+        else {
+            setValidUser(true);
+            hideErrorMessageUser();
         }
 
         setUserValue(userValue);
@@ -89,17 +94,18 @@ const LoginScreen = () => {
     };
 
     const validatePasswordInput = (passwordValue) => {
-        if (passwordValue === "") {
-        showErrorMessagePassword("No puede estar vacio");
-        setValidPassword(false);
-        } else {
-        setValidPassword(true);
-        hideErrorMessagePassword();
+        if (validator.isEmpty(passwordValue)) {
+            showErrorMessagePassword("No puede estar vacio");
+            setValidPassword(false);
+        } 
+        else {
+            setValidPassword(true);
+            hideErrorMessagePassword();
         }
 
         setPasswordValue(passwordValue);
     };
-
+    
     const encryptPassword = async (password) => {
         return await Crypto.digestStringAsync(
         Crypto.CryptoDigestAlgorithm.SHA512,
@@ -113,40 +119,41 @@ const LoginScreen = () => {
         let encryptedPassword = await encryptPassword(passwordValue);
 
         let userData = {
-        username: userValue,
-        password: encryptedPassword,
+            username: userValue,
+            password: encryptedPassword,
         };
 
         let responseLogIn = await fetch(urlServer + "/usuarios/login", {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-        })
-        .then((response) => {
-            return response.json();
-        })
-        .catch(() => {
-            setIsLoading(false);
-            setShowAlert(true);
-            setAlertTitle("Error");
-            setAlertMessage("Se produjo un error al ingresar al sistema");
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+            })
+            .then((response) => {
+                return response.json();
+            })
+            .catch(() => {
+                setIsLoading(false);
+                setShowAlert(true);
+                setAlertTitle("Error");
+                setAlertMessage("Se produjo un error al ingresar al sistema");
         });
         //Si se publico existosamente
         if (responseLogIn != null && responseLogIn.StatusCode == 200) {
         console.log(JSON.stringify(responseLogIn));
         setIsLoading(false);
 
-            dispatch(logIn({ 
-                    id: responseLogIn.data.id, 
-                    username: responseLogIn.data.username
-                }
-            ));
+        dispatch(logIn({ 
+                id: responseLogIn.data.id, 
+                username: responseLogIn.data.username
+            }
+        ));
 
         navigation.replace("HomeNavigation");
-        } else if (responseLogIn != null && responseLogIn.StatusCode == 502) {
+        } 
+        else if (responseLogIn != null && responseLogIn.StatusCode == 502) {
         setIsLoading(false);
         setShowAlert(true);
         setAlertTitle("Error");
@@ -173,13 +180,9 @@ const LoginScreen = () => {
         );
     };
 
-    const loadingView = () => {
-        return (
-        <View>
-            <ActivityIndicator size={60} color={ColorsApp.primaryColor} />
-        </View>
-        );
-    };
+/*     const loadingView = () => {
+        return ();
+    }; */
 
     const loginScreen = () => {
         return (
@@ -283,7 +286,7 @@ const LoginScreen = () => {
             />
         </View>
 
-        {isLoading ? loadingView() : loginScreen()}
+        {isLoading ? <LoadingIndicator /> : loginScreen()}
         {alerta()}
         </View>
     );
