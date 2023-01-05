@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import {
-    Text,
     View,
     StyleSheet,
-    TouchableOpacity,
     Image,
 } from "react-native";
 
@@ -21,7 +19,6 @@ import { logIn } from "../redux/slices/userSlice";
 
 import validator from 'validator'
 
-import { Alert } from '../components/Alert'
 import LoadingIndicator from "../components/LoadingIndicator";
 import LargePrimaryButton from "../components/LargePrimaryButton";
 import LargeSecondaryButton from "../components/LargeSecondaryButton";
@@ -176,7 +173,7 @@ const LoginScreen = () => {
             confirmButtonColor={ColorsApp.primaryColor}
             onConfirmPressed={() => {
             hideAlert();
-            }}
+            }} 
         />
         );
     };
@@ -189,57 +186,58 @@ const LoginScreen = () => {
         return (
         <View style={styles.inputsContainer}>
             <View style={styles.userInputContainer}>
-            <Input
-                style={styles.userInput}
-                placeholder="Usuario"
-                label="Usuario"
-                leftIcon={
-                <Icon
-                    name="user"
-                    size={22}
-                    color={ColorsApp.primaryColor}
-                    type="font-awesome-5"
+                <Input
+                    style={styles.userInput}
+                    placeholder="Usuario"
+                    label="Usuario"
+                    leftIcon={
+                    <Icon
+                        name="user"
+                        size={22}
+                        color={ColorsApp.primaryColor}
+                        type="font-awesome-5"
+                    />
+                    }
+                    errorStyle={{ color: "red" }}
+                    errorMessage={userErrorMessage}
+                    renderErrorMessage={renderUserErrorMessage}
+                    onChangeText={(userValue) => {
+                    validateUserInput(userValue);
+                    }}
                 />
-                }
-                errorStyle={{ color: "red" }}
-                errorMessage={userErrorMessage}
-                renderErrorMessage={renderUserErrorMessage}
-                onChangeText={(userValue) => {
-                validateUserInput(userValue);
-                }}
-            />
             </View>
 
             <View style={styles.passwordInputContainer}>
-            <Input
-                style={styles.passwordInput}
-                placeholder="Contraseña"
-                label="Contraseña"
-                leftIcon={
-                <Icon
-                    type="font-awesome-5"
-                    name="lock"
-                    size={22}
-                    color={ColorsApp.primaryColor}
+                <Input
+                    style={styles.passwordInput}
+                    placeholder="Contraseña"
+                    label="Contraseña"
+                    leftIcon={
+                    <Icon
+                        type="font-awesome-5"
+                        name="lock"
+                        size={22}
+                        color={ColorsApp.primaryColor}
+                    />
+                    }
+                    rightIcon={
+                    <Icon
+                        type="entypo"
+                        name={showPassword ? "eye" : "eye-slash"}
+                        size={20}
+                        color={ColorsApp.primaryColor}
+                        onPress={togglePassword}
+                    />
+                    }
+                    errorMessage={passwordErrorMessage}
+                    renderErrorMessage={renderPasswordErrorMessage}
+                    secureTextEntry={showPassword}
+                    onChangeText={(passwordValue) => {
+                    validatePasswordInput(passwordValue);
+                    }}
                 />
-                }
-                rightIcon={
-                <Icon
-                    type="entypo"
-                    name={showPassword ? "eye" : "eye-slash"}
-                    size={20}
-                    color={ColorsApp.primaryColor}
-                    onPress={togglePassword}
-                />
-                }
-                errorMessage={passwordErrorMessage}
-                renderErrorMessage={renderPasswordErrorMessage}
-                secureTextEntry={showPassword}
-                onChangeText={(passwordValue) => {
-                validatePasswordInput(passwordValue);
-                }}
-            />
-
+            </View>
+            
             <View style={styles.buttonsContainer}>
                 {/* Boton ingresar */}
                 <LargePrimaryButton 
@@ -262,7 +260,6 @@ const LoginScreen = () => {
                     }
                 />
 
-            </View>
             </View>
         </View>
         );
@@ -289,8 +286,9 @@ const LoginScreen = () => {
 
 const styles = StyleSheet.create({
     titleContainer: {
-        top: -25,
+        // top: -25,
         // paddingBottom: 75,
+        marginTop:'5%'
     },
     container: {
         flex: 1,
