@@ -6,6 +6,7 @@ export const ColorsApp = {
     "errorColor": "red",
     "primaryBackgroundColor": "#FFF",
     "primaryTextColor": "#FFF",
+    "secondaryTextColor": "orangered",
     "headerBackButtonColor": "#FFF",
 
     "naranjaClaro": "#FC832A",

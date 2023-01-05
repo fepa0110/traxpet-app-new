@@ -24,6 +24,7 @@ import validator from 'validator'
 import { Alert } from '../components/Alert'
 import LoadingIndicator from "../components/LoadingIndicator";
 import LargePrimaryButton from "../components/LargePrimaryButton";
+import LargeSecondaryButton from "../components/LargeSecondaryButton";
 
 const LoginScreen = () => {
     const navigation = useNavigation();
@@ -240,37 +241,27 @@ const LoginScreen = () => {
             />
 
             <View style={styles.buttonsContainer}>
+                {/* Boton ingresar */}
                 <LargePrimaryButton 
                     title="Ingresar" 
                     actionFunction={() => { sendLogIn() }}
                     disabled={!(validUser && validPassword)}/>
-                {/* Boton ingresar */}
-                {/* <TouchableOpacity
-                style={styles.buttonIngresar}
-                onPress={() => {
-                    sendLogIn();
-                }}
-                disabled={!(validUser && validPassword)}
-                >
-                <Text style={styles.buttonIngresarText}>Ingresar</Text>
-                </TouchableOpacity> */}
 
                 <Divider
                 orientation="horizontal"
                 color="#AAA"
                 width={1}
-                style={{ width: 150, paddingTop: 15 }}
+                style={{ width: 150, marginVertical:15}}
                 />
 
                 {/* Boton registrarse */}
-                <TouchableOpacity
-                style={styles.buttonRegistrarse}
-                onPress={() => {
-                    navigation.navigate("SignUpScreen");
-                }}
-                >
-                <Text style={styles.buttonRegistrarseText}>Registrarse</Text>
-                </TouchableOpacity>
+                <LargeSecondaryButton 
+                    title="Registrarse" 
+                    actionFunction={() => {
+                        navigation.navigate("SignUpScreen")}
+                    }
+                />
+
             </View>
             </View>
         </View>
@@ -327,40 +318,6 @@ const styles = StyleSheet.create({
         marginTop: 50,
         alignContent: "center",
         alignItems: "center",
-    },
-    buttonIngresar: {
-        width: 250,
-        height: 40,
-        marginBottom: 5,
-        alignContent: "center",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: ColorsApp.primaryColor,
-        borderWidth: 2,
-        borderColor: ColorsApp.primaryColor,
-        borderRadius: 100,
-    },
-    buttonIngresarText: {
-        color: ColorsApp.secondaryColor,
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-    buttonRegistrarse: {
-        width: 250,
-        height: 40,
-        marginTop: 15,
-        alignContent: "center",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: ColorsApp.secondaryColor,
-        borderWidth: 2,
-        borderColor: ColorsApp.primaryColor,
-        borderRadius: 100,
-    },
-    buttonRegistrarseText: {
-        color: ColorsApp.primaryColor,
-        fontSize: 16,
-        fontWeight: "bold",
     },
 });
 
