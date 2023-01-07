@@ -22,6 +22,7 @@ import validator from 'validator'
 import LoadingIndicator from "../components/LoadingIndicator";
 import LargePrimaryButton from "../components/LargePrimaryButton";
 import LargeSecondaryButton from "../components/LargeSecondaryButton";
+import { loginRequest } from "../services/UsuarioService";
 
 const LoginScreen = () => {
     const navigation = useNavigation();
@@ -121,24 +122,9 @@ const LoginScreen = () => {
             password: encryptedPassword,
         };
 
-        let responseLogIn = await fetch(urlServer + "/usuarios/login", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userData),
-            })
-            .then((response) => {
-                return response.json();
-            })
-            .catch(() => {
-                setIsLoading(false);
-                setShowAlert(true);
-                setAlertTitle("Error");
-                setAlertMessage("Se produjo un error al ingresar al sistema");
-        });
-        //Si se publico existosamente
+        let responseLogIn = await loginRequest(userData);
+
+        //Si se logueo existosamente
         if (responseLogIn != null && responseLogIn.StatusCode == 200) {
         console.log(JSON.stringify(responseLogIn));
         setIsLoading(false);
