@@ -19,3 +19,21 @@ export async function loginRequest(userData) {
             return response.json();
         });
 }
+
+export async function registerUserRequest(newUserData) {
+    return await fetch(urlServer + "/usuarios", {
+        method: 'POST',
+        headers: {
+            "Accept": 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newUserData)
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .catch((response) => {
+            return response.json();
+            console.log("Se produjo un error al registrarse en el sistema");
+        });
+}

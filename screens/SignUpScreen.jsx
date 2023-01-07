@@ -23,6 +23,7 @@ import validator from 'validator'
 import LargePrimaryButton from '../components/LargePrimaryButton';
 import LoadingIndicator from '../components/LoadingIndicator';
 import LargeSecondaryButton from '../components/LargeSecondaryButton';
+import { registerUserRequest } from '../services/UsuarioService';
 
 const SignUpScreen = () => {
     const navigation = useNavigation();
@@ -223,23 +224,7 @@ const SignUpScreen = () => {
     }
 
     const sendUser = async (newUser) => {
-        let responseRegistro = await fetch(urlServer + "/usuarios", {
-            method: 'POST',
-            headers: {
-                "Accept": 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newUser)
-        })
-            .then((response) => {
-                return response.json();
-            })
-            .catch(() => {
-                setIsLoading(false);
-                setShowAlert(true);
-                setAlertTitle("Error");
-                setAlertMessage("Se produjo un error al registrarse en el sistema");
-            });
+        let responseRegistro = await registerUserRequest(newUser);
 
         //Si se registro existosamente
         if (responseRegistro != null && responseRegistro.StatusCode == 200) {
