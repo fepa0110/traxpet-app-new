@@ -37,3 +37,20 @@ export async function registerUserRequest(newUserData) {
             console.log("Se produjo un error al registrarse en el sistema");
         });
 }
+
+export async function getUserByUsernameRequest(username) {
+    return await fetch(`${urlServer}/usuarios/username/${username}`)
+        .then((response) => {
+            return response.json()
+        }
+    )
+}
+
+
+export async function getUserByEmailRequest(email) {
+    return await fetch(`${urlServer}/usuarios/email/${email}`)
+        .then((response) => { 
+            return response.json()
+        }
+    )
+}

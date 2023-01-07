@@ -23,7 +23,7 @@ import validator from 'validator'
 import LargePrimaryButton from '../components/LargePrimaryButton';
 import LoadingIndicator from '../components/LoadingIndicator';
 import LargeSecondaryButton from '../components/LargeSecondaryButton';
-import { registerUserRequest } from '../services/UsuarioService';
+import { getUserByEmailRequest, getUserByUsernameRequest, registerUserRequest } from '../services/UsuarioService';
 
 const SignUpScreen = () => {
     const navigation = useNavigation();
@@ -201,15 +201,13 @@ const SignUpScreen = () => {
     }
 
     const userExist = async (username) => {
-        let usuarioEncontrado = await fetch(`${urlServer}/usuarios/username/${username}`)
-            .then((response) => response.json())
+        let usuarioEncontrado = await getUserByUsernameRequest(username);
 
         return usuarioEncontrado.StatusCode == 200;
     };
 
     const emailExist = async (email) => {
-        let usuarioEncontrado = await fetch(`${urlServer}/usuarios/email/${email}`)
-            .then((response) => response.json())
+        let usuarioEncontrado = await getUserByEmailRequest(email);
 
         console.log(JSON.stringify(usuarioEncontrado));
 
@@ -255,10 +253,10 @@ const SignUpScreen = () => {
         setIsLoading(true);
 
         if (await userExist(userValue)) {
-            showAlert("Error", "El usuario ya esta registrado")
+            openAlert("Error", "El usuario ya esta registrado")
         }
         else if (await emailExist(emailValue)) {
-            showAlert("Error", "El correo ya esta registrado")
+            openAlert("Error", "El correo ya esta registrado")
         }
         else {
             let encryptedPassword = await encryptPassword(passwordValue)
