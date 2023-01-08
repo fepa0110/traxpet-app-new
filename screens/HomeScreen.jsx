@@ -6,16 +6,29 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
+
 import TraxpetHeaderHome from "../components/HeaderHome";
+
 import { FlashList } from "@shopify/flash-list";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { ColorsApp } from "../constants/Colors";
-import { useNavigation } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
+import { StatusBar } from "expo-status-bar";
+
+import { ColorsApp } from "../constants/Colors";
+
+import { useNavigation } from "@react-navigation/native";
 import { urlServer } from "../constants/constants";
 
+import { useSelector } from "react-redux";
+import { getPublicacionesByUserRequest } from "../services/PublicacionService";
+import { getNotificacionesByUserIdRequest } from "../services/NotificacionService";
+
 const HomeScreen = () => {
+  const user = {
+    id: useSelector((state) => state.user.id),
+    username: useSelector((state) => state.user.username)
+  }
+
   const navigation = useNavigation();
   const [publicaciones, setPublicaciones] = useState([]);
   const [notificaciones, setNotificaciones] = useState([]);
@@ -23,15 +36,17 @@ const HomeScreen = () => {
   //   "http://if012pf.fi.mdn.unp.edu.ar:28002/traxpet-server/rest";
 
   const getPublicaciones = async () => {
-    const response = await fetch(`${urlServer}/publicaciones/usuario/Teo`);
-    const json = await response.json();
-    setPublicaciones(json.data);
+    const publicacionesUser = await getPublicacionesByUserRequest(user.username)
+
+    setPublicaciones(publicacionesUser.data);
   };
+
   const getNotificaciones = async () => {
-    const response = await fetch(`${urlServer}/notificaciones/usuario/4`);
-    const json = await response.json();
-    setNotificaciones(json.data);
+    const notificacionesUser = await getNotificacionesByUserIdRequest(user.id)
+    
+    setNotificaciones(notificacionesUser.data);
   };
+
   useEffect(() => {
     getPublicaciones();
     getNotificaciones();
@@ -47,6 +62,7 @@ const HomeScreen = () => {
       </View>
     );
   };
+  
   const showPublications = () => {
     return (
       <FlashList
