@@ -164,10 +164,6 @@ const LoginScreen = () => {
         );
     };
 
-/*     const loadingView = () => {
-        return ();
-    }; */
-
     const loginScreen = () => {
         return (
         <View style={styles.inputsContainer}>
@@ -272,14 +268,12 @@ const LoginScreen = () => {
 
 const styles = StyleSheet.create({
     titleContainer: {
-        // top: -25,
-        // paddingBottom: 75,
         marginTop:'5%'
     },
     container: {
         flex: 1,
         justifyContent: "center",
-        backgroundColor: ColorsApp.secondaryColor,
+        backgroundColor: ColorsApp.primaryBackgroundColor,
         alignItems: "center",
     },
     inputsContainer: {

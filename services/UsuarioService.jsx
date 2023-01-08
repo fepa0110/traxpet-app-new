@@ -46,7 +46,6 @@ export async function getUserByUsernameRequest(username) {
     )
 }
 
-
 export async function getUserByEmailRequest(email) {
     return await fetch(`${urlServer}/usuarios/email/${email}`)
         .then((response) => { 
