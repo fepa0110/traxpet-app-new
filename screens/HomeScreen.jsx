@@ -4,20 +4,20 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  SectionList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
-import TraxpetHeaderHome from "../components/HeaderHome";
+import HeaderHome from "../components/HeaderHome";
 
 import { FlashList } from "@shopify/flash-list";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { FAB } from "@rneui/themed";
 import { Ionicons } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
 
 import { ColorsApp } from "../constants/Colors";
 
 import { useNavigation } from "@react-navigation/native";
-import { urlServer } from "../constants/constants";
 
 import { useSelector } from "react-redux";
 import { getPublicacionesByUserRequest } from "../services/PublicacionService";
@@ -32,17 +32,15 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const [publicaciones, setPublicaciones] = useState([]);
   const [notificaciones, setNotificaciones] = useState([]);
-  // const urlServer =
-  //   "http://if012pf.fi.mdn.unp.edu.ar:28002/traxpet-server/rest";
 
   const getPublicaciones = async () => {
-    const publicacionesUser = await getPublicacionesByUserRequest(user.username)
+    let publicacionesUser = await getPublicacionesByUserRequest(user.username)
 
     setPublicaciones(publicacionesUser.data);
   };
 
   const getNotificaciones = async () => {
-    const notificacionesUser = await getNotificacionesByUserIdRequest(user.id)
+    let notificacionesUser = await getNotificacionesByUserIdRequest(user.id)
     
     setNotificaciones(notificacionesUser.data);
   };
@@ -71,7 +69,7 @@ const HomeScreen = () => {
         renderItem={renderItem}
         estimatedItemSize={60}
         ListEmptyComponent={listEmpty}
-      />
+      /> 
     );
   };
 
@@ -121,27 +119,46 @@ const HomeScreen = () => {
   );
 
   return (
-    <ScrollView>
-      <StatusBar hidden={true} />
-      <TraxpetHeaderHome notificaciones={notificaciones} />
-      {showPublications()}
-      <View style={styles.floatingButtonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate("PublicationNavigation", {
-              screen: "PublicationBasicDataScreen",
-            });
-          }}
-        >
-          <Ionicons
-            name="add"
-            size={50}
-            color={ColorsApp.primaryBackgroundColor}
-          />
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+    <View style={{ height: "100%" }}>
+      <HeaderHome 
+        amountNotifications={notificaciones.length} 
+        onPressNotifications={() => { 
+          navigation.navigate("NotificationsScreen")} 
+          }/>
+      <ScrollView>
+        {showPublications()}
+      </ScrollView>
+      <FAB
+        visible={true}
+        placement="right"
+        icon={{ name: 'add', color: 'white' }}
+        color={ColorsApp.primaryColor}
+        onPress={() => {
+          navigation.navigate("PublicationNavigation", {
+            screen: "PublicationBasicDataScreen",
+          });
+        }}
+      />
+      
+        {/* <View style={styles.floatingButtonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate("PublicationNavigation", {
+                screen: "PublicationBasicDataScreen",
+              });
+            }}
+          >
+            <Ionicons
+              name="add"
+              size={50}
+              color={ColorsApp.primaryBackgroundColor}
+            />
+          </TouchableOpacity>
+        </View> */}
+      
+
+    </View >
   );
 };
 

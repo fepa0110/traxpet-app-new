@@ -3,18 +3,13 @@ import { StyleSheet, Image, TouchableOpacity, Text, View } from "react-native";
 import { ColorsApp } from "../constants/Colors";
 import { Header } from "@rneui/themed";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-const TraxpetHeaderHome = (props) => {
-  const navigation = useNavigation();
 
-  const goNotificationsScreen = () => {
-    navigation.navigate("NotificationsScreen")
-  }
+const HeaderHome = (props) => {
   return (
     <View>
       <Header
         containerStyle={styles.headerContainer}
-        centerComponent={
+        leftComponent={
           <Image
             style={styles.traxpetLogo}
             source={require("../assets/traxpetBlack.png")}
@@ -22,12 +17,12 @@ const TraxpetHeaderHome = (props) => {
         }
         rightComponent={
           <TouchableOpacity
-            onPress={goNotificationsScreen}
+            onPress={props.onPressNotifications}
             style={styles.rightComponent}
           >
             <Ionicons
               name={
-                props.notificaciones.length == 0
+                props.amountNotifications == 0
                   ? "notifications-outline"
                   : "notifications"
               }
@@ -35,7 +30,7 @@ const TraxpetHeaderHome = (props) => {
               color={ColorsApp.naranjaClaro}
             />
             <Text style={styles.textNotification}>
-              {props.notificaciones.length}
+              {props.amountNotifications}
             </Text>
           </TouchableOpacity>
         }
@@ -47,13 +42,13 @@ const TraxpetHeaderHome = (props) => {
 const styles = StyleSheet.create({
   rightComponent: { paddingTop: 10, flexDirection: "row" },
   headerContainer: {
-    backgroundColor: ColorsApp.primaryColor,
-    height: 60,
+    backgroundColor: ColorsApp.primaryBackgroundColor,
+    height: 70,
   },
   textNotification: {
     flex: 2,
     fontSize: 18,
-    color: "#fff",
+    color: ColorsApp.primaryColor,
     fontWeight: "bold",
   },
   traxpetLogo: {
@@ -62,4 +57,4 @@ const styles = StyleSheet.create({
     resizeMode: "center",
   },
 });
-export default TraxpetHeaderHome;
+export default HeaderHome;

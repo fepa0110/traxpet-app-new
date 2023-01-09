@@ -126,7 +126,6 @@ const LoginScreen = () => {
 
         //Si se logueo existosamente
         if (responseLogIn != null && responseLogIn.StatusCode == 200) {
-        console.log(JSON.stringify(responseLogIn));
         setIsLoading(false);
 
         dispatch(logIn({ 
