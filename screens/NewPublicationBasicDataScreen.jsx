@@ -20,7 +20,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { urlServer } from "../constants/constants";
 import AwesomeAlert from "react-native-awesome-alerts";
 
-const NewPulicationBasicDataScreen = () => {
+const NewPublicationBasicDataScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
@@ -243,8 +243,6 @@ const NewPulicationBasicDataScreen = () => {
         images: images,
         location: location,
       });
-      console.log("PUBLICACION: ", publicacion);
-      console.log("IMAGENES: ", images);
     }
   };
 
@@ -607,4 +605,4 @@ const styles = StyleSheet.create({
   textTitle: { fontWeight: "bold", fontSize: 16, paddingBottom: 5 },
 });
 
-export default NewPulicationBasicDataScreen;
+export default NewPublicationBasicDataScreen;

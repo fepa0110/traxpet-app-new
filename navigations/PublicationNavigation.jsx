@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import NewPulicationBasicDataScreen from "../screens/NewPulicationBasicDataScreen";
+import NewPublicationBasicDataScreen from "../screens/NewPublicationBasicDataScreen";
 import MapScreen from "../screens/MapScreen";
 import NewPublicationFeaturesScreen from "../screens/NewPublicationFeaturesScreen";
 import MapWebScreen from "../screens/MapWebScreen";
@@ -26,7 +26,7 @@ const PublicationNavigation = () => {
     >
       <PublicationStack.Screen
         name="PublicationBasicDataScreen"
-        component={NewPulicationBasicDataScreen}
+        component={NewPublicationBasicDataScreen}
         initialParams={{
           location: {
             latitude: 0,
