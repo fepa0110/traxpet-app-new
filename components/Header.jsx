@@ -9,6 +9,21 @@ const TraxpetHeader = (props) => {
   const goBack = () => {
     navigation.goBack();
   };
+
+  const setRightComponent = () => {
+    if (props.isRefresh) {
+      return (
+        <TouchableOpacity onPress={() => props.rightFunction()}>
+          <Ionicons
+            name="refresh-outline"
+            size={24}
+            color={ColorsApp.primaryBackgroundColor}
+          />
+        </TouchableOpacity>
+      );
+    }
+    return null;
+  };
   return (
     <View>
       <Header
@@ -26,15 +41,7 @@ const TraxpetHeader = (props) => {
           text: props.title,
           style: styles.title,
         }}
-        rightComponent={
-          <TouchableOpacity onPress={() => props.rightFunction()}>
-            <Ionicons
-              name="refresh-outline"
-              size={24}
-              color={ColorsApp.primaryBackgroundColor}
-            />
-          </TouchableOpacity>
-        }
+        rightComponent={setRightComponent()}
       />
     </View>
   );
