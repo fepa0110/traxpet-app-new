@@ -1,7 +1,11 @@
+/** Boton primario standard
+ * Props:
+ *  actionFunction: onPress function
+ *  title: Texto del boton
+ */
 import { React } from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 import { ColorsApp } from "../constants/Colors";
-
 
 const PrimaryButton = (props) => {
   return (
@@ -15,6 +19,7 @@ const PrimaryButton = (props) => {
     </TouchableOpacity>
   );
 };
+
 const styles = StyleSheet.create({
   textPrimaryButton: {
     color: "white",
