@@ -1,3 +1,8 @@
+/** Header de home
+ * Props:
+ *  rightComponent: Componente del lado derecho
+ */
+
 import { React } from "react";
 import { StyleSheet, Image, TouchableOpacity, Text, View } from "react-native";
 import { ColorsApp } from "../constants/Colors";
@@ -15,25 +20,7 @@ const HeaderHome = (props) => {
             source={require("../assets/traxpetBlack.png")}
           />
         }
-        rightComponent={
-          <TouchableOpacity
-            onPress={props.onPressNotifications}
-            style={styles.rightComponent}
-          >
-            <Ionicons
-              name={
-                props.amountNotifications == 0
-                  ? "notifications-outline"
-                  : "notifications"
-              }
-              size={25}
-              color={ColorsApp.naranjaClaro}
-            />
-            <Text style={styles.textNotification}>
-              {props.amountNotifications}
-            </Text>
-          </TouchableOpacity>
-        }
+        rightComponent={props.rightComponent}
       />
     </View>
   );

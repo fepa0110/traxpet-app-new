@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  SectionList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
@@ -122,9 +121,29 @@ const HomeScreen = () => {
     <View style={{ height: "100%" }}>
       <HeaderHome 
         amountNotifications={notificaciones.length} 
-        onPressNotifications={() => { 
-          navigation.navigate("NotificationsScreen")} 
-          }/>
+        rightComponent={
+          <TouchableOpacity
+            onPress={() => {
+                navigation.navigate("NotificationsScreen")
+              }
+            }
+            style={styles.headerRightComponent}
+          >
+            <Ionicons
+              name={
+                notificaciones.length == 0
+                  ? "notifications-outline"
+                  : "notifications"
+              }
+              size={25}
+              color={ColorsApp.naranjaClaro}
+            />
+            <Text style={styles.textNotification}>
+              {notificaciones.length}
+            </Text>
+          </TouchableOpacity>
+        }
+        />
       <ScrollView>
         {showPublications()}
       </ScrollView>
@@ -138,31 +157,22 @@ const HomeScreen = () => {
             screen: "PublicationBasicDataScreen",
           });
         }}
-      />
-      
-        {/* <View style={styles.floatingButtonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate("PublicationNavigation", {
-                screen: "PublicationBasicDataScreen",
-              });
-            }}
-          >
-            <Ionicons
-              name="add"
-              size={50}
-              color={ColorsApp.primaryBackgroundColor}
-            />
-          </TouchableOpacity>
-        </View> */}
-      
-
+      />    
     </View >
   );
 };
 
 const styles = StyleSheet.create({
+  headerRightComponent: { 
+    paddingTop: 10,
+    flexDirection: "row" 
+  },
+  textNotification: {
+    flex: 2,
+    fontSize: 18,
+    color: ColorsApp.primaryColor,
+    fontWeight: "bold",
+  },
   floatingButtonContainer: {
     justifyContent: "flex-end",
     position: "absolute",
