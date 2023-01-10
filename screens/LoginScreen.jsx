@@ -127,10 +127,13 @@ const LoginScreen = () => {
         //Si se logueo existosamente
         if (responseLogIn != null && responseLogIn.StatusCode == 200) {
         setIsLoading(false);
-
-        dispatch(logIn({ 
+        
+        dispatch(
+            logIn({
                 id: responseLogIn.data.id, 
-                username: responseLogIn.data.username
+                username: responseLogIn.data.username,
+                email: responseLogIn.data.correoElectronico,
+                rol: responseLogIn.data.rol
             }
         ));
 
