@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: "center",
     backgroundColor: ColorsApp.primaryColor,
-    height: 60,
+    height: 70,
   },
   title: {
     flex: 2,
