@@ -1,7 +1,12 @@
+/** Boton secundario largo
+ * Props:
+ *  title: Texto del boton
+ *  actionFunction: onPress function
+ */
+
 import { React } from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 import { ColorsApp } from "../constants/Colors";
-
 
 const LargeSecondaryButton = (props) => {
     return (
