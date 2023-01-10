@@ -2,6 +2,7 @@
  * Props:
  *  title: Texto del boton
  *  actionFunction: onPress function
+ *  disabled: habilitacion del boton
  */
 
 import { React } from "react";
