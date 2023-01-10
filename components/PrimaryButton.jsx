@@ -11,9 +11,7 @@ const PrimaryButton = (props) => {
   return (
     <TouchableOpacity
       style={styles.primaryButton}
-      onPress={() => {
-        props.actionFunction;
-      }}
+      onPress={props.actionFunction}
     >
       <Text style={styles.textPrimaryButton}>{props.title}</Text>
     </TouchableOpacity>
