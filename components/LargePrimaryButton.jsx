@@ -1,7 +1,12 @@
+/** Boton primario largo
+ * Props:
+ *  title: Texto del boton
+ *  actionFunction: onPress function
+ */
+
 import { React } from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 import { ColorsApp } from "../constants/Colors";
-
 
 const LargePrimaryButton = (props) => {
     return (
@@ -14,6 +19,7 @@ const LargePrimaryButton = (props) => {
         </TouchableOpacity>
     );
 };
+
 const styles = StyleSheet.create({
     textPrimaryButton: {
         color: ColorsApp.primaryTextColor,
