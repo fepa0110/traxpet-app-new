@@ -17,12 +17,20 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import defaultImage from "../assets/defaultImage.jpg";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { urlServer } from "../constants/constants";
 import AwesomeAlert from "react-native-awesome-alerts";
+
+import { useDispatch } from "react-redux";
+import {
+  setImages,
+  setLocation,
+  setNewPublication,
+} from "../redux/slices/publicationSlice";
+import { getEnabledSpecies } from "../services/SpecieService";
 
 const NewPublicationBasicDataScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const dispatch = useDispatch();
 
   const [nombreMascota, setNombreMascota] = useState("");
   const [tipoPublicacion, setTipoPublicacion] = useState("Seleccionar");
@@ -38,21 +46,20 @@ const NewPublicationBasicDataScreen = () => {
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 
-  const especiesOptions = especieValues.map((value, index) => {
-    return (
-      <Picker.Item label={value.nombre} value={value.nombre} key={index} />
-    );
-  });
-
   const getEspecies = async () => {
-    const response = await fetch(urlServer + "/especies/enabled");
-    const json = await response.json();
-    setEspeciesValues(json.data);
+    let speciesData = await getEnabledSpecies();
+    setEspeciesValues(speciesData);
   };
 
   useEffect(() => {
     getEspecies();
   }, []);
+
+  const especiesOptions = especieValues.map((value, index) => {
+    return (
+      <Picker.Item label={value.nombre} value={value.nombre} key={index} />
+    );
+  });
 
   const openFirstImagePickerAsync = async () => {
     let permissionResult =
@@ -197,9 +204,6 @@ const NewPublicationBasicDataScreen = () => {
     if (secondImage != null) images.push(secondImage.imageDataBase64);
     if (thirdImage != null) images.push(thirdImage.imageDataBase64);
 
-    let location = null;
-    location = route.params.location;
-
     const publicacion = {
       tipoPublicacion: tipoPublicacion,
       mascota: {
@@ -238,11 +242,10 @@ const NewPublicationBasicDataScreen = () => {
           : "Debes incluir al menos una imagen de la mascota"
       );
     } else {
-      navigation.navigate("NewPublicationFeaturesScreen", {
-        publication: publicacion,
-        images: images,
-        location: location,
-      });
+      dispatch(setNewPublication(publicacion));
+      dispatch(setImages(images));
+
+      navigation.navigate("NewPublicationFeaturesScreen");
     }
   };
 
