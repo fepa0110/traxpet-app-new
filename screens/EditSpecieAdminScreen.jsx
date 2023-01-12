@@ -10,8 +10,9 @@ import {
   FlatList,TextInput
 } from "react-native";
 import { useNavigation ,useRoute} from "@react-navigation/native";
-import { MaterialIcons,Ionicons} from "@expo/vector-icons";
+import { MaterialIcons,Ionicons,Entypo} from "@expo/vector-icons";
 import AwesomeAlert from "react-native-awesome-alerts";
+
 
 
 
@@ -102,7 +103,7 @@ const EditFeatureAdminScreen = () => {
     };
   
     const valueExistValidate = () => {
-      setValorExist = false;
+      setValorExist(false);
       values.map((valores) => {
         if (
           Object.is(
@@ -124,7 +125,7 @@ const EditFeatureAdminScreen = () => {
       } else {
         let value = {
           nombre: nombreValor,
-          especie: { especie },
+          especie: { mascota },
           caracteristica: { caracteristica },
         };
         values.push(value);
@@ -260,7 +261,7 @@ const EditFeatureAdminScreen = () => {
                     removeItem(title.nombre);
                   }}
                 >
-                  <Icon name="trash" size={25} color={ColorsApp.terciaryColor} />
+                  <Entypo name="trash" size={24} color={ColorsApp.terciaryColor}  />
                 </TouchableOpacity>
               </View>
             </View>
@@ -273,7 +274,8 @@ const EditFeatureAdminScreen = () => {
               </Text>
               <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
                 <TouchableOpacity style={styles.buttonEdit}>
-                  <Icon name="power-sharp" size={25} color={ColorsApp.terciaryColor} />
+                  <Ionicons name="power-sharp" size={24} color={ColorsApp.terciaryColor} />
+               
                 </TouchableOpacity>
               </View>
             </View>
@@ -298,12 +300,15 @@ const EditFeatureAdminScreen = () => {
          
                 onPress={goToPrevScreen}
               >
-                <Icon
-                  style={{ paddingRight: 5 }}
-                  name="chevron-back-sharp"
-                  size={25}
-                  color={ColorsApp.secondaryColor}
-                />
+                 <Entypo
+                name="chevron-left"
+                size={24}
+                export
+                default
+                FeaturesAdminScreen
+                color={ColorsApp.secondaryColor}
+                style={{ paddingRight: 5 }}
+              />
               </TouchableOpacity>
             }
             centerComponent={{

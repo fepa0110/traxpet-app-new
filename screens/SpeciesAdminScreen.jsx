@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo ,EvilIcons,Ionicons} from "@expo/vector-icons";
-
+import TraxpetHeader from "../components/Header"
 const SpeciesAdminScreen = () => {
 
   const navigation = useNavigation();
@@ -54,16 +54,16 @@ const SpeciesAdminScreen = () => {
 
     // setEspecieSeleccionada([""]);
   };
-  /*
-       ShowAlertConfirm = (title, messsage) => {
+  
+   const showAlertConfirms = (title, messsage) => {
         setShowAlertConfirm( true),
         setAlertTitle (title),
         setAlertMessage( messsage)
       };
     
-      hideAlertConfirm = () => {
+   const  hideAlertConfirms = () => {
         setShowAlertConfirm( false);
-      };*/
+      };
 
   let Item = ({ title }) => {
     return (
@@ -96,22 +96,17 @@ const SpeciesAdminScreen = () => {
               style={styles.buttonEdit}
               onPress={() => {
                 setEspecieSeleccionada(title.nombre);
-                /*  
-                    this.showAlertConfirm(
+                  
+                  showAlertConfirms(
                       "Confirmar cambios",
                       "¿Quiere confirmar los cambios realizados?",
-                    );*/
+                    );
               }}
             >
               <Entypo name="trash" size={24} color="indianred" />
             </TouchableOpacity>
           ) : (
             <View style={{ paddingEnd: 4, alignItems: "center" }}>
-              {/*                   <Icon
-                      name='ban'
-                      type='font-awesome-5'
-                      color={ColorsApp.terciaryColor}
-                      size={25} /> */}
             </View>
           )}
         </View>
@@ -124,33 +119,7 @@ const SpeciesAdminScreen = () => {
 
   return (
     <View>
-      <Header
-        containerStyle={{
-          backgroundColor: ColorsApp.primaryColor,
-          justifyContent: "space-around",
-          height: 65,
-        }}
-        leftComponent={
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-         
-            <Entypo name="chevron-thin-left" size={24} color={ColorsApp.secondaryColor}
- />
-          </TouchableOpacity>
-        }
-        centerComponent={{
-          text: "Especies",
-          style: {
-            fontSize: 18,
-            color: ColorsApp.primaryTextColor,
-            fontWeight: "bold",
-          },
-        }}
-        rightComponent={
-          <TouchableOpacity onPress={() => getEspeciesData()}>
-            <EvilIcons name="redo" size={24} color={ColorsApp.secondaryColor} />
-          </TouchableOpacity>
-        }
-      />
+       <TraxpetHeader/>
       <SafeAreaView style={styles.container}>
         <FlatList
           data={especieValues.data}
