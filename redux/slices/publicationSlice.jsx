@@ -1,17 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 export const publicationSlice = createSlice({
-    name: 'newPublication',
-    initialState: {
+  name: "newPublication",
+  initialState: {
+    publication: null,
+    images: null,
+    location: null,
+  },
+  reducers: {
+    setNewPublication: (state, action) => {
+      state.publication = action.payload;
     },
-    reducers: {
-        setNewPublication: (state, action) => {
-            state = action.payload
-        },
+    setImages: (state, action) => {
+      state.images = action.payload;
     },
-})
+    setLocations: (state, action) => {
+      state.location = action.payload;
+    },
+  },
+});
 
 // Action creators are generated for each case reducer function
-export const { setNewPublication } = publicationSlice.actions
+export const { setNewPublication, setImages, setLocation } =
+  publicationSlice.actions;
 
-export default publicationSlice.reducer
+export default publicationSlice.reducer;
