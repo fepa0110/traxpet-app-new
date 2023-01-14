@@ -9,9 +9,9 @@ import {
 } from "react-native";
 import { ColorsApp } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
-import { Header, Icon } from "@rneui/themed";
-import { urlServer } from "../constants/constants";
+import { Header } from "@rneui/themed";
 import { Entypo ,EvilIcons,Ionicons} from '@expo/vector-icons'; 
+import { getCaracteristicas} from "../services/CaracteristicaService";
 
 const FeaturesAdminScreen = () => {
   const navigation = useNavigation();
@@ -22,11 +22,9 @@ const FeaturesAdminScreen = () => {
     getCaracteristicasData();
   });
   const getCaracteristicasData = async () => {
-    let response = await fetch(urlServer + "/caracteristicas")
-
+    const data = await getCaracteristicas() ;
     
-    let json = await response.json();
-    setCaracteristicasValues( json.data  );
+    setCaracteristicasValues( data  );
     
    // return setCaracteristicasValues.data;
   }

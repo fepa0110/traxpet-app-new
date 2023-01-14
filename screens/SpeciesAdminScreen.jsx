@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { urlServer } from "../constants/constants";
-import { Header, Icon } from "@rneui/themed";
 import { ColorsApp } from "../constants/Colors";
 import {
   Text,
@@ -11,8 +9,10 @@ import {
   FlatList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Entypo ,EvilIcons,Ionicons} from "@expo/vector-icons";
-import TraxpetHeader from "../components/Header"
+import { Entypo ,Ionicons} from "@expo/vector-icons";
+import TraxpetHeader from "../components/Header";
+import { getEspecies ,disabledEspecie} from "../services/EspecieService";
+
 const SpeciesAdminScreen = () => {
 
   const navigation = useNavigation();
@@ -27,26 +27,14 @@ const SpeciesAdminScreen = () => {
     disableEspecie();
   }, []);
   const getEspeciesData = async () => {
-    const resp = await fetch(urlServer + "/especies");
-    const data = await resp.json();
+    const data = await getEspecies() ;
+
     setEspecieValues(data);
 
   };
   const disableEspecie = async () => {
     //console.log(this.state.especieSeleccionada)
-    const resp = await fetch(urlServer + "/especies/desabilitar", {
-      method: "PUT",
-      body: especieSeleccionada,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .catch((error) => console.log(error))
-      .then((json) => {
-        console.log(json);
-      });
+    // disabledEspecie (especieSeleccionada);
 
     // this.getEspeciesData();
 
