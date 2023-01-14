@@ -11,7 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Entypo ,Ionicons} from "@expo/vector-icons";
 import TraxpetHeader from "../components/Header";
-import { getEspecies ,disabledEspecie} from "../services/EspecieService";
+import { getEspecies ,disabledEspecie} from "../services/SpecieService";
 
 const SpeciesAdminScreen = () => {
 

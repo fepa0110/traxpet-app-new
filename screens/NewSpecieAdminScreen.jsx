@@ -11,8 +11,7 @@ import {
   import { useNavigation } from "@react-navigation/native";
   import AwesomeAlert from "react-native-awesome-alerts";
   import { Entypo ,Ionicons} from "@expo/vector-icons";
-  import { urlServer } from "../constants/constants";
-  import { getEspecies ,disabledEspecie,sendFeatures} from "../services/EspecieService";
+  import { getEspecies ,disabledEspecie,sendFeatures} from "../services/SpecieService";
 
   const NewSpecieAdminScreen = () => {
     const navigation = useNavigation();
