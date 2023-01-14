@@ -12,7 +12,7 @@ import {
 import { useNavigation ,useRoute} from "@react-navigation/native";
 import { MaterialIcons,Ionicons} from "@expo/vector-icons";
 import AwesomeAlert from "react-native-awesome-alerts";
-
+import {saveValor,getValuesDataByFeatureAndSpecie,disabledValue} from "../services/ValoresService";
 
 
 const EditFeatureAdminScreen = () => {
@@ -30,7 +30,7 @@ const EditFeatureAdminScreen = () => {
     const [valuesToDisable, setValuesToDisable] = useState([])
     const { caracteristica } = useState(route.params.EditSpecieAdminScreen);
     const { mascota } = useState(route.params.EditSpecieAdminScreen);
-
+ 
       
     
     useEffect(() => {
@@ -40,19 +40,9 @@ const EditFeatureAdminScreen = () => {
     
   
     const getValuesDataByFeatureAndSpecieAsync = async () => {
-      // variables
-        
-      //Request Valores en la BD
-      const response = await fetch(
-        urlServer +
-          "/valores/allByEspecieYCaracteristica?especieNombre=" +
-          mascota +
-          "&&caracteristicaNombre=" +
-          caracteristica
-      );
-      const resJson = await response.json();
- 
-      setValues(resJson.data)
+      const response = await getValuesDataByFeatureAndSpecie(mascota,caracteristica);
+      
+      setValues(response.data)
     };
   
     const showAlertErrors = (messsage) => {
@@ -75,30 +65,11 @@ const EditFeatureAdminScreen = () => {
     };
   
     const saveValue = async (data) => {
-      await fetch(urlServer + "/valores", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-      });
+      await fetch(saveValor(data));
     };
   
     const disableValue = async (data) => {
-      await fetch(urlServer + "/valores", {
-        method: "PUT",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .catch((error) => console.log(error))
-        .then((json) => {
-          console.log(json);
-        });
+      await fetch(disabledValue(data));
     };
   
     const valueExistValidate = () => {

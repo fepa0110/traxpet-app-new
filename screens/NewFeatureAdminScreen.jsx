@@ -153,7 +153,7 @@ import {
                   showAlerts(
                     "Error",
                     "Ya existe la caracteristica: " +
-                      this.state.nombreCaracteristica
+                      nombreCaracteristica
                   );
                 } else {
                   sendFeaturesData({

@@ -12,7 +12,8 @@ import {
   import AwesomeAlert from "react-native-awesome-alerts";
   import { Entypo ,Ionicons} from "@expo/vector-icons";
   import { urlServer } from "../constants/constants";
-  
+  import { getEspecies ,disabledEspecie,sendFeatures} from "../services/EspecieService";
+
   const NewSpecieAdminScreen = () => {
     const navigation = useNavigation();
     const [nombreEspecie, setNombreEspecie] = useState("");
@@ -21,17 +22,15 @@ import {
     const [especieExist, setEspecieExist] = useState(false);
     const [alertTitle, setAlertTitle] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
-  
+
     useEffect(() => {
   
   })
   const getEspeciesData = async () => {
-      const resp = await fetch(urlServer + "/especies");
-      const data = await resp.json();
-      setEspecieValues(data);
-  
-      console.log(especieValues);
-    };
+    const data = await getEspecies() ;
+    setEspecieValues(data);
+
+  };
   
   const validateFeature = () => {
       getEspeciesData();
@@ -48,17 +47,7 @@ import {
       });
     };
     const sendFeaturesData = (data) => {
-      fetch(urlServer + "/especies", {
-        method: "POST", // or 'PUT'
-        body: JSON.stringify(data),
-        // mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .catch((error) => console.error("Error:", error));
+      sendFeatures(data);
     };
   
    const showAlerts = (title, messsage) => {

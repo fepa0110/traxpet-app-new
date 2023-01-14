@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { urlServer } from "../constants/constants";
-import { Header, Icon } from "@rneui/themed";
 import { ColorsApp } from "../constants/Colors";
 import {
   Text,
@@ -11,7 +9,9 @@ import {
   FlatList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Entypo ,EvilIcons,Ionicons} from "@expo/vector-icons";
+import { Entypo ,Ionicons} from "@expo/vector-icons";
+import TraxpetHeader from "../components/Header";
+import { getEspecies ,disabledEspecie} from "../services/EspecieService";
 
 const SpeciesAdminScreen = () => {
 
@@ -27,26 +27,14 @@ const SpeciesAdminScreen = () => {
     disableEspecie();
   }, []);
   const getEspeciesData = async () => {
-    const resp = await fetch(urlServer + "/especies");
-    const data = await resp.json();
+    const data = await getEspecies() ;
+
     setEspecieValues(data);
 
   };
   const disableEspecie = async () => {
     //console.log(this.state.especieSeleccionada)
-    const resp = await fetch(urlServer + "/especies/desabilitar", {
-      method: "PUT",
-      body: especieSeleccionada,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .catch((error) => console.log(error))
-      .then((json) => {
-        console.log(json);
-      });
+    // disabledEspecie (especieSeleccionada);
 
     // this.getEspeciesData();
 
@@ -54,16 +42,16 @@ const SpeciesAdminScreen = () => {
 
     // setEspecieSeleccionada([""]);
   };
-  /*
-       ShowAlertConfirm = (title, messsage) => {
+  
+   const showAlertConfirms = (title, messsage) => {
         setShowAlertConfirm( true),
         setAlertTitle (title),
         setAlertMessage( messsage)
       };
     
-      hideAlertConfirm = () => {
+   const  hideAlertConfirms = () => {
         setShowAlertConfirm( false);
-      };*/
+      };
 
   let Item = ({ title }) => {
     return (
@@ -96,22 +84,17 @@ const SpeciesAdminScreen = () => {
               style={styles.buttonEdit}
               onPress={() => {
                 setEspecieSeleccionada(title.nombre);
-                /*  
-                    this.showAlertConfirm(
+                  
+                  showAlertConfirms(
                       "Confirmar cambios",
                       "¿Quiere confirmar los cambios realizados?",
-                    );*/
+                    );
               }}
             >
               <Entypo name="trash" size={24} color="indianred" />
             </TouchableOpacity>
           ) : (
             <View style={{ paddingEnd: 4, alignItems: "center" }}>
-              {/*                   <Icon
-                      name='ban'
-                      type='font-awesome-5'
-                      color={ColorsApp.terciaryColor}
-                      size={25} /> */}
             </View>
           )}
         </View>
@@ -124,33 +107,7 @@ const SpeciesAdminScreen = () => {
 
   return (
     <View>
-      <Header
-        containerStyle={{
-          backgroundColor: ColorsApp.primaryColor,
-          justifyContent: "space-around",
-          height: 65,
-        }}
-        leftComponent={
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-         
-            <Entypo name="chevron-thin-left" size={24} color={ColorsApp.secondaryColor}
- />
-          </TouchableOpacity>
-        }
-        centerComponent={{
-          text: "Especies",
-          style: {
-            fontSize: 18,
-            color: ColorsApp.primaryTextColor,
-            fontWeight: "bold",
-          },
-        }}
-        rightComponent={
-          <TouchableOpacity onPress={() => getEspeciesData()}>
-            <EvilIcons name="redo" size={24} color={ColorsApp.secondaryColor} />
-          </TouchableOpacity>
-        }
-      />
+       <TraxpetHeader/>
       <SafeAreaView style={styles.container}>
         <FlatList
           data={especieValues.data}
