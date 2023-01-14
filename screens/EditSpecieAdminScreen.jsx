@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Ionicons ,Entypo} from '@expo/vector-icons'; 
 import { Header } from "@rneui/themed";
-import {getCaracteristicas} from "../services/CaracteristicaService"
+import {getCaracteristicas} from "../services/FeatureService"
 import { ColorsApp } from "../constants/Colors";
 import { useNavigation ,useRoute} from "@react-navigation/native";
 

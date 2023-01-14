@@ -11,7 +11,7 @@ import { ColorsApp } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { Header } from "@rneui/themed";
 import { Entypo ,EvilIcons,Ionicons} from '@expo/vector-icons'; 
-import { getCaracteristicas} from "../services/CaracteristicaService";
+import { getCaracteristicas} from "../services/FeatureService";
 
 const FeaturesAdminScreen = () => {
   const navigation = useNavigation();
