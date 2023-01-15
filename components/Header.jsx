@@ -20,20 +20,6 @@ const Header = (props) => {
     navigation.goBack();
   };
 
-/*   const setRightComponent = () => {
-    if (props.isRefresh) {
-      return (
-        <TouchableOpacity onPress={() => props.rightFunction()}>
-          <Ionicons
-            name="refresh-outline"
-            size={24}
-            color={ColorsApp.primaryBackgroundColor}
-          />
-        </TouchableOpacity>
-      );
-    }
-    return null;
-  }; */
   return (
     <View>
       <HeaderElements
@@ -66,7 +52,7 @@ const styles = StyleSheet.create({
   title: {
     flex: 2,
     fontSize: 18,
-    color: "#fff",
+    color: ColorsApp.primaryTextColor,
     fontWeight: "bold",
   },
 });
