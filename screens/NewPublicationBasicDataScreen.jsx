@@ -250,265 +250,271 @@ const NewPublicationBasicDataScreen = () => {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: ColorsApp.primaryBackgroundColor }}>
-      <TraxpetHeader title="Nueva mascota" isRefresh={false} />
-      <View style={styles.viewOptionsContainer}>
-        <Text style={styles.textTitle}>Nombre</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => setNombreMascota(text)}
-          value={nombreMascota}
-          textAlign="center"
-          maxLength={50}
-          placeholder="firulais, fatiga..."
-          placeholderTextColor={"gray"}
-        />
-      </View>
-      {/* Especies picker */}
-      <View style={styles.viewOptionsContainer}>
-        <Text style={styles.textTitle}>Especie</Text>
-        <View style={styles.pickerView}>
-          <Picker
-            selectedValue={selectedEspecieValue}
-            onValueChange={(itemValue, itemIndex) => {
-              setSelectedEspecieValue(itemValue);
-            }}
-            mode="dropdown"
-            style={{ width: 250, height: 50, fontSize: 22 }}
-          >
-            <Picker.Item label="Seleccionar" value={"Seleccionar"} />
-            {especiesOptions}
-          </Picker>
+    <View style={{ height: "100%" }}>
+      <TraxpetHeader title="Nueva mascota" />
+      <ScrollView style={{ backgroundColor: ColorsApp.primaryBackgroundColor }}>
+        <View style={styles.viewOptionsContainer}>
+          <Text style={styles.textTitle}>Nombre</Text>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={(text) => setNombreMascota(text)}
+            value={nombreMascota}
+            textAlign="center"
+            maxLength={50}
+            placeholder="firulais, fatiga..."
+            placeholderTextColor={"gray"}
+          />
         </View>
-      </View>
-
-      {/* Tipo de publicacion picker */}
-      <View style={styles.viewOptionsContainer}>
-        <Text style={styles.textTitle}>Tipo de publicación</Text>
-        <View style={styles.pickerView}>
-          <Picker
-            selectedValue={tipoPublicacion}
-            onValueChange={(itemValue, itemIndex) =>
-              setTipoPublicacion(itemValue)
-            }
-            mode="dropdown"
-            style={{ width: 250, height: 50, fontSize: 22 }}
-          >
-            <Picker.Item label="Seleccionar" value="Seleccionar" />
-            <Picker.Item label="Mascota buscada" value="MASCOTA_BUSCADA" />
-            <Picker.Item
-              label="Mascota encontrada"
-              value="MASCOTA_ENCONTRADA"
-            />
-          </Picker>
+        {/* Especies picker */}
+        <View style={styles.viewOptionsContainer}>
+          <Text style={styles.textTitle}>Especie</Text>
+          <View style={styles.pickerView}>
+            <Picker
+              selectedValue={selectedEspecieValue}
+              onValueChange={(itemValue, itemIndex) => {
+                setSelectedEspecieValue(itemValue);
+              }}
+              mode="dropdown"
+              style={{ width: 250, height: 50, fontSize: 22 }}
+            >
+              <Picker.Item label="Seleccionar" value={"Seleccionar"} />
+              {especiesOptions}
+            </Picker>
+          </View>
         </View>
-      </View>
 
-      {/* Ubicacion button */}
-      <View
-        style={{
-          paddingTop: 30,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            Platform.OS === "web"
-              ? navigation.navigate("MapWebScreen")
-              : navigation.navigate("MapScreen");
+        {/* Tipo de publicacion picker */}
+        <View style={styles.viewOptionsContainer}>
+          <Text style={styles.textTitle}>Tipo de publicación</Text>
+          <View style={styles.pickerView}>
+            <Picker
+              selectedValue={tipoPublicacion}
+              onValueChange={(itemValue, itemIndex) =>
+                setTipoPublicacion(itemValue)
+              }
+              mode="dropdown"
+              style={{ width: 250, height: 50, fontSize: 22 }}
+            >
+              <Picker.Item label="Seleccionar" value="Seleccionar" />
+              <Picker.Item label="Mascota buscada" value="MASCOTA_BUSCADA" />
+              <Picker.Item
+                label="Mascota encontrada"
+                value="MASCOTA_ENCONTRADA"
+              />
+            </Picker>
+          </View>
+        </View>
+
+        {/* Ubicacion button */}
+        <View
+          style={{
+            paddingTop: 30,
+            justifyContent: "center",
+            alignItems: "center",
           }}
-          style={styles.buttonLocation}
         >
-          <Ionicons
-            style={{ paddingRight: 5 }}
-            name="location"
-            size={25}
-            color={ColorsApp.primaryBackgroundColor}
-          />
-
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 16,
-              paddingBottom: 5,
-              color: ColorsApp.primaryTextColor,
+          <TouchableOpacity
+            onPress={() => {
+              Platform.OS === "web"
+                ? navigation.navigate("MapWebScreen")
+                : navigation.navigate("MapScreen");
             }}
+            style={styles.buttonLocation}
           >
-            Seleccionar ubicación
-          </Text>
-        </TouchableOpacity>
-        <Text style={{ paddingTop: 5, color: "black", fontSize: 24 }}>
-          {route.params.location.latitude == 0
-            ? "Sin ubicación"
-            : "Ubicación seleccionada"}
-        </Text>
-      </View>
-      <View
-        style={
-          Platform.OS === "web"
-            ? styles.containerSectionImagesWeb
-            : styles.containerSectionImagesPhone
-        }
-      >
-        {/* Primera imagen */}
-        <View style={styles.containerImages}>
-          <Image
-            source={
-              firstImage !== null ? { uri: firstImage.localUri } : defaultImage
-            }
-            style={styles.image}
-          />
-          <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              style={styles.buttonImages}
-              onPress={() => openFirstImagePickerAsync()}
-            >
-              <Ionicons
-                style={{ paddingRight: 5 }}
-                name="image"
-                size={25}
-                color={ColorsApp.primaryBackgroundColor}
-              />
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 16,
-                  paddingBottom: 5,
-                  color: ColorsApp.primaryTextColor,
-                }}
-              >
-                Seleccionar Imagen
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Platform.OS === "android" ? styles.buttonCamera : null}
-              onPress={() => {
-                showCameraAsync(1);
-              }}
-            >
-              <Ionicons
-                name="camera"
-                size={Platform.OS === "android" ? 25 : 0}
-                color={ColorsApp.primaryBackgroundColor}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
+            <Ionicons
+              style={{ paddingRight: 5 }}
+              name="location"
+              size={25}
+              color={ColorsApp.primaryBackgroundColor}
+            />
 
-        {/* Segunda imagen */}
-        <View style={styles.containerImages}>
-          <Image
-            source={
-              secondImage !== null
-                ? { uri: secondImage.localUri }
-                : defaultImage
-            }
-            style={styles.image}
-          />
-          <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              style={styles.buttonImages}
-              onPress={openSecondImagePickerAsync}
-            >
-              <Ionicons
-                style={{ paddingRight: 5 }}
-                name="image"
-                size={25}
-                color={ColorsApp.primaryBackgroundColor}
-              />
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 16,
-                  paddingBottom: 5,
-                  color: ColorsApp.primaryTextColor,
-                }}
-              >
-                Seleccionar Imagen
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Platform.OS === "android" ? styles.buttonCamera : null}
-              onPress={() => {
-                showCameraAsync(2);
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 16,
+                paddingBottom: 5,
+                color: ColorsApp.primaryTextColor,
               }}
             >
-              <Ionicons
-                name="camera"
-                size={Platform.OS === "android" ? 25 : 0}
-                color={ColorsApp.primaryBackgroundColor}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Tercera imagen */}
-        <View style={styles.containerImages}>
-          <Image
-            source={
-              thirdImage !== null ? { uri: thirdImage.localUri } : defaultImage
-            }
-            style={styles.image}
-          />
-          <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              style={styles.buttonImages}
-              onPress={openThirdImagePickerAsync}
-            >
-              <Ionicons
-                style={{ paddingRight: 5 }}
-                name="image"
-                size={25}
-                color={ColorsApp.primaryBackgroundColor}
-              />
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 16,
-                  paddingBottom: 5,
-                  color: ColorsApp.primaryTextColor,
-                }}
-              >
-                Seleccionar Imagen
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Platform.OS === "android" ? styles.buttonCamera : null}
-              onPress={() => {
-                showCameraAsync(3);
-              }}
-            >
-              <Ionicons
-                name="camera"
-                size={Platform.OS === "android" ? 25 : 0}
-                color={ColorsApp.primaryBackgroundColor}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={goToNextScreen}>
-          <Text
-            style={{
-              fontWeight: "bold",
-              fontSize: 16,
-              paddingBottom: 5,
-              color: ColorsApp.primaryTextColor,
-            }}
-          >
-            Siguiente
+              Seleccionar ubicación
+            </Text>
+          </TouchableOpacity>
+          <Text style={{ paddingTop: 5, color: "black", fontSize: 24 }}>
+            {route.params.location.latitude == 0
+              ? "Sin ubicación"
+              : "Ubicación seleccionada"}
           </Text>
-          <Ionicons
-            name="chevron-forward"
-            size={35}
-            color={ColorsApp.primaryBackgroundColor}
-          />
-        </TouchableOpacity>
-      </View>
+        </View>
+        <View
+          style={
+            Platform.OS === "web"
+              ? styles.containerSectionImagesWeb
+              : styles.containerSectionImagesPhone
+          }
+        >
+          {/* Primera imagen */}
+          <View style={styles.containerImages}>
+            <Image
+              source={
+                firstImage !== null
+                  ? { uri: firstImage.localUri }
+                  : defaultImage
+              }
+              style={styles.image}
+            />
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                style={styles.buttonImages}
+                onPress={() => openFirstImagePickerAsync()}
+              >
+                <Ionicons
+                  style={{ paddingRight: 5 }}
+                  name="image"
+                  size={25}
+                  color={ColorsApp.primaryBackgroundColor}
+                />
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 16,
+                    paddingBottom: 5,
+                    color: ColorsApp.primaryTextColor,
+                  }}
+                >
+                  Seleccionar Imagen
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={Platform.OS === "android" ? styles.buttonCamera : null}
+                onPress={() => {
+                  showCameraAsync(1);
+                }}
+              >
+                <Ionicons
+                  name="camera"
+                  size={Platform.OS === "android" ? 25 : 0}
+                  color={ColorsApp.primaryBackgroundColor}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Segunda imagen */}
+          <View style={styles.containerImages}>
+            <Image
+              source={
+                secondImage !== null
+                  ? { uri: secondImage.localUri }
+                  : defaultImage
+              }
+              style={styles.image}
+            />
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                style={styles.buttonImages}
+                onPress={openSecondImagePickerAsync}
+              >
+                <Ionicons
+                  style={{ paddingRight: 5 }}
+                  name="image"
+                  size={25}
+                  color={ColorsApp.primaryBackgroundColor}
+                />
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 16,
+                    paddingBottom: 5,
+                    color: ColorsApp.primaryTextColor,
+                  }}
+                >
+                  Seleccionar Imagen
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={Platform.OS === "android" ? styles.buttonCamera : null}
+                onPress={() => {
+                  showCameraAsync(2);
+                }}
+              >
+                <Ionicons
+                  name="camera"
+                  size={Platform.OS === "android" ? 25 : 0}
+                  color={ColorsApp.primaryBackgroundColor}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Tercera imagen */}
+          <View style={styles.containerImages}>
+            <Image
+              source={
+                thirdImage !== null
+                  ? { uri: thirdImage.localUri }
+                  : defaultImage
+              }
+              style={styles.image}
+            />
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                style={styles.buttonImages}
+                onPress={openThirdImagePickerAsync}
+              >
+                <Ionicons
+                  style={{ paddingRight: 5 }}
+                  name="image"
+                  size={25}
+                  color={ColorsApp.primaryBackgroundColor}
+                />
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 16,
+                    paddingBottom: 5,
+                    color: ColorsApp.primaryTextColor,
+                  }}
+                >
+                  Seleccionar Imagen
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={Platform.OS === "android" ? styles.buttonCamera : null}
+                onPress={() => {
+                  showCameraAsync(3);
+                }}
+              >
+                <Ionicons
+                  name="camera"
+                  size={Platform.OS === "android" ? 25 : 0}
+                  color={ColorsApp.primaryBackgroundColor}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={goToNextScreen}>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 16,
+                paddingBottom: 5,
+                color: ColorsApp.primaryTextColor,
+              }}
+            >
+              Siguiente
+            </Text>
+            <Ionicons
+              name="chevron-forward"
+              size={35}
+              color={ColorsApp.primaryBackgroundColor}
+            />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
       {basicAlert()}
-    </ScrollView>
+    </View>
   );
 };
 
