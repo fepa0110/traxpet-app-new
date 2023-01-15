@@ -11,7 +11,6 @@ import HeaderHome from "../components/HeaderHome";
 
 import { FlashList } from "@shopify/flash-list";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { FAB } from "@rneui/themed";
 import { Ionicons } from "@expo/vector-icons";
 
 import { ColorsApp } from "../constants/Colors";
@@ -21,6 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { getPublicacionesByUserRequest } from "../services/PublicacionService";
 import { getNotificacionesByUserIdRequest } from "../services/NotificacionService";
+import FloatingButton from "../components/FloatingButton";
 
 const HomeScreen = () => {
   const user = {
@@ -99,11 +99,7 @@ const HomeScreen = () => {
             color={ColorsApp.primaryColor}
           />
         </View>
-        <View
-          style={{
-            flexDirection: "column",
-          }}
-        >
+        <View>
           <Text style={styles.itemTitle}>{item.mascota.especie.nombre}</Text>
           <Text style={styles.itemSubtitle}>
             {(item.tipoPublicacion === "MASCOTA_ENCONTRADA"
@@ -147,17 +143,14 @@ const HomeScreen = () => {
       <ScrollView>
         {showPublications()}
       </ScrollView>
-      <FAB
-        visible={true}
-        placement="right"
-        icon={{ name: 'add', color: 'white' }}
-        color={ColorsApp.primaryColor}
-        onPress={() => {
+      <FloatingButton 
+        visible={true} 
+        onPressFunction={() => {
           navigation.navigate("PublicationNavigation", {
             screen: "PublicationBasicDataScreen",
           });
         }}
-      />    
+      />
     </View >
   );
 };
