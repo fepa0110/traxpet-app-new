@@ -11,9 +11,8 @@ export async function getEnabledSpecies() {
 }
 
 export async function getEspecies() {
-  const resp = await fetch(urlServer + "/especies");
-  const data = await resp.json();
-  return data;
+  return await fetch(urlServer + "/especies")
+    .then((response) => {return response.json()});
 };
 
 export async function sendFeatures(data) {
@@ -31,8 +30,7 @@ export async function sendFeatures(data) {
 };
 
 export async function disabledEspecie(especieSeleccionada) {
-  //console.log(this.state.especieSeleccionada)
-  const resp = await fetch(urlServer + "/especies/desabilitar", {
+  await fetch(urlServer + "/especies/desabilitar", {
     method: "PUT",
     body: especieSeleccionada,
     headers: {
@@ -42,6 +40,4 @@ export async function disabledEspecie(especieSeleccionada) {
   })
     .then((response) => response.json())
     .catch((error) => console.log(error))
-    .then((json) => {
-      console.log(json);
-    });
+};
