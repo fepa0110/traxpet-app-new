@@ -132,71 +132,68 @@ const UserPublicationScreen = () => {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: ColorsApp.primaryBackgroundColor }}>
-      <TraxpetHeader
-        title="Publicacion"
-        rightFunction={() => {
-          console.log("Rigth component");
-        }}
-      />
-      {showPet()}
-      {/* Ubicacion button */}
-      <View style={styles.buttonLocationContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            Platform.OS === "web"
-              ? navigation.navigate("UserPublicationNavigation", {
-                  screen: "LocationEditWebScreen",
-                  params: {
-                    publicationId: publicacion.id,
-                    locationsData: locationsData,
-                    mobility: false,
-                  },
-                })
-              : navigation.navigate("UserPublicationNavigation", {
-                  screen: "LocationEditScreen",
-                  params: {
-                    publicationId: publicacion.id,
-                    locationsData: locationsData,
-                    mobility: false,
-                  },
-                });
-          }}
-          style={styles.buttonLocation}
-        >
-          <Ionicons
-            name="location"
-            size={25}
-            color={ColorsApp.primaryBackgroundColor}
-          />
+    <View style={{ height: "100%" }}>
+      <TraxpetHeader title="Publicacion" />
+      <ScrollView style={{ backgroundColor: ColorsApp.primaryBackgroundColor }}>
+        {showPet()}
 
-          <Text style={styles.title}>Ver ubicación</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.buttonLocationContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              Platform.OS === "web"
+                ? navigation.navigate("UserPublicationNavigation", {
+                    screen: "LocationEditWebScreen",
+                    params: {
+                      publicationId: publicacion.id,
+                      locationsData: locationsData,
+                      mobility: false,
+                    },
+                  })
+                : navigation.navigate("UserPublicationNavigation", {
+                    screen: "LocationEditScreen",
+                    params: {
+                      publicationId: publicacion.id,
+                      locationsData: locationsData,
+                      mobility: false,
+                    },
+                  });
+            }}
+            style={styles.buttonLocation}
+          >
+            <Ionicons
+              name="location"
+              size={25}
+              color={ColorsApp.primaryBackgroundColor}
+            />
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() =>
-            navigation.navigate("UserPublicationNavigation", {
-              screen: "EditPublicationScreen",
-              params: {
-                publicacion: publicacion,
-                images: images,
-                locations: locationsData.ubicacion,
-              },
-            })
-          }
-        >
-          <Text style={styles.title}>Editar</Text>
-          <Ionicons
-            name="chevron-forward"
-            size={35}
-            color={ColorsApp.primaryBackgroundColor}
-          />
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+            <Text style={styles.title}>Ver ubicación</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate("UserPublicationNavigation", {
+                screen: "EditPublicationScreen",
+                params: {
+                  publicacion: publicacion,
+                  images: images,
+                  locations: locationsData.ubicacion,
+                },
+              })
+            }
+          >
+            <Text style={styles.title}>Editar</Text>
+            <Ionicons
+              name="chevron-forward"
+              size={35}
+              color={ColorsApp.primaryBackgroundColor}
+            />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
