@@ -3,8 +3,6 @@ import { useNavigation } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
 import React, { useEffect, useState } from "react";
 
-import { Divider } from "@rneui/themed";
-
 import {
   StyleSheet, 
   Text, 
@@ -106,7 +104,7 @@ const SpeciesAdminScreen = () => {
             style={styles.buttonEdit}
             onPress={() => navigation.navigate
               ("EditSpecieAdminScreen", {
-                especie: item.nombre,
+                especie: item,
               })
             }
           >
@@ -175,7 +173,6 @@ const SpeciesAdminScreen = () => {
   };
 
   return (
-    // TODO: Funcionalidad del boton remover
     <View style={{ height: "100%" }} >
     <Header title="Especies"/>
       <ScrollView style={styles.container}>
@@ -207,41 +204,6 @@ const styles = StyleSheet.create({
     height:"100%",
     width: "75%",
     alignSelf: "center"
-  },
-  item: {
-    backgroundColor: ColorsApp.primaryBackgroundColor,
-    borderBottomRightRadius: 25,
-    borderTopLeftRadius: 25,
-    borderColor: ColorsApp.primaryColor,
-    borderWidth: 2,
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: 350,
-    height: 45,
-    flexDirection: "row",
-    paddingLeft: 8,
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  title: {
-    fontSize: 32,
-  },
-  buttonContainer: {
-    width: 300,
-    justifyContent: "flex-end",
-    flexDirection: "row",
-    paddingLeft: 10,
-    paddingRight: 20,
-  },
-  button: {
-    backgroundColor: ColorsApp.primaryColor,
-    borderRadius: 55,
-    alignContent: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 52,
-    height: 52,
-    margin: 8,
   },
   buttonEdit: {
     backgroundColor: ColorsApp.primaryBackgroundColor,
