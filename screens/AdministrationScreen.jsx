@@ -1,69 +1,48 @@
-import { Text, View, TouchableOpacity,StyleSheet } from "react-native";
+import { Text, View, ScrollView,StyleSheet } from "react-native";
 import React  from 'react'
 import { ColorsApp } from '../constants/Colors';
-import { Entypo} from "@expo/vector-icons";
 import Header from '../components/Header';
+import LargePrimaryButton from '../components/LargePrimaryButton'
+
 const AdministrationScreen = ({ navigation }) => {
     return (
-  
-        <View>
-      <Header/>
-        <View style>
-          <View
-            style={{
-              paddingTop: 30,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <TouchableOpacity
-              style={styles.buttonText }
-              onPress={() =>  navigation.navigate("SpeciesAdminScreen")}
-            >
-              <Text style ={
-                {color:ColorsApp.primaryTextColor}
-              }>
-                Especie</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.buttonText }
-              onPress={() =>  navigation.navigate("FeaturesAdminScreen")}
-            >
-              <Text style ={
-                {color:ColorsApp.primaryTextColor}
-              }>
-                Caracteristicas</Text>
-            </TouchableOpacity>
+      <View>
+        <Header title="Menu administrador"/>
+        <View style={styles.container}>
+          <View style={styles.buttonView}>
+              <LargePrimaryButton 
+                title="Especie"
+                actionFunction={()=>{
+                  navigation.navigate("SpeciesAdminScreen")
+                }}
+              />
+          </View>
+          <View style={styles.buttonView}>
+              <LargePrimaryButton 
+                title="Caracteristicas"
+                actionFunction={()=>{
+                  navigation.navigate("FeaturesAdminScreen")
+                }}
+              />
           </View>
         </View>
       </View>
       );
     }
-  
-  
 
 export default AdministrationScreen
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: "#fff",
+      backgroundColor: ColorsApp.primaryBackgroundColor,
       alignItems: "center",
       justifyContent: "center",
-    },
-    buttonText: {
-      backgroundColor: "orangered",
-      alignItems: "center",
-      justifyContent: "center",
-      width: 205,
-      height: 45,
-      flexDirection: "row",
-      margin: 10,
+      // alignContent:"center",
+      height: "100%"
     },
     buttonView: {
-      justifyContent: "center",
-      alignContent: "center",
-      alignItems: "center",
+      paddingVertical: 15, 
+      // justifyContent: "center", 
+      alignItems: "center"
     },
   });
