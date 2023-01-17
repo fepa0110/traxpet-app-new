@@ -24,6 +24,7 @@ import LargePrimaryButton from '../components/LargePrimaryButton';
 import LoadingIndicator from '../components/LoadingIndicator';
 import LargeSecondaryButton from '../components/LargeSecondaryButton';
 import { getUserByEmailRequest, getUserByUsernameRequest, registerUserRequest } from '../services/UsuarioService';
+import Separator from '../components/Separator';
 
 const SignUpScreen = () => {
     const navigation = useNavigation();
@@ -396,12 +397,7 @@ const SignUpScreen = () => {
                         disabled={formValid()}
                         />
                     
-                    <Divider
-                        orientation="horizontal"
-                        color="#AAA"
-                        width={1}
-                        style={{ width: 150, marginVertical: 15 }}
-                    />
+                    <Separator width={150} />
 
                     {/* Boton atras */}
                     <LargeSecondaryButton

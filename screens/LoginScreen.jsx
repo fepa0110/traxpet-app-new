@@ -23,6 +23,7 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import LargePrimaryButton from "../components/LargePrimaryButton";
 import LargeSecondaryButton from "../components/LargeSecondaryButton";
 import { loginRequest } from "../services/UsuarioService";
+import Separator from "../components/Separator";
 
 const LoginScreen = () => {
     const navigation = useNavigation();
@@ -229,12 +230,7 @@ const LoginScreen = () => {
                     actionFunction={() => { sendLogIn() }}
                     disabled={!(validUser && validPassword)}/>
 
-                <Divider
-                orientation="horizontal"
-                color="#AAA"
-                width={1}
-                style={{ width: 150, marginVertical:15}}
-                />
+                <Separator width={150}/>
 
                 {/* Boton registrarse */}
                 <LargeSecondaryButton 
