@@ -1,17 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { ColorsApp } from "../constants/Colors";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  FlatList,
-} from "react-native";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Entypo ,Ionicons} from "@expo/vector-icons";
-import TraxpetHeader from "../components/Header";
-import { getEspecies ,disabledEspecie} from "../services/SpecieService";
+import { FlashList } from "@shopify/flash-list";
+import React, { useEffect, useState } from "react";
+
+import { Divider } from "@rneui/themed";
+
+import {
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  View,
+  ScrollView,
+} from "react-native";
+
+import { FontAwesome5 } from "@expo/vector-icons";
+import AwesomeAlert from "react-native-awesome-alerts";
+
+import Header from "../components/Header";
+import { ColorsApp } from "../constants/Colors";
+import { getEspecies, disableEspecieRequest } from "../services/SpecieService";
+import FloatingButton from "../components/FloatingButton";
+import Separator from "../components/Separator";
 
 const SpeciesAdminScreen = () => {
 
@@ -24,105 +33,168 @@ const SpeciesAdminScreen = () => {
 
   useEffect(() => {
     getEspeciesData();
-    disableEspecie();
   }, []);
-  const getEspeciesData = async () => {
-    const data = await getEspecies() ;
 
-    setEspecieValues(data);
+  const getEspeciesData = async () => {
+    const especies = await getEspecies() ;
+
+    console.log(especies.data);
+    setEspecieValues(especies.data);
 
   };
   const disableEspecie = async () => {
-    //console.log(this.state.especieSeleccionada)
-    // disabledEspecie (especieSeleccionada);
-
-    // this.getEspeciesData();
-
-    // this.hideAlertConfirm();
-
-    // setEspecieSeleccionada([""]);
+    await disableEspecieRequest(especieSeleccionada);
+    setEspecieSeleccionada("");
+    getEspeciesData();
   };
   
-   const showAlertConfirms = (title, messsage) => {
-        setShowAlertConfirm( true),
+  const showAlertConfirms = (title, messsage) => {
+        setShowAlertConfirm(true),
         setAlertTitle (title),
         setAlertMessage( messsage)
-      };
+  };
     
-   const  hideAlertConfirms = () => {
-        setShowAlertConfirm( false);
-      };
+  const  hideAlertConfirms = () => {
+    setShowAlertConfirm( false);
+  };
 
-  let Item = ({ title }) => {
+  const listEmpty = () => {
     return (
-      <View style={styles.item}>
-        {!title.deshabilitado ? (
-          <Text >
-            {" "}
-            {title.nombre}
-          </Text>
-        ) : (
-          <Text>
-            {title.nombre + "\t\t\t(Deshabilitado)"}
-          </Text>
-        )}
-        <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-          <TouchableOpacity
-            style={styles.buttonEdit}
-            onPress={() => navigation.navigate
-                  ("EditSpecieAdminScreen", {
-                especie: title.nombre,
-              })
-            }
-            
-            
-          >
-            <Entypo name="pencil" size={24} color={ColorsApp.terciaryColor} />
-          </TouchableOpacity>
-          {!title.deshabilitado ? (
-            <TouchableOpacity
-              style={styles.buttonEdit}
-              onPress={() => {
-                setEspecieSeleccionada(title.nombre);
-                  
-                  showAlertConfirms(
-                      "Confirmar cambios",
-                      "¿Quiere confirmar los cambios realizados?",
-                    );
-              }}
-            >
-              <Entypo name="trash" size={24} color="indianred" />
-            </TouchableOpacity>
-          ) : (
-            <View style={{ paddingEnd: 4, alignItems: "center" }}>
-            </View>
-          )}
-        </View>
+      <View style={styles.container}>
+        <Text style={styles.message}>
+          No hay especies
+        </Text>
+        <FontAwesome5 name="frown-open" size={32} color={ColorsApp.primaryColor} />
       </View>
     );
   };
-  let renderItem = ({ item }) => {
-    return <Item title={item} />;
+
+  const itemDivider = () => {
+    return(
+      <View style={{alignItems: "center", height: "100%" }}>
+        <Separator width="50%"/>
+      </View>
+    );
+  };
+
+  const renderItem = ({ item }) => (
+    <View style={{
+      flexDirection:"row", 
+      alignItems: "center",
+      justifyContent:"space-between",
+    }}>
+      <View style={{
+          marginHorizontal: 20, 
+          flexDirection: "row",
+          alignItems: "center"
+      }}
+      >
+          <FontAwesome5
+            name="angle-right"
+            size={20}
+            color={ColorsApp.primaryColor}
+          />
+          <Text style={styles.itemTitle}>
+            {!item.deshabilitado ?
+            item.nombre : item.nombre + " (deshabilitado)"}
+          </Text>
+          
+      </View>
+
+      <View style={{ flexDirection: "row"}}>
+          <TouchableOpacity
+            style={styles.buttonEdit}
+            onPress={() => navigation.navigate
+              ("EditSpecieAdminScreen", {
+                especie: item.nombre,
+              })
+            }
+          >
+            <FontAwesome5 name="pencil-alt" size={20} color={ColorsApp.primaryColor} />
+          </TouchableOpacity>
+
+          {!item.deshabilitado ? (
+            <TouchableOpacity
+              style={styles.buttonEdit}
+              onPress={() => {
+                setEspecieSeleccionada(item.nombre);
+
+                showAlertConfirms(
+                  "Confirmar cambios",
+                  "¿Quiere confirmar los cambios realizados?",
+                );
+              }}
+            >
+              <FontAwesome5 
+                name="trash-alt" 
+                size={20} 
+                color={ColorsApp.primaryColor}
+              />
+            </TouchableOpacity>
+            ) : (
+            <View style={{ paddingEnd: 4, alignItems: "center" }}>
+            </View>
+          )}
+      </View>
+    </View>
+  );
+
+  const alerta = () => {
+    return (
+      <AwesomeAlert
+        show={showAlertConfirm}
+        showProgress={false}
+        title={alertTitle}
+        message={alertMessage}
+        cancelText="Cancelar"
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showConfirmButton={true}
+        showCancelButton={true}
+        confirmText="Aceptar"
+        confirmButtonColor={ColorsApp.primaryColor}
+        cancelButtonColor={ColorsApp.secondaryColor}
+        confirmButtonStyle={{ 
+          borderColor: ColorsApp.primaryColor, borderWidth: 1 
+        }}
+        cancelButtonStyle={{ 
+          borderColor: ColorsApp.primaryColor, 
+          borderWidth: 1,
+          fontWeight: "bold"
+        }}
+        cancelButtonTextStyle={{ color: ColorsApp.primaryColor,}}
+        onConfirmPressed={async () => {
+          await disableEspecie();
+          setShowAlertConfirm(false);
+        }}
+        onCancelPressed={() => {
+          setShowAlertConfirm(false);
+        }}
+      />
+    );
   };
 
   return (
-    <View>
-       <TraxpetHeader/>
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={especieValues.data}
+    // TODO: Funcionalidad del boton remover
+    <View style={{ height: "100%" }} >
+    <Header title="Especies"/>
+      <ScrollView style={styles.container}>
+        <FlashList
+          contentContainerStyle={{ paddingVertical: 20 }}
+          data={especieValues}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          estimatedItemSize={10}
+          ListEmptyComponent={listEmpty}
+          ItemSeparatorComponent={itemDivider}
         />
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("NewSpecieAdminScreen")}
-          >
-            <Ionicons name="add-outline" size={34} color={ColorsApp.secondaryColor} />
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+        </ScrollView>
+      <FloatingButton
+        visible={true}
+        onPressFunction={() => {
+          navigation.navigate("NewSpecieAdminScreen")
+        }}
+      />
+      {alerta()}
     </View>
   );
 };
@@ -131,11 +203,10 @@ export default SpeciesAdminScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: ColorsApp.primaryBackgroundColor,
-    alignItems: "center",
-    // justifyContent: "center",
-    paddingTop: 25,
+    height:"100%",
+    width: "75%",
+    alignSelf: "center"
   },
   item: {
     backgroundColor: ColorsApp.primaryBackgroundColor,
@@ -158,7 +229,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: 300,
     justifyContent: "flex-end",
-    paddingBottom: 10,
     flexDirection: "row",
     paddingLeft: 10,
     paddingRight: 20,
@@ -183,5 +253,15 @@ const styles = StyleSheet.create({
     height: 35,
     marginLeft: 2,
     marginRight: 2,
+  },
+  message: { 
+    fontWeight: "bold", 
+    fontSize: 16, 
+    padding: 5
+  },
+  itemTitle: {
+    fontSize: 15,
+    fontWeight: "bold",
+    marginHorizontal:10
   },
 });

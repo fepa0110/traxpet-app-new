@@ -29,15 +29,15 @@ export async function sendFeatures(data) {
     .catch((error) => console.error("Error:", error));
 };
 
-export async function disabledEspecie(especieSeleccionada) {
+export async function disableEspecieRequest(especieSeleccionada) {
   await fetch(urlServer + "/especies/desabilitar", {
     method: "PUT",
     body: especieSeleccionada,
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
+      "Accept": "application/json",
     },
   })
-    .then((response) => response.json())
+    .then((response) => {return response.json()})
     .catch((error) => console.log(error))
 };
