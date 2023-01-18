@@ -4,7 +4,7 @@
  *  iconName: Nombre del icono deseado
  *  size: tamaño del boton
  */
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -32,7 +32,6 @@ const styles = (size) => StyleSheet.create({
         borderRadius: 25,
         alignItems: "center",
         justifyContent: "center",
-        flexDirection: "row-reverse",
         width: size,
         height: size,
     },
