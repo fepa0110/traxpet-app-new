@@ -2,98 +2,98 @@ import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
-  FlatList,
   View,
-  SafeAreaView,
-  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { ColorsApp } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
-import { Header } from "@rneui/themed";
-import { Entypo ,EvilIcons,Ionicons} from '@expo/vector-icons'; 
-import { getCaracteristicas} from "../services/FeatureService";
+import { getFeatures } from "../services/FeatureService";
+import Header from "../components/Header";
+import Separator from "../components/Separator";
+import { FlashList } from "@shopify/flash-list";
+import { FontAwesome5 } from "@expo/vector-icons";
+import FloatingButton from "../components/FloatingButton";
 
 const FeaturesAdminScreen = () => {
   const navigation = useNavigation();
-  const [ caracteristicasValues, setCaracteristicasValues] = useState();
-  const [selectedEspecieValue, setSelectedEspecieValue] = useState("");
+  const [featuresValues, setFeaturesValues] = useState();
 
   useEffect(() => {
-    getCaracteristicasData();
+    getFeatureData();
   });
-  const getCaracteristicasData = async () => {
-    const data = await getCaracteristicas() ;
-    
-    setCaracteristicasValues( data  );
-    
-   // return setCaracteristicasValues.data;
-  }
+  const getFeatureData = async () => {
+    const features = await getFeatures();
 
-    
+    setFeaturesValues(features.data);
+  };
 
-  let Item = ({ title }) => {
+  const listEmpty = () => {
     return (
-      <View style={styles.item}>
-        <Text > {title}</Text>
+      <View style={styles.container}>
+        <Text style={styles.message}>No hay Caracteristicas</Text>
+        <FontAwesome5
+          name="frown-open"
+          size={32}
+          color={ColorsApp.primaryColor}
+        />
       </View>
     );
   };
-  let renderItem = ({ item }) => {
-    return <Item title={item.nombre} />;
+
+  const itemDivider = () => {
+    return (
+      <View style={{ alignItems: "center", height: "100%" }}>
+        <Separator width="50%" />
+      </View>
+    );
   };
 
-  return (
-    <View>
-      <Header
-        containerStyle={{
-          backgroundColor: "orangered",
-          justifyContent: "space-around",
-          height: 65,
+  const renderItem = ({ item }) => (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <View
+        style={{
+          marginHorizontal: 20,
+          flexDirection: "row",
+          alignItems: "center",
         }}
-        leftComponent={
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Entypo
-              name="chevron-left"
-              size={24}
-              
-              
-              export default FeaturesAdminScreen
-              color={ColorsApp.secondaryColor}
-              style={{ paddingRight: 5 }}
+      >
+        <FontAwesome5
+          name="angle-right"
+          size={20}
+          color={ColorsApp.primaryColor}
+        />
+        <Text style={styles.itemTitle}>{item.nombre}</Text>
+      </View>
 
-            />
-         
-          </TouchableOpacity>
-        }
-        centerComponent={{
-          text: "Caracteristicas",
-          style: { fontSize: 18, color: "#fff", fontWeight: "bold" },
-        }}
-        rightComponent={
-          <TouchableOpacity
-          //   onPress={() => this.getCaracteristicasData()}
-          >
-            <EvilIcons name="redo" size={24} color= {ColorsApp.secondaryColor}/>
-           
-          </TouchableOpacity>
-        }
-      />
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={caracteristicasValues}
+    
+    </View>
+  );
+  return (
+    <View style={{ height: "100%" }} >
+      <Header title={"Caracteristica"} />
+
+      <ScrollView style={styles.container}>
+        <FlashList
+          contentContainerStyle={{ paddingVertical: 20 }}
+          data={featuresValues}
           renderItem={renderItem}
-          keyExtractor={(item) => item.nombre}        
-          
-       />
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("NewFeatureAdminScreen")}
-          >
-            <Ionicons name="add-outline" size={34} color={ColorsApp.secondaryColor} />
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+          estimatedItemSize={10}
+          ListEmptyComponent={listEmpty}
+          ItemSeparatorComponent={itemDivider}
+        />
+      </ScrollView>
+      <FloatingButton
+        visible={true}
+        onPressFunction={() => {
+          navigation.navigate("NewFeatureAdminScreen")
+        }}
+      />
     </View>
   );
 };
@@ -102,66 +102,20 @@ export default FeaturesAdminScreen;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 25,
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: ColorsApp.primaryBackgroundColor,
+    height: "100%",
+    width: "75%",
+    alignSelf: "center",
   },
-  item: {
-    backgroundColor: "white",
-    borderBottomRightRadius: 25,
-    borderTopLeftRadius: 25,
-    borderColor: "orangered",
-    borderWidth: 2,
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: 350,
-    height: 45,
-    flexDirection: "row",
-    paddingLeft: 8,
-    marginTop: 5,
-    marginBottom: 5,
+  message: { 
+    fontWeight: "bold", 
+    fontSize: 16, 
+    padding: 5
   },
-  title: {
-    color:"black",
-    fontSize: 32,
+  itemTitle: {
+    fontSize: 15,
+    fontWeight: "bold",
+    marginHorizontal: 10,
   },
-  buttonContainer: {
-    justifyContent: "flex-end",
-    paddingBottom: 10,
-    flexDirection: "row",
-    paddingLeft: 10,
-    paddingRight: 20,
-  },
-  button: {
-    backgroundColor: "orangered",
-    borderRadius: 55,
-    alignContent: "center",
-    alignItems: "center",
-    width: 52,
-    height: 52,
-    margin: 8,
-  },
-  buttonBack: {
-    backgroundColor: "orangered",
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "flex-end",
-    width: 115,
-    height: 40,
-    flexDirection: "row-reverse",
-    borderRadius: 50,
-    margin: 10,
-  },
-  viewOptionsContainer: {
-    alignItems: "center",
-    padding: 10,
-  },
-  pickerView: {
-    alignItems: "center",
-    width: 250,
-    height: 50,
-    borderWidth: 1,
-    borderColor: "gray",
-  },
+  
 });

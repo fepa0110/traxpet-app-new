@@ -14,7 +14,7 @@ export async function getFeaturesBySpecieName(specieName) {
   }
 }
 
-export async function getCaracteristicas() {
+export async function getFeatures() {
   const resp = await fetch(urlServer + "/caracteristicas");
   const data = await resp.json();
   return data;

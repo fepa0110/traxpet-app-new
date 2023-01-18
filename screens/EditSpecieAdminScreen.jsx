@@ -12,7 +12,7 @@ import { FlashList } from "@shopify/flash-list";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-import { getCaracteristicas } from "../services/FeatureService";
+import { getFeatures } from "../services/FeatureService";
 
 import { ColorsApp } from "../constants/Colors";
 import Header from "../components/Header";
@@ -34,9 +34,9 @@ const EditSpecieAdminScreen = () => {
   }, []);
 
   const getFeaturesData = async () => {
-    const caracteristicas = await getCaracteristicas();
+    const features = await getFeatures();
 
-    setFeaturesValues(caracteristicas.data);
+    setFeaturesValues(features.data);
   };
 
   const showAlertErrors = (messsage) => {
