@@ -15,10 +15,10 @@ export async function getEspecies() {
     .then((response) => {return response.json()});
 };
 
-export async function sendFeatures(data) {
+export async function sendFeatures(features) {
   fetch(urlServer + "/especies", {
     method: "POST", // or 'PUT'
-    body: JSON.stringify(data),
+    body: JSON.stringify(features),
     // mode: "no-cors",
     headers: {
       "Content-Type": "application/json",
@@ -29,10 +29,10 @@ export async function sendFeatures(data) {
     .catch((error) => console.error("Error:", error));
 };
 
-export async function disableEspecieRequest(especieSeleccionada) {
+export async function disableEspecieRequest(especieNombre) {
   await fetch(urlServer + "/especies/desabilitar", {
     method: "PUT",
-    body: especieSeleccionada,
+    body: especieNombre,
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json",
