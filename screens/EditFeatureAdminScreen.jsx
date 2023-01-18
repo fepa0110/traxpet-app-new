@@ -372,7 +372,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: ColorsApp.primaryBackgroundColor,
     alignItems: "center",
-    alignSelf: "center",
     justifyContent: "center",
   },
   item: {
@@ -411,7 +410,7 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: ColorsApp.primaryBackgroundColor,
     height: "100%",
-    width: "100%",
+    width: "75%",
     alignSelf: "center",
   },
   itemTitle: {
