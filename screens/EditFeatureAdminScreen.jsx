@@ -136,6 +136,7 @@ const EditFeatureAdminScreen = () => {
   };
 
   let saveChanges = () => {
+    setSaveAlert(true);
     const sendValues = valuesToSave;
     const toDisableValues = valuesToDisable;
     if (
@@ -336,18 +337,9 @@ const EditFeatureAdminScreen = () => {
             ItemSeparatorComponent={itemDivider}
           />
         </ScrollView>
-        <Text
-          style={{
-            fontWeight: "bold",
-            fontSize: 16,
-          }}
-        >
-          Agregar valor
-        </Text>
-        <View style={styles.pickerView}>
+        <View style={styles.inputView}>
           <Input
-            style={styles.textInput}
-            label="Caracteristica"
+            label="Agregar Valor"
             placeholder="Pelaje"
             onChangeText={(text) => setNombreValor(text)}
             value={nombreValor}
@@ -364,7 +356,6 @@ const EditFeatureAdminScreen = () => {
           <PrimaryButton
             title="Guardar"
             actionFunction={() => {
-              setSaveAlert(true);
               saveChanges();
             }}
           />
@@ -379,30 +370,10 @@ const EditFeatureAdminScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ColorsApp.primaryBackgroundColor,
     alignItems: "center",
-  },
-  viewOptionsContainer: {
-    alignItems: "center",
-    padding: 10,
-  },
-  textInput: {
-    // alignItems: "center",
-    // alignContent: "center",
-    // justifyContent: "center",
-    height: 40,
-    width: 250,
-    // borderColor: "gray",
-    // borderWidth: 1,
-  },
-  buttonText: {
-    backgroundColor: "orangered",
-    alignItems: "center",
+    alignSelf: "center",
     justifyContent: "center",
-    width: 205,
-    height: 45,
-    flexDirection: "row",
-    margin: 10,
   },
   item: {
     backgroundColor: "white",
@@ -419,77 +390,19 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
   },
-  itemDisable: {
-    backgroundColor: "orangered",
-    borderBottomRightRadius: 25,
-    borderTopLeftRadius: 25,
-    borderColor: "black",
-    borderWidth: 2,
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: 350,
-    height: 45,
-    flexDirection: "row",
-    paddingLeft: 8,
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  title: {
-    fontSize: 32,
-  },
   buttonContainer: {
-    justifyContent: "flex-end",
+    justifyContent: "center",
     paddingBottom: 10,
     flexDirection: "row",
   },
-  button: {
-    backgroundColor: ColorsApp.terciaryColor,
-    borderRadius: 25,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row-reverse",
-    width: 45,
-    height: 45,
-  },
-  buttonEdit: {
-    backgroundColor: "white",
-    borderRadius: 55,
-    alignContent: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 35,
-    height: 35,
-    marginLeft: 2,
-    marginRight: 2,
-  },
-  buttonBack: {
-    backgroundColor: "orangered",
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "flex-end",
-    width: 115,
-    height: 40,
-    flexDirection: "row-reverse",
-    borderRadius: 50,
-    margin: 10,
-  },
-  buttonSave: {
-    backgroundColor: "orangered",
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "flex-end",
-    width: 115,
-    height: 40,
-    flexDirection: "row-reverse",
-    borderRadius: 50,
-    margin: 10,
-  },
-  pickerView: {
+
+  inputView: {
     alignItems: "center",
     alignContent: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    width: 300,
+    alignSelf: "center",
+    width: "75%",
     height: 40,
     marginTop: 20,
     marginBottom: 20,
@@ -498,7 +411,7 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: ColorsApp.primaryBackgroundColor,
     height: "100%",
-    width: "75%",
+    width: "100%",
     alignSelf: "center",
   },
   itemTitle: {
