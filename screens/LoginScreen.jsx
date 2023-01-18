@@ -5,7 +5,7 @@ import {
     Image,
 } from "react-native";
 
-import { Input, Divider } from "@rneui/themed";
+import { Input } from "@rneui/themed";
 import AwesomeAlert from "react-native-awesome-alerts";
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as Crypto from "expo-crypto";
@@ -169,9 +169,9 @@ const LoginScreen = () => {
 
     const loginScreen = () => {
         return (
-        <View style={styles.inputsContainer}>
+          <View style={styles.inputsContainer}>
             <View style={styles.userInputContainer}>
-                <Input
+              <Input
                     style={styles.userInput}
                     placeholder="Usuario"
                     label="Usuario"
@@ -183,7 +183,7 @@ const LoginScreen = () => {
                         type="font-awesome-5"
                     />
                     }
-                    errorStyle={{ color: "red" }}
+                    errorStyle={{ color: ColorsApp.errorColor }}
                     errorMessage={userErrorMessage}
                     renderErrorMessage={renderUserErrorMessage}
                     onChangeText={(userValue) => {
@@ -193,55 +193,57 @@ const LoginScreen = () => {
             </View>
 
             <View style={styles.passwordInputContainer}>
-                <Input
-                    style={styles.passwordInput}
-                    placeholder="Contraseña"
-                    label="Contraseña"
-                    leftIcon={
-                    <Icon
-                        type="font-awesome-5"
-                        name="lock"
-                        size={22}
-                        color={ColorsApp.primaryColor}
-                    />
-                    }
-                    rightIcon={
-                    <Icon
-                        type="entypo"
-                        name={showPassword ? "eye" : "eye-slash"}
-                        size={20}
-                        color={ColorsApp.primaryColor}
-                        onPress={togglePassword}
-                    />
-                    }
-                    errorMessage={passwordErrorMessage}
-                    renderErrorMessage={renderPasswordErrorMessage}
-                    secureTextEntry={showPassword}
-                    onChangeText={(passwordValue) => {
-                    validatePasswordInput(passwordValue);
-                    }}
-                />
+              <Input
+                style={styles.passwordInput}
+                placeholder="Contraseña"
+                label="Contraseña"
+                leftIcon={
+                  <Icon
+                    type="font-awesome-5"
+                    name="lock"
+                    size={22}
+                    color={ColorsApp.primaryColor}
+                  />
+                }
+                rightIcon={
+                  <Icon
+                    type="entypo"
+                    name={showPassword ? "eye" : "eye-slash"}
+                    size={20}
+                    color={ColorsApp.primaryColor}
+                    onPress={togglePassword}
+                  />
+                }
+                errorMessage={passwordErrorMessage}
+                renderErrorMessage={renderPasswordErrorMessage}
+                secureTextEntry={showPassword}
+                onChangeText={(passwordValue) => {
+                  validatePasswordInput(passwordValue);
+                }}
+              />
             </View>
-            
+
             <View style={styles.buttonsContainer}>
-                {/* Boton ingresar */}
-                <LargePrimaryButton 
-                    title="Ingresar" 
-                    actionFunction={() => { sendLogIn() }}
-                    disabled={!(validUser && validPassword)}/>
+              {/* Boton ingresar */}
+              <LargePrimaryButton
+                title="Ingresar"
+                actionFunction={() => {
+                  sendLogIn();
+                }}
+                disabled={!(validUser && validPassword)}
+              />
 
-                <Separator width={150}/>
+              <Separator width={150} />
 
-                {/* Boton registrarse */}
-                <LargeSecondaryButton 
-                    title="Registrarse" 
-                    actionFunction={() => {
-                        navigation.navigate("SignUpScreen")}
-                    }
-                />
-
+              {/* Boton registrarse */}
+              <LargeSecondaryButton
+                title="Registrarse"
+                actionFunction={() => {
+                  navigation.navigate("SignUpScreen");
+                }}
+              />
             </View>
-        </View>
+          </View>
         );
     };
 
