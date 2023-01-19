@@ -4,7 +4,6 @@ import { ColorsApp } from '../constants/Colors';
 import Header from '../components/Header';
 import LargePrimaryButton from '../components/LargePrimaryButton'
 
-// TODO: Alinear correctamente los botones
 const AdministrationScreen = ({ navigation }) => {
     return (
       <View style={{height:"100%"}}>
