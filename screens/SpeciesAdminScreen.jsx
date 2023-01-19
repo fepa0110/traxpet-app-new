@@ -184,7 +184,7 @@ const SpeciesAdminScreen = () => {
           ListEmptyComponent={listEmpty}
           ItemSeparatorComponent={itemDivider}
         />
-        </ScrollView>
+      </ScrollView>
       <FloatingButton
         visible={true}
         onPressFunction={() => {
