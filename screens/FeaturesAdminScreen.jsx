@@ -20,18 +20,16 @@ import { getFeatures } from "../services/FeatureService";
 const FeaturesAdminScreen = () => {
   const navigation = useNavigation();
 
-  const [caracteristicasValues, setCaracteristicasValues] = useState([]);
+  const [featuresValues, setFeaturesValues] = useState([]);
   const [selectedEspecieValue, setSelectedEspecieValue] = useState("");
 
   useEffect(() => {
-    getFeatureData();
+    getFeaturesData();
   });
 
   const getFeaturesData = async () => {
     const features = await getFeatures(); ;
     
-    setCaracteristicasValues(features.data);
-
     setFeaturesValues(features.data);
   };
 
@@ -87,7 +85,7 @@ const FeaturesAdminScreen = () => {
       <ScrollView style={styles.container}>
         <FlashList
           contentContainerStyle={{ paddingVertical: 20 }}
-          data={caracteristicasValues}
+          data={featuresValues}
           renderItem={renderItem}
           estimatedItemSize={10}
           ListEmptyComponent={listEmpty}
