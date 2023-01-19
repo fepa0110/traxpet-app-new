@@ -5,14 +5,17 @@ import {
     TextInput,
     TouchableOpacity,
   } from "react-native";
+
   import { urlServer } from "../constants/constants";
   import { useNavigation } from "@react-navigation/native";
-  import { Entypo ,Ionicons} from '@expo/vector-icons'; 
-  import { Header } from "@rneui/themed";
   import { ColorsApp } from "../constants/Colors";
   import React, { useState, useEffect } from "react";
   import AwesomeAlert from "react-native-awesome-alerts";
   
+  import Header from "../components/Header";
+  import { Input } from "@rneui/themed";
+  import PrimaryButton from "../components/PrimaryButton";
+
   const NewFeatureAdminScreen = () => {
     const navigation = useNavigation();
   
@@ -46,6 +49,27 @@ import {
           setFeatureExist(true);
         }
       });
+      if (nombreCaracteristica.trim().length === 0) {
+        showAlerts(
+          "Error",
+          "El campo nombre de caracteristica no puede estar vacio"
+        );
+      } else if (nombreCaracteristica.length > 50) {
+        showAlerts(
+          "Error",
+          "El campo nombre de caracteristica no puede superar los 50 caracteres"
+        );
+      } else if (featureExist) {
+        showAlerts(
+          "Error",
+          "Ya existe la caracteristica: " + nombreCaracteristica
+        );
+      } else {
+        sendFeaturesData({
+          nombre: nombreCaracteristica.trim(),
+        });
+        navigation.navigate("FeaturesAdminScreen");
+      }
     };
     const sendFeaturesData = (data) => {
       fetch(urlServer + "/caracteristicas", {
@@ -92,36 +116,26 @@ import {
       );
     };
     return (
-      <View>
-        <Header
-          containerStyle={{
-            backgroundColor: ColorsApp.primaryColor,
-            justifyContent: "space-around",
-            height: 65,
-          }}
-          leftComponent={
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Entypo
-                name="chevron-left"
-                size={24}
-                export
-                default
-                FeaturesAdminScreen
-                color={ColorsApp.secondaryColor}
-                style={{ paddingRight: 5 }}
-              />
-            </TouchableOpacity>
-          }
-          centerComponent={{
-            text: "Nueva caracteristica",
-            style: {
-              fontSize: 18,
-              color: ColorsApp.secondaryColor,
-              fontWeight: "bold",
-            },
-          }}
-          rightComponent={{}}
-        />
+      <View style={{ width: "100%" }}>
+        <Header title="Nueva caracteristica" />
+        <View style={styles.container}>
+          <Input
+            label="Nombre de caracteristica"
+            placeholder="Largo de pelaje"
+            onChangeText={(text) => setNombreCaracteristica(text)}
+            value={nombreCaracteristica}
+          />
+          <PrimaryButton
+            title="Agregar"
+            actionFunction={() => {
+              validateFeature();
+            }}
+          />
+        </View>
+        {alerta()}
+      </View>
+      /*       <View>
+        
         <View style={styles.container}>
           <View style={styles.viewOptionsContainer}>
             <Text style={{ fontWeight: "bold", fontSize: 16, paddingBottom: 5 }}>
@@ -138,29 +152,8 @@ import {
             <TouchableOpacity
               style={styles.buttonAcept}
               onPress={() => {
-                validateFeature();
-                if (nombreCaracteristica.trim().length === 0) {
-                  showAlerts(
-                    "Error",
-                    "El campo nombre de caracteristica no puede estar vacio"
-                  );
-                } else if (nombreCaracteristica.length > 50) {
-                  showAlerts(
-                    "Error",
-                    "El campo nombre de caracteristica no puede superar los 50 caracteres"
-                  );
-                } else if (featureExist) {
-                  showAlerts(
-                    "Error",
-                    "Ya existe la caracteristica: " +
-                      nombreCaracteristica
-                  );
-                } else {
-                  sendFeaturesData({
-                    nombre: nombreCaracteristica.trim(),
-                  });
-                  navigation.navigate("FeaturesAdminScreen");
-                }
+                
+                
               }}
             >
               <Text
@@ -179,64 +172,19 @@ import {
           </View>
         </View>
         {alerta()}
-      </View>
+      </View> */
     );
   };
   
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
       backgroundColor: ColorsApp.primaryBackgroundColor,
       alignItems: "center",
+      alignSelf: "center",
       justifyContent: "center",
-    },
-    viewOptionsContainer: {
-      alignItems: "center",
-      padding: 10,
-    },
-    textInput: {
-      alignItems: "center",
       alignContent: "center",
-      justifyContent: "center",
-      height: 40,
-      width: 250,
-      borderColor: "gray",
-      borderWidth: 1,
-    },
-    buttonContainer: {
-      flex: 1,
-      bottom: 10,
-      justifyContent: "center",
-      paddingBottom: 20,
-      flexDirection: "row",
-      paddingLeft: 10,
-      paddingRight: 20,
-    },
-  
-    buttonText: {
-      backgroundColor: ColorsApp.primaryColor,
-      alignItems: "center",
-      justifyContent: "center",
-      width: 205,
-      height: 45,
-      flexDirection: "row",
+      width: "75%",
       margin: 10,
-    },
-    buttonAcept: {
-      backgroundColor: ColorsApp.primaryColor,
-      alignItems: "center",
-      alignContent: "center",
-      justifyContent: "flex-end",
-      width: 115,
-      height: 40,
-      flexDirection: "row-reverse",
-      borderRadius: 50,
-      marginTop: 100,
-    },
-    buttonView: {
-      justifyContent: "center",
-      alignContent: "center",
-      alignItems: "center",
     },
   });
   export default NewFeatureAdminScreen;
