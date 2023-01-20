@@ -2,47 +2,52 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   ScrollView,
   Platform,
   Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
+import { FlashList } from "@shopify/flash-list";
+import { FontAwesome5 } from "@expo/vector-icons";
+
 import { useNavigation, useRoute } from "@react-navigation/native";
-import TraxpetHeader from "../components/Header";
-import { Ionicons } from "@expo/vector-icons";
 import { ColorsApp } from "../constants/Colors";
+
+import { getPublicationLocations } from "../services/LocationService";
+import { getImagesByMascotaId } from "../services/ImagenService";
+import LargePrimaryButton from "../components/LargePrimaryButton";
+import SecondaryButton from "../components/SecondaryButton";
+
+import Header from "../components/Header";
+
 
 const UserPublicationScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const urlServer =
-    "http://if012pf.fi.mdn.unp.edu.ar:28002/traxpet-server/rest";
+
   const [publicacion, setPublicacion] = useState(route.params.publication);
 
   const [images, setImages] = useState([]);
-  const [locationsData, setLocationsData] = useState(null);
+  const [locationsData, setLocationsData] = useState(
+    {
+      latitude: 0,
+      longitude: 0,
+    }
+  );
 
   const getUbicaciones = async () => {
-    const response = await fetch(
-      `${urlServer}/ubicaciones/publicacion/${publicacion.id}`
-    );
-    const json = await response.json();
-    if (json.StatusCode == 200) {
-      setLocationsData(json.data);
-    } else
-      setLocationsData({
-        latitude: 0,
-        longitude: 0,
-      });
+    const response = await getPublicationLocations(publicacion.id);
+
+    if (response.StatusCode == 200) {
+      setLocationsData(response.data);
+    }
   };
 
   const getImagenes = async () => {
-    const response = await fetch(
-      urlServer + "/imagenesMascota/" + publicacion.mascota.id
-    );
-    const json = await response.json();
-    if (json.StatusCode == 200) setImages(json.data);
+    const imagesResponse = await getImagesByMascotaId(publicacion.mascota.id);
+
+    console.log(imagesResponse.data.length);
+    if(imagesResponse.StatusCode == 200) setImages(imagesResponse.data);
   };
 
   useEffect(() => {
@@ -61,56 +66,34 @@ const UserPublicationScreen = () => {
     );
   });
 
+  const listEmpty = () => {
+    return (
+      <View style={{flexDirection: "row"}}>
+        <Text style={styles.message}>
+          No hay imagenes
+        </Text>
+        <FontAwesome5 name="frown-open" size={32} color={ColorsApp.primaryColor} />
+      </View>
+    );
+  };
+
+  const renderItem = ({ item }) => (
+    <View>
+      <View style={styles.containerImages}>
+        <Image
+          source={{
+            uri: "data:image/jpg;base64," + item.ImagenData,
+          }}
+          style={styles.image}
+        />
+      </View>
+    </View>
+  );
+
+
   const showPet = () => {
     return (
       <View style={styles.viewOptionsContainer}>
-        <View
-          style={
-            Platform.OS === "web"
-              ? styles.containerSectionImagesWeb
-              : styles.containerSectionImagesPhone
-          }
-        >
-          {/* Primera imagen */}
-          {images[0] !== undefined ? (
-            <View style={styles.containerImages}>
-              <Image
-                source={{
-                  uri: "data:image/jpg;base64," + images[0].ImagenData,
-                }}
-                style={styles.image}
-              />
-            </View>
-          ) : (
-            <View></View>
-          )}
-
-          {/* Segunda imagen */}
-
-          {images[1] !== undefined ? (
-            <View style={styles.containerImages}>
-              <Image
-                source={{
-                  uri: "data:image/jpg;base64," + images[1].ImagenData,
-                }}
-                style={styles.image}
-              />
-            </View>
-          ) : null}
-
-          {/* Tercera imagen */}
-          {images[2] !== undefined ? (
-            <View style={styles.containerImages}>
-              <Image
-                source={{
-                  uri: "data:image/jpg;base64," + images[2].ImagenData,
-                }}
-                style={styles.image}
-              />
-            </View>
-          ) : null}
-        </View>
-
         <View style={styles.textContainer}>
           <Text style={styles.textTitle}>Especie: </Text>
           <Text style={styles.textData}>
@@ -131,109 +114,92 @@ const UserPublicationScreen = () => {
     );
   };
 
+  const navigateToLocation = () => {
+      Platform.OS === "web"
+        ? navigation.navigate("UserPublicationNavigation", {
+            screen: "LocationEditWebScreen",
+            params: {
+              publicationId: publicacion.id,
+              locationsData: locationsData,
+              mobility: false,
+            },
+            })
+        : navigation.navigate("UserPublicationNavigation", {
+            screen: "LocationEditScreen",
+            params: {
+              publicationId: publicacion.id,
+              locationsData: locationsData,
+              mobility: false,
+            },
+    });
+  }
+
   return (
-    <View style={{ height: "100%" }}>
-      <TraxpetHeader title="Publicacion" />
-      <ScrollView style={{ backgroundColor: ColorsApp.primaryBackgroundColor }}>
-        {showPet()}
+		<View style={{ height: "100%" }}>
+			<Header title="Publicacion" />
+      <View style={{height: "23%", 
+          paddingVertical: 20, 
+          justifyContent: "center",
+          alignSelf: "center",
+          alignItems: "center",
+          width: "70%",
+          }}>
+        <ScrollView horizontal={true}>
+          <FlashList
+            horizontal={true}
+            contentContainerStyle={{ paddingHorizontal: 20 }}
+            data={images}
+            renderItem={renderItem}
+            estimatedItemSize={2}
+            ListEmptyComponent={listEmpty}
+          />
+        </ScrollView>
+      </View>
 
-        <View style={styles.buttonLocationContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              Platform.OS === "web"
-                ? navigation.navigate("UserPublicationNavigation", {
-                    screen: "LocationEditWebScreen",
-                    params: {
-                      publicationId: publicacion.id,
-                      locationsData: locationsData,
-                      mobility: false,
-                    },
-                  })
-                : navigation.navigate("UserPublicationNavigation", {
-                    screen: "LocationEditScreen",
-                    params: {
-                      publicationId: publicacion.id,
-                      locationsData: locationsData,
-                      mobility: false,
-                    },
-                  });
-            }}
-            style={styles.buttonLocation}
-          >
-            <Ionicons
-              name="location"
-              size={25}
-              color={ColorsApp.primaryBackgroundColor}
+			<ScrollView
+				style={{ backgroundColor: ColorsApp.primaryBackgroundColor }}>
+
+      {showPet()}
+				<View style={styles.buttonLocationContainer}>
+          <LargePrimaryButton 
+            title="Ver ubicaciones"
+            actionFunction={()=> {navigateToLocation()}}
             />
+				</View>
 
-            <Text style={styles.title}>Ver ubicación</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() =>
-              navigation.navigate("UserPublicationNavigation", {
-                screen: "EditPublicationScreen",
-                params: {
-                  publicacion: publicacion,
-                  images: images,
-                  locations: locationsData.ubicacion,
-                },
-              })
-            }
-          >
-            <Text style={styles.title}>Editar</Text>
-            <Ionicons
-              name="chevron-forward"
-              size={35}
-              color={ColorsApp.primaryBackgroundColor}
-            />
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </View>
+				<View style={styles.buttonContainer}>
+					<SecondaryButton 
+            title="Editar" 
+            actionFunction={() =>
+							navigation.navigate("UserPublicationNavigation", {
+								screen: "EditPublicationScreen",
+								params: {
+									publicacion: publicacion,
+									images: images,
+									locations: locationsData.ubicacion,
+								},
+							})
+						} />
+				</View>
+			</ScrollView>
+		</View>
   );
 };
 
 const styles = StyleSheet.create({
   viewOptionsContainer: {
     alignItems: "center",
-    padding: 10,
+    // padding: 10,
   },
   buttonContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    flexDirection: "row",
-    paddingLeft: 10,
-    paddingRight: 20,
-  },
-  buttonLocation: {
-    backgroundColor: "orangered",
-    alignItems: "center",
     justifyContent: "center",
-    width: 205,
-    height: 45,
     flexDirection: "row",
-    borderRadius: 25,
-    marginBottom: 20,
+    paddingVertical: 20
   },
   buttonLocationContainer: {
-    paddingTop: 30,
+    paddingTop: 10,
     justifyContent: "center",
     alignItems: "center",
-  },
-  button: {
-    backgroundColor: "orangered",
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "flex-end",
-    width: 115,
-    height: 40,
-    flexDirection: "row",
-    borderRadius: 50,
-    marginBottom: 10,
   },
   image: {
     height: 110,
@@ -263,13 +229,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 5,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   textContainer: {
     flexDirection: "row",
     alignItems: "center",
     alignContent: "center",
-    paddingTop: 10,
+    // paddingTop: 10,
     paddingBottom: 10,
   },
   textTitle: {
@@ -280,11 +246,11 @@ const styles = StyleSheet.create({
   textData: {
     fontSize: 20,
   },
-  title: {
-    fontWeight: "bold",
-    fontSize: 16,
-    paddingBottom: 5,
-    color: ColorsApp.primaryTextColor,
+
+  message: { 
+    fontWeight: "bold", 
+    fontSize: 16, 
+    padding: 5
   },
 });
 
