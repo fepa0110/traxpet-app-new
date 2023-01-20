@@ -2,6 +2,7 @@
  * Props:
  *  actionFunction: onPress function
  *  title: Texto del boton
+ *  disabled: Deshabilitar el boton
  */
 import { React } from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
@@ -12,6 +13,7 @@ const PrimaryButton = (props) => {
     <TouchableOpacity
       style={styles.primaryButton}
       onPress={props.actionFunction}
+      disabled={props.disabled}
     >
       <Text style={styles.textPrimaryButton}>{props.title}</Text>
     </TouchableOpacity>
