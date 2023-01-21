@@ -14,7 +14,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { ColorsApp } from "../constants/Colors";
 
 import { getPublicationLocations } from "../services/LocationService";
-import { getImagesByMascotaId } from "../services/ImagenService";
+import { getImagesByMascotaId } from "../services/ImageService";
 import LargePrimaryButton from "../components/LargePrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 
