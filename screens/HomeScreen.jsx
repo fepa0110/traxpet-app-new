@@ -18,8 +18,8 @@ import { ColorsApp } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 
 import { useSelector } from "react-redux";
-import { getPublicacionesByUserRequest } from "../services/PublicacionService";
-import { getNotificacionesByUserIdRequest } from "../services/NotificacionService";
+import { getPublicacionesByUserRequest } from "../services/PublicationService";
+import { getNotificacionesByUserIdRequest } from "../services/NotificationService";
 import FloatingButton from "../components/FloatingButton";
 
 const HomeScreen = () => {
