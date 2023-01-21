@@ -15,3 +15,11 @@ export async function readNotification(notificacion) {
     console.log("Ha ocurrido un error");
   }
 }
+
+export async function getNotificacionesByUserIdRequest(userId) {
+  return await fetch(`${urlServer}/notificaciones/usuario/${userId}`).then(
+    (response) => {
+      return response.json();
+    }
+  );
+}
