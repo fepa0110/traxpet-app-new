@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 export const publicationSlice = createSlice({
   name: "newPublication",
   initialState: {
-    publication: null,
-    images: null,
-    location: null,
+    publication: {},
+    images: [],
+    location: {},
   },
   reducers: {
     setNewPublication: (state, action) => {
