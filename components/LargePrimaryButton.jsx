@@ -23,7 +23,7 @@ const LargePrimaryButton = (props) => {
 
 const styles = StyleSheet.create({
     textPrimaryButton: {
-        color: ColorsApp.primaryBackgroundColor,
+        color: ColorsApp.primaryButtonTextColor,
         fontSize: 16,
         fontWeight: "bold",
     },

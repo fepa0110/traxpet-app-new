@@ -9,5 +9,7 @@ export const ColorsApp = {
     secondaryTextColor: "gray",
     headerBackButtonColor: "#FFF",
 
+    primaryButtonTextColor: "#FFF",
+
     naranjaClaro: "#FC832A",
 }

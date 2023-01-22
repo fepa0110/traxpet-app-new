@@ -28,7 +28,7 @@ const Header = (props) => {
             <Ionicons
               name="arrow-back-outline"
               size={24}
-              color={ColorsApp.primaryBackgroundColor}
+              color={ColorsApp.primaryButtonTextColor}
             />
           </TouchableOpacity>
         }
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   title: {
     flex: 2,
     fontSize: 18,
-    color: ColorsApp.primaryBackgroundColor,
+    color: ColorsApp.primaryButtonTextColor,
     fontWeight: "bold",
   },
 });

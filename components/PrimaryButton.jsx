@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   primaryButton: {
-    backgroundColor: ColorsApp.primaryColor,
+    backgroundColor: ColorsApp.primaryButtonTextColor,
     alignItems: "center",
     alignContent: "center",
 
