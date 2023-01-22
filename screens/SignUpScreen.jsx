@@ -320,6 +320,10 @@ const SignUpScreen = () => {
                         style={styles.userInput}
                         placeholder='Usuario'
                         label="Usuario"
+                        labelStyle={{color: ColorsApp.primaryTextColor}}
+                        inputStyle={{ color: ColorsApp.primaryTextColor }}
+                        inputContainerStyle={{color: ColorsApp.primaryTextColor }}
+                        containerStyle={{color: ColorsApp.primaryTextColor}}
                         leftIcon={
                             <Icon
                                 name='user'
@@ -341,6 +345,10 @@ const SignUpScreen = () => {
                         style={styles.userInput}
                         placeholder='email@gmail.com'
                         label="Correo electrónico"
+                        labelStyle={{color: ColorsApp.primaryTextColor}}
+                        inputStyle={{ color: ColorsApp.primaryTextColor }}
+                        inputContainerStyle={{color: ColorsApp.primaryTextColor }}
+                        containerStyle={{color: ColorsApp.primaryTextColor}}
                         leftIcon={
                             <Icon
                                 name='envelope'
@@ -362,6 +370,10 @@ const SignUpScreen = () => {
                         style={styles.passwordInput}
                         placeholder="Contraseña"
                         label="Contraseña"
+                        labelStyle={{color: ColorsApp.primaryTextColor}}
+                        inputStyle={{ color: ColorsApp.primaryTextColor }}
+                        inputContainerStyle={{color: ColorsApp.primaryTextColor }}
+                        containerStyle={{color: ColorsApp.primaryTextColor}}
                         leftIcon={
                             <Icon
                                 name="lock"

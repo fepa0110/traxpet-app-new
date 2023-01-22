@@ -1,4 +1,3 @@
-import { ColorsApp } from './constants/Colors'
 
 import HomeNavigation from './navigations/HomeNavigation';
 import LoginNavigation from './navigations/LoginNavigation'
@@ -14,12 +13,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import store from './redux/store'
 import { Provider } from 'react-redux'
 
+import { ColorsApp } from './constants/Colors'
+
 const rootNavigationStack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <Provider store={store}>
-
       <NavigationContainer>
         <rootNavigationStack.Navigator
           screenOptions={{
@@ -27,6 +27,7 @@ export default function App() {
               backgroundColor: ColorsApp.primaryColor,
             },
             headerTintColor: ColorsApp.secondaryColor,
+            contentStyle: {backgroundColor: ColorsApp.primaryBackgroundColor}
           }}
         >
           <rootNavigationStack.Screen
@@ -37,7 +38,7 @@ export default function App() {
           <rootNavigationStack.Screen
             name="HomeNavigation"
             component={HomeNavigation}
-            options={{ headerShown: false }}
+            options={{ headerShown: false}}
           />
           <rootNavigationStack.Screen
             name="PublicationNavigation"
@@ -64,7 +65,6 @@ export default function App() {
           />
         </rootNavigationStack.Navigator>
       </NavigationContainer>
-
     </Provider>
   );
 }

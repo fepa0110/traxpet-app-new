@@ -19,7 +19,7 @@ const IconButton = (props) => {
       >
         <FontAwesome5
           name={props.iconName}
-          size={22}
+          size={props.size/2}
           color={ColorsApp.secondaryColor}
         />
       </TouchableOpacity>

@@ -23,12 +23,12 @@ const LargeSecondaryButton = (props) => {
 
 const styles = StyleSheet.create({
     textPrimaryButton: {
-        color: ColorsApp.secondaryTextColor,
+        color: ColorsApp.primaryColor,
         fontSize: 16,
         fontWeight: "bold",
     },
     primaryButton: {
-        backgroundColor: ColorsApp.secondaryColor,
+        backgroundColor: ColorsApp.primaryBackgroundColor,
         borderColor: ColorsApp.primaryColor,
         borderWidth: 2,
         alignItems: "center",

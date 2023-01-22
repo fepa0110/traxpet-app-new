@@ -31,19 +31,22 @@ const HomeNavigation = () => {
             return <Ionicons name={iconName} size={size} color={color} />;
           },
           tabBarActiveTintColor: ColorsApp.primaryColor,
-          tabBarInactiveTintColor: "#404040",
+          tabBarInactiveTintColor: ColorsApp.secondaryTextColor,
           tabBarShowLabel: Platform.OS == "android" ? false : true,
           headerShown: false,
+          tabBarStyle: { backgroundColor: ColorsApp.primaryBackgroundColor },
         })}
         sceneContainerStyle={{
           backgroundColor: ColorsApp.primaryBackgroundColor,
+          color: ColorsApp.primaryBackgroundColor,
+          height: "100%"
         }}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen
           name="Search"
           component={SearchScreen}
-          options={{ title: "Buscar" }}
+          options={{ title: "Buscar",  }}
         />
         <Tab.Screen
           name="User Profile"

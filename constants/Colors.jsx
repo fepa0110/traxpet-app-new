@@ -1,12 +1,12 @@
 export const ColorsApp = {
-    primaryColor: "orangered",
+    primaryColor: "#FF4500",
     secondaryColor: "#FFF",
     terciaryColor: "indianred",
 
     errorColor: "red",
-    primaryBackgroundColor: "#FFF",
-    primaryTextColor: "#FFF",
-    secondaryTextColor: "orangered",
+    primaryBackgroundColor: "white",
+    primaryTextColor: "#000",
+    secondaryTextColor: "gray",
     headerBackButtonColor: "#FFF",
 
     naranjaClaro: "#FC832A",

@@ -11,7 +11,7 @@ import HeaderHome from "../components/HeaderHome";
 
 import { FlashList } from "@shopify/flash-list";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 import { ColorsApp } from "../constants/Colors";
 
@@ -114,9 +114,9 @@ const HomeScreen = () => {
   );
 
   return (
-    <View style={{ height: "100%" }}>
+    <View style={{ height: "100%", 
+        backgroundColor: ColorsApp.primaryBackgroundColor }}>
       <HeaderHome 
-        amountNotifications={notificaciones.length} 
         rightComponent={
           <TouchableOpacity
             onPress={() => {
@@ -125,14 +125,14 @@ const HomeScreen = () => {
             }
             style={styles.headerRightComponent}
           >
-            <Ionicons
+            <FontAwesome
               name={
                 notificaciones.length == 0
-                  ? "notifications-outline"
-                  : "notifications"
+                  ? "bell-o"
+                  : "bell"
               }
               size={25}
-              color={ColorsApp.naranjaClaro}
+              color={ColorsApp.primaryColor}
             />
             <Text style={styles.textNotification}>
               {notificaciones.length}
@@ -187,12 +187,18 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 15,
     fontWeight: "bold",
+    color: ColorsApp.primaryTextColor
   },
   itemSubtitle: {
     fontSize: 13,
-    color: "gray",
+    color: ColorsApp.secondaryTextColor,
   },
-  message: { fontWeight: "bold", fontSize: 16, padding: 5 },
+  message: { 
+    fontWeight: "bold", 
+    fontSize: 16, 
+    padding: 5,
+    color: ColorsApp.primaryTextColor
+  },
 });
 
 export default HomeScreen;

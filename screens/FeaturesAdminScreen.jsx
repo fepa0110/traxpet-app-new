@@ -159,14 +159,16 @@ const styles = StyleSheet.create({
     borderColor: "gray",
   },
 
-  message: {
-    fontWeight: "bold",
-    fontSize: 16,
+  message: { 
+    fontWeight: "bold", 
+    fontSize: 16, 
     padding: 5,
+    color: ColorsApp.primaryTextColor
   },
   itemTitle: {
     fontSize: 15,
     fontWeight: "bold",
     marginHorizontal: 10,
+    color: ColorsApp.primaryTextColor
   },
 });

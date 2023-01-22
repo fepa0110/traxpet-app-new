@@ -9,6 +9,7 @@ import EditSpecieAdminScreen from "../screens/EditSpecieAdminScreen";
 import EditFeatureAdminScreen from "../screens/EditFeatureAdminScreen";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { ColorsApp } from "../constants/Colors";
 
 const AdminScreenStack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ const AdminNavigation = () => {
         <AdminScreenStack.Navigator
             screenOptions={{
                 headerShown: false,
+                contentStyle: {backgroundColor: ColorsApp.primaryBackgroundColor}
             }}
         >
             <AdminScreenStack.Screen

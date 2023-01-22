@@ -22,6 +22,7 @@ const PublicationNavigation = () => {
         headerStyle: {
           backgroundColor: ColorsApp.primaryColor,
         },
+        contentStyle: {backgroundColor: ColorsApp.primaryBackgroundColor}
       }}
     >
       <PublicationStack.Screen

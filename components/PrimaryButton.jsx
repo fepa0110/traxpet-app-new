@@ -23,6 +23,7 @@ const PrimaryButton = (props) => {
 const styles = StyleSheet.create({
   textPrimaryButton: {
     color: "white",
+    fontWeight: "bold"
   },
   primaryButton: {
     backgroundColor: ColorsApp.primaryColor,

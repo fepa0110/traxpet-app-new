@@ -137,7 +137,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: ColorsApp,
   },
-  message: { fontWeight: "bold", fontSize: 16, padding: 5 },
+  message: { 
+    fontWeight: "bold", 
+    fontSize: 16, 
+    padding: 5,
+    color: ColorsApp.primaryTextColor
+  },
 });
 
 export default NotificationsScreen;

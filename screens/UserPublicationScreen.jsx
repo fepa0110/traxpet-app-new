@@ -46,7 +46,6 @@ const UserPublicationScreen = () => {
   const getImagenes = async () => {
     const imagesResponse = await getImagesByMascotaId(publicacion.mascota.id);
 
-    console.log(imagesResponse.data.length);
     if(imagesResponse.StatusCode == 200) setImages(imagesResponse.data);
   };
 
@@ -235,16 +234,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     alignContent: "center",
-    // paddingTop: 10,
     paddingBottom: 10,
   },
   textTitle: {
     fontWeight: "bold",
     fontSize: 25,
     paddingRight: 15,
+    color: ColorsApp.primaryTextColor
   },
   textData: {
     fontSize: 20,
+    color: ColorsApp.primaryTextColor
   },
 
   message: { 

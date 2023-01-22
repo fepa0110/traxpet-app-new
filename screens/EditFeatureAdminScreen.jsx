@@ -49,7 +49,6 @@ const EditFeatureAdminScreen = () => {
   const [valuesToDisable, setValuesToDisable] = useState([]);
 
   useEffect(() => {
-    console.log("Caracteristica " + caracteristica);
     getValuesDataByFeatureAndSpecieAsync();
   }, []);
 
@@ -129,7 +128,6 @@ const EditFeatureAdminScreen = () => {
         })
         .indexOf(value);
       valuesToDisable.push(values[posicion]);
-      console.log(valuesToDisable);
       values[posicion].deshabilitado = true;
       setValues(values.slice(0));
     }
@@ -155,7 +153,6 @@ const EditFeatureAdminScreen = () => {
   let goToPrevScreen = () => {
     const sendValues = valuesToSave;
     const toDisableValues = valuesToDisable;
-    console.log(toDisableValues);
     if (
       (sendValues != undefined && sendValues.length != 0) ||
       (toDisableValues != undefined && toDisableValues.length != 0)
@@ -341,6 +338,10 @@ const EditFeatureAdminScreen = () => {
           <Input
             label="Agregar Valor"
             placeholder="Pelaje"
+            labelStyle={{color: ColorsApp.primaryTextColor }}
+            inputStyle={{ color: ColorsApp.primaryTextColor }}
+            inputContainerStyle={{color: ColorsApp.primaryTextColor }}
+            containerStyle={{color: ColorsApp.primaryTextColor}}
             onChangeText={(text) => setNombreValor(text)}
             value={nombreValor}
           />
@@ -417,6 +418,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     marginHorizontal: 10,
+    color: ColorsApp.primaryTextColor
   },
 });
 

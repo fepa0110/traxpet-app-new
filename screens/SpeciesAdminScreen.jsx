@@ -36,7 +36,6 @@ const SpeciesAdminScreen = () => {
   const getEspeciesData = async () => {
     const especies = await getEspecies() ;
 
-    console.log(especies.data);
     setEspecieValues(especies.data);
 
   };
@@ -219,11 +218,13 @@ const styles = StyleSheet.create({
   message: { 
     fontWeight: "bold", 
     fontSize: 16, 
-    padding: 5
+    padding: 5,
+    color: ColorsApp.primaryTextColor
   },
   itemTitle: {
     fontSize: 15,
     fontWeight: "bold",
-    marginHorizontal:10
+    marginHorizontal:10,
+    color: ColorsApp.primaryTextColor
   },
 });

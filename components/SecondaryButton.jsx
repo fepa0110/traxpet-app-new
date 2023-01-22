@@ -8,7 +8,7 @@ import { React } from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 import { ColorsApp } from "../constants/Colors";
 
-const PrimaryButton = (props) => {
+const SecondaryButton = (props) => {
   return (
     <TouchableOpacity
       style={styles.secondaryButton}
@@ -22,7 +22,7 @@ const PrimaryButton = (props) => {
 
 const styles = StyleSheet.create({
   textPrimaryButton: {
-    color: ColorsApp.secondaryTextColor,
+    color: ColorsApp.primaryColor,
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
 });
-export default PrimaryButton;
+export default SecondaryButton;

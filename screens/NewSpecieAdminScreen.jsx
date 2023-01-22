@@ -106,6 +106,10 @@ const NewSpecieAdminScreen = () => {
         <Input
           label="Nombre de especie"
           placeholder="Conejo"
+          labelStyle={{color: ColorsApp.primaryTextColor }}
+          inputStyle={{ color: ColorsApp.primaryTextColor }}
+          inputContainerStyle={{color: ColorsApp.primaryTextColor }}
+          containerStyle={{color: ColorsApp.primaryTextColor}}
           onChangeText={(text) => setNombreEspecie(text)}
           value={nombreEspecie}
         />

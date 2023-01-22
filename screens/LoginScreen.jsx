@@ -169,12 +169,16 @@ const LoginScreen = () => {
 
     const loginScreen = () => {
         return (
-          <View style={styles.inputsContainer}>
+            <View style={styles.inputsContainer}>
             <View style={styles.userInputContainer}>
-              <Input
+                <Input
                     style={styles.userInput}
                     placeholder="Usuario"
                     label="Usuario"
+                    labelStyle={{color: ColorsApp.primaryTextColor }}
+                    inputStyle={{ color: ColorsApp.primaryTextColor }}
+                    inputContainerStyle={{color: ColorsApp.primaryTextColor }}
+                    containerStyle={{color: ColorsApp.primaryTextColor}}
                     leftIcon={
                     <Icon
                         name="user"
@@ -197,6 +201,10 @@ const LoginScreen = () => {
                 style={styles.passwordInput}
                 placeholder="Contraseña"
                 label="Contraseña"
+                labelStyle={{color: ColorsApp.primaryTextColor}}
+                inputStyle={{ color: ColorsApp.primaryTextColor }}
+                inputContainerStyle={{color: ColorsApp.primaryTextColor }}
+                containerStyle={{color: ColorsApp.primaryTextColor}}
                 leftIcon={
                   <Icon
                     type="font-awesome-5"

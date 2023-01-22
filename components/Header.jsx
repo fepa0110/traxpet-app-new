@@ -21,7 +21,6 @@ const Header = (props) => {
   };
 
   return (
-    <View>
       <HeaderElements
         containerStyle={styles.headerContainer}
         leftComponent={
@@ -39,7 +38,6 @@ const Header = (props) => {
         }}
         rightComponent={props.rightComponent}
       />
-    </View>
   );
 };
 
@@ -52,7 +50,7 @@ const styles = StyleSheet.create({
   title: {
     flex: 2,
     fontSize: 18,
-    color: ColorsApp.primaryTextColor,
+    color: ColorsApp.primaryBackgroundColor,
     fontWeight: "bold",
   },
 });

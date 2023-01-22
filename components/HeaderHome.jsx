@@ -7,7 +7,6 @@ import { React } from "react";
 import { StyleSheet, Image, TouchableOpacity, Text, View } from "react-native";
 import { ColorsApp } from "../constants/Colors";
 import { Header } from "@rneui/themed";
-import { Ionicons } from "@expo/vector-icons";
 
 const HeaderHome = (props) => {
   return (

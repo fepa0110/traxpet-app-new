@@ -21,6 +21,7 @@ const UserPublicationNavigation = () => {
         headerStyle: {
           backgroundColor: ColorsApp.primaryColor,
         },
+        contentStyle: {backgroundColor: ColorsApp.primaryBackgroundColor}
       }}
     >
       <UserPublicationStack.Screen

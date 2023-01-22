@@ -107,6 +107,7 @@ const NewPublicationFeaturesScreen = () => {
         label="Seleccionar"
         value="Seleccionar"
         key={feature.nombre + "ValueDefault"}
+        style={{color: ColorsApp.primaryTextColor}}
       />
     );
     feature.valores.map((value, index) => {

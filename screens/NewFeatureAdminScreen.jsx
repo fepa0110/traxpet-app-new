@@ -122,6 +122,10 @@ import {
           <Input
             label="Nombre de caracteristica"
             placeholder="Largo de pelaje"
+            labelStyle={{color: ColorsApp.primaryTextColor }}
+            inputStyle={{ color: ColorsApp.primaryTextColor }}
+            inputContainerStyle={{color: ColorsApp.primaryTextColor }}
+            containerStyle={{color: ColorsApp.primaryTextColor}}
             onChangeText={(text) => setNombreCaracteristica(text)}
             value={nombreCaracteristica}
           />
@@ -134,45 +138,6 @@ import {
         </View>
         {alerta()}
       </View>
-      /*       <View>
-        
-        <View style={styles.container}>
-          <View style={styles.viewOptionsContainer}>
-            <Text style={{ fontWeight: "bold", fontSize: 16, paddingBottom: 5 }}>
-              Nombre de caracteristica
-            </Text>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={(text) => setNombreCaracteristica(text)}
-              value={nombreCaracteristica}
-            />
-          </View>
-  
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.buttonAcept}
-              onPress={() => {
-                
-                
-              }}
-            >
-              <Text
-                style={{
-                  color: ColorsApp.secondaryColor,
-                }}
-              >
-                Agregar
-              </Text>
-              <Ionicons
-                name="add-outline"
-                size={34}
-                color={ColorsApp.secondaryColor}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-        {alerta()}
-      </View> */
     );
   };
   

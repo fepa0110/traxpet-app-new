@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen  from "../screens/LoginScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 
+import { ColorsApp } from "../constants/Colors";
+
 const LoginScreenStack = createNativeStackNavigator();
 
 const LoginNavigation = () => {
@@ -12,6 +14,7 @@ const LoginNavigation = () => {
         <LoginScreenStack.Navigator
             screenOptions={{
                 headerShown: false,
+                contentStyle: {backgroundColor: ColorsApp.primaryBackgroundColor}
             }}
         >
             <LoginScreenStack.Screen

@@ -98,7 +98,6 @@ const EditSpecieAdminScreen = () => {
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity
           onPress={() => {
-            console.log(item);
             navigation.navigate("EditFeatureAdminScreen", {
               especie: especie,
               caracteristica: item.nombre,
@@ -148,6 +147,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     marginHorizontal: 10,
+    color: ColorsApp.primaryTextColor
   },
 });
 
