@@ -23,7 +23,7 @@ import AwesomeAlert from "react-native-awesome-alerts";
 
 import { Input } from "@rneui/themed";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setImages,
   setLocation,
@@ -37,6 +37,7 @@ import IconButton from "../components/IconButton";
 const NewPublicationBasicDataScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const location = useSelector((state) => state.newPublication).location;
   const dispatch = useDispatch();
 
   const [nombreMascota, setNombreMascota] = useState("");
@@ -331,7 +332,7 @@ const NewPublicationBasicDataScreen = () => {
           <Text style={{ paddingTop: 5, 
             color: ColorsApp.primaryTextColor, 
             fontSize: 24 }}>
-            {route.params.location.latitude == 0
+            {location.latitude == 0
               ? "Sin ubicación"
               : "Ubicación seleccionada"}
           </Text>
@@ -374,8 +375,8 @@ const NewPublicationBasicDataScreen = () => {
           <View style={styles.containerImages}>
             <Image
               source={
-                firstImage !== null
-                  ? { uri: firstImage.localUri }
+                secondImage !== null
+                  ? { uri: secondImage.localUri }
                   : defaultImage
               }
               style={styles.image}
@@ -383,7 +384,7 @@ const NewPublicationBasicDataScreen = () => {
             <View style={styles.buttonImagesView}>
               <PrimaryButton 
                 title="Seleccionar"
-                actionFunction={()=>{openSecondImagePickerAsync}}/>
+                actionFunction={()=>{openSecondImagePickerAsync()}}/>
                 {Platform.OS === "android" ? 
                 <IconButton 
                   iconName="camera" 
@@ -401,8 +402,8 @@ const NewPublicationBasicDataScreen = () => {
           <View style={styles.containerImages}>
             <Image
               source={
-                firstImage !== null
-                  ? { uri: firstImage.localUri }
+                thirdImage !== null
+                  ? { uri: thirdImage.localUri }
                   : defaultImage
               }
               style={styles.image}
@@ -410,7 +411,7 @@ const NewPublicationBasicDataScreen = () => {
             <View style={styles.buttonImagesView}>
               <PrimaryButton 
                 title="Seleccionar"
-                actionFunction={()=>{openThirdImagePickerAsync}}/>
+                actionFunction={()=>{openThirdImagePickerAsync()}}/>
                 {Platform.OS === "android" ? 
                 <IconButton 
                   iconName="camera" 
@@ -426,7 +427,7 @@ const NewPublicationBasicDataScreen = () => {
         </View>
       </ScrollView>
       <View style={styles.nextButton}>
-        <PrimaryButton title="Siguiente" actionFunction={() => {goToNextScreen}} />
+        <PrimaryButton title="Siguiente" actionFunction={() => {goToNextScreen()}} />
       </View>
       {basicAlert()}
     </View>
@@ -447,14 +448,14 @@ const styles = StyleSheet.create({
   },
   nombreInputView:{
     marginTop: 10,
-    width: 270,
+    width: "80%",
     justifyContent: "center",
     alignSelf: "center"
   },
   pickerView: {
     alignItems: "center",
     alignSelf: "center",
-    width: 250,
+    width: "75%",
     height: 80,
     borderBottomWidth: 1,
     borderBottomColor: ColorsApp.secondaryTextColor,

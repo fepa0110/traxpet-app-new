@@ -1,4 +1,4 @@
-import React, { useEffect, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
@@ -21,9 +21,7 @@ import { getEnabledSpecies } from "../services/SpecieService";
 import LargePrimaryButton from "../components/LargePrimaryButton";
 import PrimaryButton from "../components/PrimaryButton";
 import IconButton from "../components/IconButton";
-import * as ImagePicker from "expo-image-picker";
 
-import { useNavigation, useRoute } from "@react-navigation/native";
 import { updatePublication } from "../services/PublicationService";
 
 const EditPublicationScreen = () => {
@@ -338,7 +336,7 @@ const EditPublicationScreen = () => {
 				id: 0,
 			});
 	};
-
+	
 	const alerta = () => {
 		return (
 			<AwesomeAlert
