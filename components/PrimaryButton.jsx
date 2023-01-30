@@ -22,11 +22,11 @@ const PrimaryButton = (props) => {
 
 const styles = StyleSheet.create({
   textPrimaryButton: {
-    color: "white",
+    color: ColorsApp.primaryButtonTextColor,
     fontWeight: "bold"
   },
   primaryButton: {
-    backgroundColor: ColorsApp.primaryButtonTextColor,
+    backgroundColor: ColorsApp.primaryColor,
     alignItems: "center",
     alignContent: "center",
 
