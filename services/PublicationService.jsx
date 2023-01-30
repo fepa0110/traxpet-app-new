@@ -24,3 +24,21 @@ export async function sendPublication(post) {
     console.log("error ", error);
   }
 }
+
+export async function updatePublication(publicationId, publicationData){
+  return await fetch(urlServer + "/publicaciones/update/" + publicationId, {
+    method: 'PUT',
+    headers: {
+      "Accept":'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(publicationData),
+    // mode: "no-cors",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => {
+      console.log("error ", error);
+    });
+}
