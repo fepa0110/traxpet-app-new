@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import {
+	StyleSheet,
+	Text,
+	View,
+	ScrollView,
+	Image,
+	TouchableOpacity,
+	Platform,
+	TextInput,
+  } from "react-native";
+
 import { Picker } from "@react-native-picker/picker";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import Header from "../components/Header";
 import { ColorsApp } from "../constants/Colors";
@@ -9,7 +20,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import AwesomeAlert from "react-native-awesome-alerts";
 
-import { Input } from "@rneui/themed";
+import { Avatar, Input } from "@rneui/themed";
 
 import { useDispatch } from "react-redux";
 import {
@@ -33,7 +44,7 @@ const EditPublicationScreen = () => {
 	);
 	const [formValid, setFormValid] = useState(true);
 	const [publicacion, setPublicacion] = useState(route.params.publicacion);
-	const [imagenes, setImagenes] = useState(route.params.imagenes);
+	const [imagenes, setImagenes] = useState(route.params.images);
 	const [firstImage, setFirstImage] = useState(null);
 	const [secondImage, setSecondImage] = useState(null);
 	const [thirdImage, setThirdImage] = useState(null);
@@ -82,7 +93,7 @@ const EditPublicationScreen = () => {
 			base64: true,
 		});
 
-		if (pickerResult.cancelled === true) {
+		if (pickerResult.canceled) {
 			return;
 		}
 
@@ -92,15 +103,15 @@ const EditPublicationScreen = () => {
 				{
 					if (firstImage != null) {
 						setFirstImage({
-							uri: pickerResult.uri,
-							imageDataBase64: pickerResult.base64,
+							uri: pickerResult.assets[0].uri,
+							imageDataBase64: pickerResult.assets[0].base64,
 							send: true,
 							id: imagenes[0].id,
 						});
 					} else {
 						setFirstImage({
-							uri: pickerResult.uri,
-							imageDataBase64: pickerResult.base64,
+							uri: pickerResult.assets[0].uri,
+							imageDataBase64: pickerResult.assets[0].base64,
 							send: true,
 							id: 0,
 						});
@@ -111,15 +122,15 @@ const EditPublicationScreen = () => {
 				{
 					if (secondImage != null) {
 						setSecondImage({
-							uri: pickerResult.uri,
-							imageDataBase64: pickerResult.base64,
+							uri: pickerResult.assets[0].uri,
+							imageDataBase64: pickerResult.assets[0].base64,
 							send: true,
 							id: imagenes[1].id,
 						});
 					} else {
 						setSecondImage({
-							uri: pickerResult.uri,
-							imageDataBase64: pickerResult.base64,
+							uri: pickerResult.assets[0].uri,
+							imageDataBase64: pickerResult.assets[0].base64,
 							send: true,
 							id: 0,
 						});
@@ -130,15 +141,15 @@ const EditPublicationScreen = () => {
 				{
 					if (thirdImage != null) {
 						setThirdImage({
-							uri: pickerResult.uri,
-							imageDataBase64: pickerResult.base64,
+							uri: pickerResult.assets[0].uri,
+							imageDataBase64: pickerResult.assets[0].base64,
 							send: true,
 							id: imagenes[2].id,
 						});
 					} else {
 						seThirdImage({
-							uri: pickerResult.uri,
-							imageDataBase64: pickerResult.base64,
+							uri: pickerResult.assets[0].uri,
+							imageDataBase64: pickerResult.assets[0].base64,
 							send: true,
 							id: 0,
 						});
@@ -245,21 +256,21 @@ const EditPublicationScreen = () => {
 			quality: 1,
 			base64: true,
 		});
-		if (pickerResult.canceled === true) {
+		if (pickerResult.canceled) {
 			return;
 		}
 		setButtonEnable(false);
 		if (firstImage != null) {
 			setFirstImage({
-				uri: pickerResult.uri,
-				imageDataBase64: pickerResult.base64,
+				uri: pickerResult.assets[0].uri,
+				imageDataBase64: pickerResult.assets[0].base64,
 				send: true,
 				id: imagenes[0].id,
 			});
 		} else
 			setFirstImage({
-				uri: pickerResult.uri,
-				imageDataBase64: pickerResult.base64,
+				uri: pickerResult.assets[0].uri,
+				imageDataBase64: pickerResult.assets[0].base64,
 				send: true,
 				id: 0,
 			});
@@ -279,7 +290,7 @@ const EditPublicationScreen = () => {
 			quality: 1,
 			base64: true,
 		});
-		if (pickerResult.canceled === true) {
+		if (pickerResult.canceled) {
 			return;
 		}
 
@@ -287,15 +298,15 @@ const EditPublicationScreen = () => {
 
 		if (secondImage != null) {
 			setSecondImage({
-				uri: pickerResult.uri,
-				imageDataBase64: pickerResult.base64,
+				uri: pickerResult.assets[0].uri,
+				imageDataBase64: pickerResult.assets[0].base64,
 				send: true,
 				id: imagenes[1].id,
 			});
 		} else
 			setSecondImage({
-				uri: pickerResult.uri,
-				imageDataBase64: pickerResult.base64,
+				uri: pickerResult.assets[0].uri,
+				imageDataBase64: pickerResult.assets[0].base64,
 				send: true,
 				id: 0,
 			});
@@ -323,20 +334,20 @@ const EditPublicationScreen = () => {
 
 		if (thirdImage != null) {
 			setThirdImage({
-				uri: pickerResult.uri,
-				imageDataBase64: pickerResult.base64,
+				uri: pickerResult.assets[0].uri,
+				imageDataBase64: pickerResult.assets[0].base64,
 				send: true,
 				id: imagenes[2].id,
 			});
 		} else
 			setThirdImage({
-				uri: pickerResult.uri,
-				imageDataBase64: pickerResult.base64,
+				uri: pickerResult.assets[0].uri,
+				imageDataBase64: pickerResult.assets[0].base64,
 				send: true,
 				id: 0,
 			});
 	};
-	
+
 	const alerta = () => {
 		return (
 			<AwesomeAlert
@@ -377,27 +388,46 @@ const EditPublicationScreen = () => {
 		);
 	};
 
-	return (
-		<View style={{height: "100%"}}>
-            <Header title="Editar Publicacion" />
+	const defaultImage = () => {
+		return(
+			<View
+				style={{
+					borderRadius: 100,
+					width: 120,
+					height: 120,
+					backgroundColor: ColorsApp.secondaryColor,
+					justifyContent: "center",
+					alignItems: "center",
+					marginVertical: 5
+				}}>
+				<FontAwesome5
+					name="image"
+					size={60}
+					color={ColorsApp.primaryButtonTextColor}
+				/>
+			</View>
+		);
+	}
 
-			<ScrollView>
-				<View style={styles.viewOptionsContainer}>
-					<Text
-						style={{
-							fontWeight: "bold",
-							fontSize: 16,
-							paddingBottom: 5,
-						}}>
-						Nombre
-					</Text>
-					<TextInput
+	return (
+		<View style={{ height: "100%" }}>
+			<Header title="Editar Publicacion" />
+
+			<ScrollView style={styles.scrollView}>
+				<View style={styles.nombreInputView}>
+					<Input
 						style={styles.textInput}
-						onChangeText={(text) =>{
-								setNombreMascota(text);
-								setButtonEnable(false);}
-						}
-						value={nombreMascota}
+						label="Nombre"
+						placeholder="Firulais"
+						labelStyle={{color: ColorsApp.primaryTextColor }}
+						inputStyle={{ color: ColorsApp.primaryTextColor }}
+						inputContainerStyle={{color: ColorsApp.primaryTextColor }}
+						containerStyle={{color: ColorsApp.primaryTextColor}}
+						errorStyle={{ color: ColorsApp.errorColor }}
+						onChangeText={(text) => {
+							setNombreMascota(text);
+							setButtonEnable(false);
+						}}
 					/>
 				</View>
 
@@ -408,40 +438,27 @@ const EditPublicationScreen = () => {
 						justifyContent: "center",
 						alignItems: "center",
 					}}>
-					<TouchableOpacity
-						//disabled={true}
+					<LargePrimaryButton 
+					title="Editar ubicación" 
+					actionFunction={() => {
+						setButtonEnable(false);
 
-						onPress={() => {
-                            setButtonEnable(false)
-
-/* 							Platform.OS === "web"
-								? navigation.navigate(
-										"UbicationEditScreenWeb",
-										{
-											ubicacionData: this.state.ubicacionData,
-											mobility: true,
-										}
-								)
-								: navigation.navigate(
-										"UbicationEditScreen",
-										{
-											ubicacionData: this.state.ubicacionData,
-											mobility: true,
-										}
-								  ); */
-						}}
-						style={styles.buttonUbicacion}>
-						<Icon
-							style={{ paddingRight: 5 }}
-							name="location"
-							size={25}
-							color={ColorsApp.secondaryColor}
-						/>
-
-						<Text style={tw`text-white font-medium text-base`}>
-							Editar ubicación
-						</Text>
-					</TouchableOpacity>
+						/*Platform.OS === "web"
+							? navigation.navigate(
+									"UbicationEditScreenWeb",
+									{
+										ubicacionData: ubicacionData,
+										mobility: true,
+									}
+							)
+							: navigation.navigate(
+									"UbicationEditScreen",
+									{
+										ubicacionData: ubicacionData,
+										mobility: true,
+									}
+							  ); */
+					}}/>
 					{showUbicacionSeleccionada()}
 				</View>
 				<View
@@ -452,156 +469,144 @@ const EditPublicationScreen = () => {
 					}>
 					{/* Primera imagen */}
 					<View style={styles.containerImages}>
-						<Image
-							source={
-								this.state.firstImage !== null
-									? { uri: this.state.firstImage.uri }
-									: defaultImage
-							}
+						{
+							firstImage !== null ?
+						(<Image
+							source={{uri: firstImage.uri}}
 							style={styles.image}
-						/>
+						/>) : defaultImage()}
 						<View style={{ flexDirection: "row" }}>
-							<TouchableOpacity
-								style={[tw``, styles.buttonImages]}
-								onPress={this.openFirstImagePickerAsync}>
-								<Icon
-									style={{ paddingRight: 5 }}
-									name="image"
-									size={25}
-									color={ColorsApp.secondaryColor}
-								/>
-								<Text style={tw`text-white font-medium text-base`}>
-									Seleccionar Imagen
-								</Text>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={
-									Platform.OS === "android"
-										? styles.buttonCamera
-										: null
-								}
-								onPress={() => {
-									this.showCameraAsync(1);
-								}}>
-								<Icon
-									name="camera"
-									size={Platform.OS === "android" ? 25 : 0}
-									color={ColorsApp.secondaryColor}
-								/>
-							</TouchableOpacity>
+							<PrimaryButton 
+							title="Seleccionar" 
+							actionFunction={()=>{openFirstImagePickerAsync()}}/>
+							{Platform.OS === "android" ? 
+							<IconButton 
+							iconName="camera" 
+							onPressFunction={() => {
+								showCameraAsync(1);
+								}}
+							size={40}
+							/>
+							: null
+							}
 						</View>
 					</View>
 
 					{/* Segunda imagen */}
 					<View style={styles.containerImages}>
-						<Image
-							source={
-								this.state.secondImage !== null
-									? { uri: this.state.secondImage.uri }
-									: defaultImage
-							}
-							style={styles.image}
-						/>
-
+						{secondImage !== null ?
+						(<Image
+							source={{ uri: secondImage.uri }}
+								style={styles.image}
+								/>)
+						: defaultImage()}
 						<View style={{ flexDirection: "row" }}>
-							<TouchableOpacity
-								style={[tw``, styles.buttonImages]}
-								onPress={this.openSecondImagePickerAsync}>
-								<Icon
-									style={{ paddingRight: 5 }}
-									name="image"
-									size={25}
-									color={ColorsApp.secondaryColor}
-								/>
-								<Text style={tw`text-white font-medium text-base`}>
-									Seleccionar Imagen
-								</Text>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={
-									Platform.OS === "android"
-										? styles.buttonCamera
-										: null
-								}
-								onPress={() => {
-									this.showCameraAsync(2);
-								}}>
-								<Icon
-									name="camera"
-									size={Platform.OS === "android" ? 25 : 0}
-									color={ColorsApp.secondaryColor}
-								/>
-							</TouchableOpacity>
+							<PrimaryButton 
+							title="Seleccionar" 
+							actionFunction={()=>{openSecondImagePickerAsync()}}/>
+							{Platform.OS === "android" ? 
+							<IconButton 
+							iconName="camera" 
+							onPressFunction={() => {
+								showCameraAsync(2);
+								}}
+							size={40}
+							/>
+							: null
+							}
 						</View>
 					</View>
 
-					{/* Tercera imagen */}
-					{this.state.secondImage !== null ? (
-						<View style={styles.containerImages}>
-							<Image
-								source={
-									this.state.thirdImage !== null
-										? { uri: this.state.thirdImage.uri }
-										: defaultImage
-								}
+				{secondImage !== null ? (
+				<View style={styles.containerImages}>
+					{thirdImage !== null ? 
+						(<Image
+								source={{ uri: thirdImage.uri }}
 								style={styles.image}
+							/>) : defaultImage()}
+						<View style={{ flexDirection: "row" }}>
+							<PrimaryButton 
+							title="Seleccionar" 
+							actionFunction={()=>{openThirdImagePickerAsync()}}/>
+							{Platform.OS === "android" ? 
+							<IconButton 
+							iconName="camera" 
+							onPressFunction={() => {
+								showCameraAsync(3);
+								}}
+							size={40}
 							/>
-
-							<View style={{ flexDirection: "row" }}>
-								<TouchableOpacity
-									style={[tw``, styles.buttonImages]}
-									onPress={this.openThirdImagePickerAsync}>
-									<Icon
-										style={{ paddingRight: 5 }}
-										name="image"
-										size={25}
-										color={ColorsApp.secondaryColor}
-									/>
-									<Text style={tw`text-white font-medium text-base`}>
-										Seleccionar Imagen
-									</Text>
-								</TouchableOpacity>
-								<TouchableOpacity
-									style={
-										Platform.OS === "android"
-											? styles.buttonCamera
-											: null
-									}
-									onPress={() => {
-										this.showCameraAsync(3);
-									}}>
-									<Icon
-										name="camera"
-										size={Platform.OS === "android" ? 25 : 0}
-										color={ColorsApp.secondaryColor}
-									/>
-								</TouchableOpacity>
-							</View>
+							: null
+							}
 						</View>
-					) : (
+					</View>) : (
 						<View></View>
 					)}
 				</View>
 
-				<View style={[styles.buttonContainer, tw`w-full`]}>
-					<TouchableOpacity
-						disabled={this.state.buttonEnable}
-						style={[tw``, styles.button]}
-						onPress={this.sendPublication}>
-						<Text style={tw`text-white font-medium text-base`}>
-							Guardar
-						</Text>
-						<Icon
-							name="chevron-forward"
-							size={35}
-							color={ColorsApp.secondaryColor}
-						/>
-					</TouchableOpacity>
-				</View>
 			</ScrollView>
+			<View style={styles.saveButton}>
+				<PrimaryButton 
+					title="Guardar"
+					actionFunction={()=>{sendPublication}}
+					disabled={buttonEnable}
+				/>
+			</View>
 			{alerta()}
 		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	scrollView: { 
+		backgroundColor: ColorsApp.primaryBackgroundColor,
+	},
+	nombreInputView:{
+		marginTop: 10,
+		width: "80%",
+		justifyContent: "center",
+		alignSelf: "center"
+	},
+	textInput: {
+		height: 40,
+		width: 250,
+	},
+	saveButton:{
+		alignSelf: "center",
+		padding:5, 
+		width: "50%",
+		alignItems: "center"
+	},
+	image: {
+		height: 120,
+		width: 120,
+		borderRadius: 200,
+		resizeMode: "cover",
+		marginBottom: 5,
+	},
+	containerSectionImagesWeb: {
+		marginTop: 50,
+		marginBottom: 5,
+		alignContent: "center",
+		justifyContent: "center",
+		alignItems: "center",
+		flexDirection: "row",
+	},
+	containerSectionImagesPhone: {
+		marginTop: 40,
+		marginBottom: 5,
+		alignContent: "center",
+		justifyContent: "center",
+		alignItems: "center",
+		flexDirection: "column",
+	},
+	containerImages: {
+		alignContent: "center",
+		justifyContent: "center",
+		alignItems: "center",
+		marginHorizontal: 5,
+		marginBottom: 20,
+	}
+});
 
 export default EditPublicationScreen;

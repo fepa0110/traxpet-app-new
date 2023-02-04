@@ -438,10 +438,6 @@ const styles = StyleSheet.create({
   scrollView: { 
     backgroundColor: ColorsApp.primaryBackgroundColor,
   },
-  viewOptionsContainer: {
-    alignItems: "center",
-    padding: 10,
-  },
   textInput: {
     height: 40,
     width: 250,
@@ -472,8 +468,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     padding:5, 
     width: "50%",
-    alignItems: "center"},
-    
+    alignItems: "center"
+  },
   buttonContainer: {
     flex: 1,
     justifyContent: "center",
