@@ -10,6 +10,4 @@ export const ColorsApp = {
     headerBackButtonColor: "#FFF",
 
     primaryButtonTextColor: "#FFF",
-
-    naranjaClaro: "#FC832A",
 }
