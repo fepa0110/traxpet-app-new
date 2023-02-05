@@ -489,12 +489,31 @@ const SimilarPetScreen = () => {
     mascotasSimilares.length
   );
 
+  useEffect(() => {
+    getPredict();
+    // setMascotaSimilares(mockFeatures);
+  });
+
   const getPredict = async () => {
     let predict = await getPredictByPublication(publication);
-    let mapFeatures = await getFeaturesMapByPredict(predict);
-    setIsLoading(false);
+
+    let idsPredict = predict.map((prediction) => {
+      return prediction.id
+    })
+
+    let mapFeatures = await getFeaturesMapByPredict(idsPredict);
+
+    predict = predict.map((prediction,index)=>{
+      return {
+        ...prediction,
+        caracteristicas: mapFeatures.data[index],
+      }
+    })
+    console.log("predict: ",predict[0]);
     setMascotaSimilares(predict);
-    setMapaCaracteristicas(mapFeatures);
+
+    setIsLoading(false);
+    // setMapaCaracteristicas(mapFeatures.data);
   };
 
   const sendPublication = async () => {
@@ -512,11 +531,6 @@ const SimilarPetScreen = () => {
     }
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    //getPredict();
-    setMascotaSimilares(mockFeatures);
-  });
 
   const showAlert = (title, messsage) => {
     setVisibleAlert(true);
@@ -704,23 +718,16 @@ const SimilarPetScreen = () => {
   const showAccordionList = () => {
     return (
       <PaperProvider>
-        <ScrollView
-          style={{
-            backgroundColor: ColorsApp.primaryBackgroundColor,
-            height: "100%",
-          }}
-        >
-          <DataTable key={"data-table-similar-pet-screen"}>
-            {accordionItem()}
-          </DataTable>
-        </ScrollView>
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            color: ColorsApp.primaryTextColor,
-          }}
-        >
+        <View style={{height: "100%"}}>
+          <ScrollView
+            style={{
+              backgroundColor: ColorsApp.primaryBackgroundColor,
+            }}
+          >
+            <DataTable key={"data-table-similar-pet-screen"}>
+              {accordionItem()}
+            </DataTable>
+          </ScrollView>
           <DataTable.Pagination
             page={page}
             numberOfPages={Math.ceil(
@@ -734,6 +741,14 @@ const SimilarPetScreen = () => {
             onItemsPerPageChange={onItemsPerPageChange}
             selectPageDropdownLabel={"elementos por pagina"}
           />
+          {/* <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              color: ColorsApp.primaryTextColor,
+            }}
+          >
+          </View> */}
         </View>
       </PaperProvider>
     );

@@ -20,7 +20,7 @@ const FloatingButton = (props) => {
                 <FontAwesome5
                     name="plus"
                     size={22}
-                    color={ColorsApp.secondaryColor}
+                    color={ColorsApp.primaryButtonTextColor}
                 />}
             color={ColorsApp.primaryColor}
             onPress={props.onPressFunction}

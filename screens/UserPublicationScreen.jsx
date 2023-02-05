@@ -33,7 +33,6 @@ const UserPublicationScreen = () => {
 	});
 
 	useEffect(() => {
-    console.log(JSON.stringify(publicacion));
 		getUbicaciones();
 		getImagenes();
 	}, []);

@@ -13,7 +13,7 @@ export async function sendPublication(post) {
     const responsePublication = await fetch(urlServer + "/publicaciones", {
       method: "POST",
       headers: {
-        Accept: "application/json",
+        "Accept": "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(post.publication),
