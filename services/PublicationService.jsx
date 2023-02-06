@@ -42,3 +42,21 @@ export async function updatePublication(publicationId, publicationData){
       console.log("error ", error);
     });
 }
+
+export async function addUbicacionMascota(ubicacion, mascotaId){
+  return await fetch(urlServer + "/publicaciones/addUbicacion?mascotaId=" + mascotaId, {
+    method: 'PUT',
+    headers: {
+      "Accept":'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(ubicacion),
+    // mode: "no-cors",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => {
+      console.log("error ", error);
+    });
+}

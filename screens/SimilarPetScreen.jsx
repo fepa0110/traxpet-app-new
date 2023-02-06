@@ -23,6 +23,8 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import { ColorsApp } from "../constants/Colors";
 import Header from "../components/Header";
 import IconButton from "../components/IconButton";
+import AwesomeAlert from "react-native-awesome-alerts";
+import { addUbicacionMascota } from "../services/PublicationService";
 
 const mockFeatures = [
   {
@@ -473,6 +475,7 @@ const SimilarPetScreen = () => {
   const [showConfirmAlert, setShowConfirmAlert] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+  const [alertConfirmFunction, setAlertConfirmFunction] = useState(()=>{})
   const [mascotasSimilares, setMascotaSimilares] = useState([]);
 
   const [imageData, setImageData] = useState("");
@@ -489,10 +492,11 @@ const SimilarPetScreen = () => {
     mascotasSimilares.length
   );
 
+  
   useEffect(() => {
     getPredict();
     // setMascotaSimilares(mockFeatures);
-  });
+  },[publication]);
 
   const getPredict = async () => {
     let predict = await getPredictByPublication(publication);
@@ -516,8 +520,29 @@ const SimilarPetScreen = () => {
     // setMapaCaracteristicas(mapFeatures.data);
   };
 
+  const sendSimilarSelected = async (mascotaId) => {
+    if(publication.tipoPublicacion === "MASCOTA_ENCONTRADA"){
+      showAlert("Actualizar ubicacion", "");
+
+      // TODO: Cambiar ubicacion hardcodeada
+      const ubicacion = {
+        "latitude":0.5555555,
+        "longitude": 0.5555555,
+        "usuario": {
+            "username": publication.usuario.username
+        }
+      }
+      setAlertConfirmFunction(async ()=>{
+        await addUbicacionMascota(ubicacion, mascotaId)
+      })
+    }
+  }
+
   const sendPublication = async () => {
     setIsLoading(true);
+
+
+
     const publicationData = await sendPublication(publication);
     //Si se publico existosamente
     if (publicationData != null && publicationData.StatusCode == 200) {
@@ -541,6 +566,26 @@ const SimilarPetScreen = () => {
   const hideAlert = () => {
     setVisibleAlert(false);
   };
+
+  const alert = () => {
+    return(
+      <AwesomeAlert
+        show={visibleAlert}
+        showProgress={false}
+        title={alertTitle}
+        message={alertMessage}
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showConfirmButton={true}
+        confirmText="Ok"
+        confirmButtonColor={ColorsApp.primaryColor}
+        onConfirmPressed={()=>{
+          hideAlert();
+          alertConfirmFunction
+        }}
+      />
+    )
+  }
 
   const getImage = async (mascotaId) => {
     const image = await getImagesByMascotaId(mascotaId);
@@ -680,7 +725,12 @@ const SimilarPetScreen = () => {
             }}
             key={item.id + item.probabilidad}
           >
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>{
+              showAlert();
+              setAlertConfirmFunction(()=>{
+                sendSimilarSelected(item.id);
+              })
+            }}>
               <MaterialCommunityIcons
                 name="cursor-pointer"
                 size={24}
@@ -704,7 +754,7 @@ const SimilarPetScreen = () => {
                   color: ColorsApp.primaryTextColor,
                 }}
                 key={item.id + item.probabilidad}
-                title={item.probabilidad}
+                title={item.id}
               >
                 {accordionSubItem(item)}
               </List.Accordion>
@@ -771,6 +821,7 @@ const SimilarPetScreen = () => {
   return (
     <View style={{ height: "100%" }}>
       {!isLoading ? showSimilarPetScreen() : <LoadingIndicator />}
+      {alert()}
     </View>
   );
 };
