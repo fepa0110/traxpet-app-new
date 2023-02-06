@@ -43,7 +43,14 @@ const UserScreen = () => {
 
 
                 <View style={styles.buttonView}>
-                    <LargePrimaryButton title="Logros" disabled={true}/>
+                    <LargePrimaryButton title="Logros" 
+                    actionFunction={() =>
+                        {
+                            navigation.navigate("UserNavigation");
+                        }
+                    
+                     } />
+                    
                 </View>
 
                 {user.rol.nombre === "Administrador" ?

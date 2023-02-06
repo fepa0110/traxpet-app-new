@@ -4,6 +4,7 @@ import LoginNavigation from './navigations/LoginNavigation'
 import PublicationNavigation from './navigations/PublicationNavigation'
 import AdminNavigation from './navigations/AdminNavigation'
 import UserPublicationNavigation from './navigations/UserPublicationNavigation'
+import UserNavigation from './navigations/UserNavigation'
 
 import NotificationsScreen from './screens/NotificationsScreen'
 
@@ -62,6 +63,14 @@ export default function App() {
             name="NotificationsScreen"
             component={NotificationsScreen}
             options={{ title: "Notificaciones", headerShown: false }}
+          />
+           <rootNavigationStack.Screen
+            name="UserNavigation"
+            component={UserNavigation}
+            options={{
+              title: "UserNavigation ",
+              headerShown: false,
+            }}
           />
         </rootNavigationStack.Navigator>
       </NavigationContainer>
