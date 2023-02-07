@@ -28,6 +28,7 @@ import {
   setImages,
   setLocation,
   setNewPublication,
+  resetNewPublication
 } from "../redux/slices/publicationSlice";
 import { getEnabledSpecies } from "../services/SpecieService";
 import LargePrimaryButton from "../components/LargePrimaryButton";
@@ -37,7 +38,9 @@ import IconButton from "../components/IconButton";
 const NewPublicationBasicDataScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
+
   const location = useSelector((state) => state.newPublication).location;
+  const newPublication = useSelector((state) => state.newPublication);
   const dispatch = useDispatch();
 
   const [nombreMascota, setNombreMascota] = useState("");
@@ -54,14 +57,14 @@ const NewPublicationBasicDataScreen = () => {
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 
+  useEffect(() => {
+    getEspecies();
+  }, []);
+
   const getEspecies = async () => {
     let speciesData = await getEnabledSpecies();
     setEspeciesValues(speciesData);
   };
-
-  useEffect(() => {
-    getEspecies();
-  }, []);
 
   const especiesOptions = especieValues.map((value, index) => {
     return (
@@ -332,7 +335,7 @@ const NewPublicationBasicDataScreen = () => {
           <Text style={{ paddingTop: 5, 
             color: ColorsApp.primaryTextColor, 
             fontSize: 24 }}>
-            {location.latitude == 0
+            {Object.keys(location).length == 0
               ? "Sin ubicación"
               : "Ubicación seleccionada"}
           </Text>

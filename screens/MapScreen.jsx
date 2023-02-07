@@ -20,8 +20,8 @@ const MapScreen = () => {
   const location = useSelector((state) => state.newPublication).location;
 
   const [coords, setCoords] = useState({
-    latitude: null,
-    longitude: null,
+    latitude: -42.78585228825225,
+    longitude: -65.00578155999852,
   });
 
   const [showAlert, setShowAlert] = useState(false);
@@ -31,13 +31,8 @@ const MapScreen = () => {
   const [disabledButton, setDisableButton] = useState(true);
 
   useEffect(() => {
-    if (!(Object.keys(location).length === 0)) {
-      setCoords("Coordenadas despues de if: ", coords);
-    } else {
-      setCoords({
-        latitude: -42.78585228825225,
-        longitude: -65.00578155999852,
-      });
+    if (!(Object.keys(location).length == 0)) {
+      setCoords(location);
     }
   }, []);
 
@@ -80,7 +75,6 @@ const MapScreen = () => {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
     });
-    console.log("Coords despues del current positon: ", coords);
     setDisableButton(false);
   };
 
@@ -96,15 +90,15 @@ const MapScreen = () => {
 
   const onClickMap = (e) => {
     const { latitude, longitude } = e.coordinate;
-    console.log("Coords on click: ", e.coordinate);
 
     setCoords({
       latitude: latitude,
       longitude: longitude,
     });
-    console.log("Coords despues on click", coords);
+
     setDisableButton(false);
   };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -139,7 +133,6 @@ const MapScreen = () => {
           disabled={disabledButton}
           actionFunction={() => {
             openAlert("Coordenadas Ingresadas ", "Correctamente");
-            console.log("Coords despues aceptar button: ", coords);
             dispatch(setLocation(coords));
             navigation.navigate("PublicationBasicDataScreen");
           }}
