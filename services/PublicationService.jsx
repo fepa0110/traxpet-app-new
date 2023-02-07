@@ -13,7 +13,7 @@ export async function sendPublication(post) {
     const responsePublication = await fetch(urlServer + "/publicaciones", {
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(post.publication),
@@ -25,12 +25,12 @@ export async function sendPublication(post) {
   }
 }
 
-export async function updatePublication(publicationId, publicationData){
+export async function updatePublication(publicationId, publicationData) {
   return await fetch(urlServer + "/publicaciones/update/" + publicationId, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      "Accept":'application/json',
-      'Content-Type': 'application/json'
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(publicationData),
     // mode: "no-cors",
@@ -43,16 +43,19 @@ export async function updatePublication(publicationId, publicationData){
     });
 }
 
-export async function addUbicacionMascota(ubicacion, mascotaId){
-  return await fetch(urlServer + "/publicaciones/addUbicacion?mascotaId=" + mascotaId, {
-    method: 'PUT',
-    headers: {
-      "Accept":'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(ubicacion),
-    // mode: "no-cors",
-  })
+export async function addUbicacionMascota(ubicacion, mascotaId) {
+  return await fetch(
+    urlServer + "/publicaciones/addUbicacion?mascotaId=" + mascotaId,
+    {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(ubicacion),
+      // mode: "no-cors",
+    }
+  )
     .then((response) => {
       return response.json();
     })
@@ -60,3 +63,13 @@ export async function addUbicacionMascota(ubicacion, mascotaId){
       console.log("error ", error);
     });
 }
+
+export const markAsFound = async (publicationId) => {
+  return await fetch(urlServer + "/publicaciones/markAsFound/" + publicationId)
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => {
+      console.log("error ", error);
+    });
+};
