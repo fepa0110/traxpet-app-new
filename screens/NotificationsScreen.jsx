@@ -117,7 +117,6 @@ const NotificationsScreen = () => {
 
   return (
     <ScrollView style={{ backgroundColor: ColorsApp.primaryBackgroundColor }}>
-      <StatusBar style="light" hidden={true} />
       <Header title="Notificaciones" />
       <View>{showNotifications()}</View>
     </ScrollView>
