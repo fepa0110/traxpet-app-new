@@ -19,6 +19,8 @@ import LargePrimaryButton from "../components/LargePrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 
 import Header from "../components/Header";
+import PrimaryButton from "../components/PrimaryButton";
+import { markAsFound } from "../services/PublicationService";
 
 const UserPublicationScreen = () => {
   const navigation = useNavigation();
@@ -111,6 +113,13 @@ const UserPublicationScreen = () => {
     );
   };
 
+  const marcarPublicacionEncontrada = async () => {
+    const responsePublication = await markAsFound(publicacion.id);
+    if (responsePublication.StatusCode === 200) {
+      navigation.navigate("HomeNavigation");
+    }
+  };
+
   const navigateToLocation = () => {
     Platform.OS === "web"
       ? navigation.navigate("UserPublicationNavigation", {
@@ -132,6 +141,14 @@ const UserPublicationScreen = () => {
   return (
     <View style={{ height: "100%" }}>
       <Header title="Publicacion" />
+      <View style={{ alignItems: "flex-end", padding: 20 }}>
+        <PrimaryButton
+          title="La encontré"
+          actionFunction={() => {
+            marcarPublicacionEncontrada();
+          }}
+        />
+      </View>
       <View
         style={{
           height: "23%",
