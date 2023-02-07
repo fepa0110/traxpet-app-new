@@ -11,12 +11,17 @@ export const userSlice = createSlice({
             state.email = action.payload.email
             state.rol = action.payload.rol
         },
-        //Logout
+        logOut: (state) => {
+            state = {}
+            // state.username = action.payload.username
+            // state.email = action.payload.email
+            // state.rol = action.payload.rol
+        }
         //Register
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { logIn } = userSlice.actions
+export const { logIn ,logOut} = userSlice.actions
 
 export default userSlice.reducer

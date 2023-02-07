@@ -3,7 +3,9 @@ import { Text, View, ScrollView, TouchableOpacity, StyleSheet } from 'react-nati
 
 import { Avatar } from "@rneui/themed";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logOut } from "../redux/slices/userSlice";
+
 import HeaderHome from '../components/HeaderHome';
 import { ColorsApp } from '../constants/Colors';
 import LargePrimaryButton from '../components/LargePrimaryButton';
@@ -12,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const UserScreen = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const user = useSelector((state) => state.user)
 
@@ -70,7 +73,12 @@ const UserScreen = () => {
                 </View>
 
                 <View style={styles.buttonView}>
-                    <LargeSecondaryButton title="Cerrar Sesion" disabled={true}/>
+                    <LargeSecondaryButton 
+                    title="Cerrar Sesion" 
+                    actionFunction={()=>{
+                        dispatch(logOut())
+                        navigation.navigate("LoginNavigation")
+                    }}/>
                 </View>
             </ScrollView>
         </View>
