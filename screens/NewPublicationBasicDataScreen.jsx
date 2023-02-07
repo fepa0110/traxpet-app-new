@@ -40,7 +40,6 @@ const NewPublicationBasicDataScreen = () => {
   const route = useRoute();
 
   const location = useSelector((state) => state.newPublication).location;
-  const newPublication = useSelector((state) => state.newPublication);
   const dispatch = useDispatch();
 
   const [nombreMascota, setNombreMascota] = useState("");
