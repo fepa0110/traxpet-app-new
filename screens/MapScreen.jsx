@@ -146,7 +146,7 @@ const MapScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ColorsApp.primayBackgroundColor,
+    backgroundColor: ColorsApp.primaryBackgroundColor,
   },
   map: {
     width: "100%",
