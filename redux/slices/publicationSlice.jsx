@@ -14,7 +14,7 @@ export const publicationSlice = createSlice({
     setImages: (state, action) => {
       state.images = action.payload;
     },
-    setLocations: (state, action) => {
+    setLocation: (state, action) => {
       state.location = action.payload;
     },
   },
