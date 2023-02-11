@@ -56,7 +56,7 @@ const UserScreen = () => {
                     
                 </View>
 
-                {user.rol.nombre === "Administrador" ?
+                {user.rol?.nombre === "Administrador" ?
                     <View style={styles.buttonView}>
                         <LargePrimaryButton 
                         title="Menu administrador" 
