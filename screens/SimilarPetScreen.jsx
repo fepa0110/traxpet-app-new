@@ -99,7 +99,7 @@ const SimilarPetScreen = () => {
 			};
 			setAlertConfirmFunction(async () => {
 				await addUbicacionMascota(ubicacion, mascotaId);
-				navigation.navigate("HomeNavigation");
+				navigation.replace("HomeNavigation");
 			});
 		}
 	};
