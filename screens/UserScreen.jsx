@@ -25,7 +25,7 @@ const UserScreen = () => {
     }
 
     return (
-        <View>
+        <View style={{height: "100%"}}>
             <HeaderHome/>
             <ScrollView>
                 <View style={{
