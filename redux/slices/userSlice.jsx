@@ -10,6 +10,7 @@ export const userSlice = createSlice({
             state.username = action.payload.username
             state.email = action.payload.email
             state.rol = action.payload.rol
+            state.puntaje = action.payload.puntaje
         },
         logOut: (state) => {
             state = {}

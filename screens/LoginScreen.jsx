@@ -134,7 +134,8 @@ const LoginScreen = () => {
                 id: responseLogIn.data.id, 
                 username: responseLogIn.data.username,
                 email: responseLogIn.data.correoElectronico,
-                rol: responseLogIn.data.rol
+                rol: responseLogIn.data.rol,
+                puntaje: responseLogIn.data.puntaje
             }
         ));
 

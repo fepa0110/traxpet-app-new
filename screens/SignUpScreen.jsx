@@ -235,7 +235,10 @@ const SignUpScreen = () => {
 
             dispatch(logIn({
                     id: responseRegistro.data.id,
-                    username: responseRegistro.data.username
+                    username: responseRegistro.data.username,
+                    email: responseRegistro.data.correoElectronico,
+                    rol: responseRegistro.data.rol,
+                    puntaje: responseRegistro.data.puntaje
                 }
             ));
 
