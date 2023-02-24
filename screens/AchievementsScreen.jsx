@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import {
+	View,
+	Text,
+	StyleSheet,
+	ScrollView,
+	useWindowDimensions,
+} from "react-native";
 
 import { FlashList } from "@shopify/flash-list";
 
@@ -8,64 +14,118 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 
 import { getUserByUsernameRequest } from "../services/UsuarioService";
-import { getLevels } from "../services/AchievementsService";
+import {
+	getGivenLevelsByUsername,
+	getLevels,
+	getLevelByUsername,
+} from "../services/AchievementsService";
 
 import Header from "../components/Header";
+import LoadingIndicator from "../components/LoadingIndicator";
+
 import { ColorsApp } from "../constants/Colors";
+import CircularProgress, {
+	ProgressRef,
+} from "react-native-circular-progress-indicator";
+import Separator from "../components/Separator";
 
 const AchievementsScreen = () => {
-	const [levelsValue, setLevelsValue] = useState([]);
-	const [userOwner, setUserOwner] = useState([]);
-	const [plaHolder, setPlaHolder] = useState("");
-	const [plaHolderScore, setPlaHolderScore] = useState("");
-	const [plaHolderNextLv, setPlaHolderNextLv] = useState("");
+	const { height, width } = useWindowDimensions();
 
 	const user = useSelector((state) => state.user);
 
+	const [isLoading, setIsLoading] = useState(true);
+	const [nivelActual, setNivelActual] = useState({});
+	const [nivelesObtenidos, setNivelesObtenidos] = useState([]);
+
+	const progressRef = useRef();
+
 	useEffect(() => {
-		getLevel();
-		setPlaceHolder();
-	},[]);
+		console.log(user);
+		getNivelActual();
+		getNivelesObtenidos();
+	}, []);
 
-	const getLevel = async () => {
-		const users = await getUserByUsernameRequest(user.username);
-		setUserOwner(users.data);
+	const getNivelActual = async () => {
+		const nivelActualRes = await getLevelByUsername(user.username);
+		setNivelActual(await nivelActualRes.data);
 	};
 
-	const setPlaceHolder = async () => {
-		const lvs = await getLevels();
-		setPlaHolder("Estas en el Nivel " + userOwner.logro?.nivel);
-		setPlaHolderScore("Tus puntos : " + userOwner.puntaje);
-
-		const sum = userOwner.logro?.maximo - userOwner.puntaje;
-		setPlaHolderNextLv("Con " + sum + " puntos más, subís de nivel");
-		const data = [];
-		const result = Object.values(lvs.data).find((value) => {
-			if (value.nivel <= userOwner.logro?.nivel) data.push(value);
-		});
-		setLevelsValue(data);
+	const getNivelesObtenidos = async () => {
+		const nivelesObtenidosResponse = await getGivenLevelsByUsername(
+			user.username
+		);
+		setNivelesObtenidos(await nivelesObtenidosResponse.data);
+		setIsLoading(false);
 	};
 
-	const renderItem = ({ item }) => (
-		<View style={styles.singleItem}>
-			<View style={styles.row}>
-				<View style={styles.cardContent}>
-					<Text style={styles.description}>Nivel {item.nivel}</Text>
+	const AchievementsView = () => {
+		if (isLoading) {
+			return (
+				<View style={{ justifyContent: "center", height: "100%" }}>
+					<LoadingIndicator />
 				</View>
-				<View style={styles.cardContent}>
-					<Text style={styles.description}>Premio {item.premio}</Text>
-				</View>
-			</View>
-		</View>
-	);
-
-  const listEmpty = () => {
-		return (
-			<View style={styles.container}>
-				<Text style={styles.message}>
-					No hay logros
+			);
+		}
+		else return (
+			<View style={styles.mainView}>
+				<CircularProgress
+					ref={progressRef}
+					value={user.puntaje}
+					maxValue={nivelActual.puntajeMaximo}
+					radius={100}
+					duration={2000}
+					activeStrokeColor={ColorsApp.primaryColor}
+					inActiveStrokeColor={ColorsApp.secondaryColor}
+					progressValueColor={ColorsApp.primaryColor}
+					title="Puntos"
+					subtitle={"Nivel " + nivelActual.nivel}
+					subtitleStyle={{ color: ColorsApp.secondaryColor, fontSize: 25 }}
+					titleColor={ColorsApp.primaryColor}
+					titleStyle={{ fontSize: 25 }}
+				/>
+				<Text style={{ fontSize: 25, color: ColorsApp.secondaryColor }}>
+					Te faltan {nivelActual.puntajeMaximo - user.puntaje} para el
+					siguiente nivel
 				</Text>
-				<FontAwesome5 name="paw" size={32} color={ColorsApp.primaryColor} />
+				<Separator width={width / 1.5} />
+				<View
+					style={{
+						paddingVertical: 15,
+						justifyContent: "center",
+						alignItems: "center",
+					}}>
+					<FontAwesome5
+						name="trophy"
+						size={60}
+						color={ColorsApp.primaryColor}
+					/>
+					<Text
+						style={{
+							fontSize: 25,
+							color: ColorsApp.primaryColor,
+							fontWeight: "bold",
+						}}>
+						Beneficios
+					</Text>
+						{nivelesObtenidos.map((item) => {
+							return(
+								<View
+									style={{
+										marginVertical: 3,
+										flexDirection: "row",
+										alignItems: "center",
+									}}>
+									<FontAwesome5
+										name="angle-right"
+										size={20}
+										color={ColorsApp.primaryColor}
+									/>
+									<Text style={{ fontSize: 16}}>{item.premio}</Text>
+								</View>
+							)
+						})}
+				</View>
 			</View>
 		);
 	};
@@ -73,64 +133,17 @@ const AchievementsScreen = () => {
 	return (
 		<View style={{ height: "100%" }}>
 			<Header title="Logros" />
-			<View>
-				<Input
-					style={styles.textInput}
-					label={plaHolder}
-					placeholder={plaHolderScore}
-					editable={false}
-					labelStyle={{ color: ColorsApp.primaryTextColor }}
-					inputContainerStyle={{ color: ColorsApp.primaryTextColor }}
-					containerStyle={{ color: ColorsApp.primaryTextColor }}
-				/>
-				<Input
-					label={plaHolderNextLv}
-					placeholder="Subí de nivel sumando puntos para conseguir más y mejores beneficios"
-					editable={false}
-				/>
-        <ScrollView>
-          <FlashList
-            data={levelsValue}
-            contentContainerStyle={{
-              backgroundColor: ColorsApp.primaryBackgroundColor,
-              paddingVertical: 50,
-            }}
-            renderItem={renderItem}
-            ListEmptyComponent={listEmpty}
-            estimatedItemSize={20}
-          />
-        </ScrollView>
-			</View>
+			<AchievementsView />
 		</View>
 	);
 };
-const styles = StyleSheet.create({
-	itemTitle: {
-		fontSize: 15,
-		fontWeight: "bold",
-		marginHorizontal: 10,
-	},
 
-	singleItem: {
-		margin: 8,
-		padding: 8,
-		minHeight: 44,
-		flex: 1,
-		borderWidth: 1,
-		borderColor: ColorsApp.primaryColor,
-		borderRadius: 10,
-		backgroundColor: "ivory",
-	},
-	description: {
-		fontSize: 14,
-		color: ColorsApp.primaryTextColor,
-	},
-	row: {
-		flexDirection: "row",
-	},
-	cardContent: {
-		flexShrink: 1,
-		flexGrow: 1,
+const styles = StyleSheet.create({
+	mainView: {
+		justifyContent: "center",
+		alignItems: "center",
+		marginVertical: 30,
 	},
 });
+
 export default AchievementsScreen;
