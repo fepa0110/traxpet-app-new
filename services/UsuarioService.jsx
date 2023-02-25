@@ -65,3 +65,20 @@ export async function getUserByEmailRequest(email) {
           .then((response) => {return response.json()})
           .catch((error) => console.log(error))
       };
+
+export async function addScoreUserByUsername(username, puntaje){
+    return await fetch(urlServer+"/usuarios/addScore/"+puntaje, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({username: username}),
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .catch((response) => {
+            return response.json();
+        });
+}

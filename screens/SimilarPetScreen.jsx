@@ -24,7 +24,7 @@ import { ColorsApp } from "../constants/Colors";
 import Header from "../components/Header";
 import IconButton from "../components/IconButton";
 import AwesomeAlert from "react-native-awesome-alerts";
-import { addUbicacionMascota } from "../services/PublicationService";
+import { addUbicacionMascota, getPublicationByMascotaId } from "../services/PublicationService";
 
 const SimilarPetScreen = () => {
 	const navigation = useNavigation();
@@ -83,7 +83,22 @@ const SimilarPetScreen = () => {
 		// setMapaCaracteristicas(mapFeatures.data);
 	};
 
+	const getPublicacionByMascota = async (mascotaId) => {
+		const publicacion = await getPublicationByMascotaId(mascotaId);
+		return await publicacion.data
+	}
+
 	const sendSimilarSelected = async (mascotaId) => {
+		// TODO: Agregar puntajes a las acciones
+		
+		//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
+		if(
+			publication.tipoPublicacion === "MASCOTA_BUSCADA"
+			&& getPublicacionByMascota(mascotaId).tipoPublicacion === "MASCOTA_ENCONTRADA"
+		){
+			// TODO: migrar dueño
+		}
+
 		if (
 			publication.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
 			!(Object.keys(location).length == 0)

@@ -1,27 +1,29 @@
 import { urlServer } from "../constants/constants";
 
+const publicacionesEndPoint = "/publicaciones"
+
 export async function getPublicacionesByUserRequest(username) {
 	return await fetch(`${urlServer}/publicaciones/usuario/${username}`)
 		.then((response) => {return response.json()}
 	);
 }
 
-export async function getPublicacionById(id) {
-	return await fetch(urlServer + "/publicaciones/" + id)
+export async function getPublicacionById(publicacionId) {
+	return await fetch(urlServer + publicacionesEndPoint + "/" + publicacionId)
 	.then((response) => {
 		return response.json();
 	});
 }
 
-export async function sendPublication(post) {
+export async function sendPublication(publicacionData) {
 	try {
-		const responsePublication = await fetch(urlServer + "/publicaciones", {
+		const responsePublication = await fetch(urlServer + publicacionesEndPoint, {
 			method: "POST",
 			headers: {
 				Accept: "application/json",
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(post.publication),
+			body: JSON.stringify(publicacionData.publication),
 		});
 
 		return await responsePublication.json();
@@ -31,7 +33,7 @@ export async function sendPublication(post) {
 }
 
 export async function updatePublication(publicationId, publicationData) {
-	return await fetch(urlServer + "/publicaciones/update/" + publicationId, {
+	return await fetch(urlServer + publicacionesEndPoint + "/update/" + publicationId, {
 		method: "PUT",
 		headers: {
 			Accept: "application/json",
@@ -50,7 +52,7 @@ export async function updatePublication(publicationId, publicationData) {
 
 export async function addUbicacionMascota(ubicacion, mascotaId) {
 	return await fetch(
-		urlServer + "/publicaciones/addUbicacion?mascotaId=" + mascotaId,
+		urlServer + publicacionesEndPoint + "/addUbicacion?mascotaId=" + mascotaId,
 		{
 			method: "PUT",
 			headers: {
@@ -83,3 +85,9 @@ export async function markAsFound(publicationId){
 			console.log("error ", error);
 		});
 };
+
+export async function getPublicationByMascotaId(mascotaId){
+	return await fetch(`${urlServer}${publicacionesEndPoint}/mascota/${mascotaId}`)
+	.then((response) => {return response.json()})
+	.catch((error) => { console.log("No se pudo obtener la publicacion",error); })
+}
