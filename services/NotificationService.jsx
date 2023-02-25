@@ -24,3 +24,20 @@ export async function getNotificacionesByUserIdRequest(userId) {
 		}
 	);
 }
+
+
+export async function sendNotificationOwnerUser(idSelectPet,idPublication,) {
+	return await fetch(`${urlServer}/notificaciones/${idSelectPet}/${idPublication}`, {
+		method: "POST", 
+		headers: {
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		},
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((error) => {
+			console.log("Ha ocurrido un error");
+		});
+}

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { getPredictByPublication } from "../services/BoostingService";
 import { getFeaturesMapByPredict } from "../services/ValueService";
 import { getImagesByMascotaId, sendImage } from "../services/ImageService";
+import {sendNotificationOwnerUser} from "../services/NotificationService";
 
 import {
 	Provider as PaperProvider,
@@ -24,7 +25,7 @@ import { ColorsApp } from "../constants/Colors";
 import Header from "../components/Header";
 import IconButton from "../components/IconButton";
 import AwesomeAlert from "react-native-awesome-alerts";
-import { addUbicacionMascota } from "../services/PublicationService";
+import { addUbicacionMascota,getPublicationByPetId} from "../services/PublicationService";
 
 const SimilarPetScreen = () => {
 	const navigation = useNavigation();
@@ -102,9 +103,20 @@ const SimilarPetScreen = () => {
 				navigation.replace("HomeNavigation");
 			});
 		}
+	   else{
+	   const publicationSelect = await getPublicationByPetId();
+		if(publication.tipoPublicacion === "MASCOTA_BUSCADA"  && publicationSelect.tipoPublicacion === "MASCOTA_BUSCADA"){
+			const sendNotificacion=true;
+			showAlert("Notificar al usuario dueño", "Gracias por aportar");
+			setAlertConfirmFunction(async () => {
+				await sendPublication(sendNotificacion,mascotaId);
+				
+			});
+		}}
+
 	};
 
-	const sendPublication = async () => {
+	const sendPublication = async (sendNotificacion,mascotaId) => {
 		setIsLoading(true);
 
 		const publicationData = await sendPublication(publication);
@@ -113,6 +125,10 @@ const SimilarPetScreen = () => {
 			images.map((image) => {
 				sendImage(image, publicationData.data.mascota.id);
 			});
+			if(sendNotificacion==true){
+				await sendNotificationOwnerUser(mascotaId,publicationData.data.id,)
+			}
+
 			navigation.navigate("Home");
 		} else {
 			setIsLoading(false);

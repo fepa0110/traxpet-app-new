@@ -83,3 +83,11 @@ export async function markAsFound(publicationId){
 			console.log("error ", error);
 		});
 };
+
+
+export async function getPublicationByPetId(id) {
+	return await fetch(urlServer + "/publicaciones/mascota" + id)
+	.then((response) => {
+		return response.json();
+	});
+}
