@@ -28,6 +28,7 @@ import AwesomeAlert from "react-native-awesome-alerts";
 import {
 	addUbicacionMascota,
 	getPublicationByPetId,
+	sendPublication
 } from "../services/PublicationService";
 
 const SimilarPetScreen = () => {
@@ -93,6 +94,7 @@ const SimilarPetScreen = () => {
 	};
 
 	const sendSimilarSelected = async (mascotaId) => {
+		console.log(""+JSON.stringify(publication));
 		// Actualizar ubicacion
 		if (
 			publication.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
@@ -141,6 +143,13 @@ const SimilarPetScreen = () => {
 	const publicar = async (notificateSimilar, mascotaSimilarId) => {
 		setIsLoading(true);
 
+		if(Object.keys(publication.ubication).length == 0){
+			publication.ubication = {
+				"latitude": 0,
+				"longitude": 0
+			}
+		}
+		
 		const publicationData = await sendPublication(publication, notificateSimilar, mascotaSimilarId);
 		//Si se publico existosamente
 		if (publicationData != null && publicationData.StatusCode == 200) {
@@ -177,7 +186,8 @@ const SimilarPetScreen = () => {
 				closeOnHardwareBackPress={false}
 				showConfirmButton={true}
 				confirmText="Aceptar"
-				showCancelButton="Cancelar"
+				showCancelButton={true}
+				cancelText="Cancelar"
 				onCancelPressed={() => {
 					hideAlert();
 				}}
@@ -395,14 +405,6 @@ const SimilarPetScreen = () => {
 						onItemsPerPageChange={onItemsPerPageChange}
 						selectPageDropdownLabel={"elementos por pagina"}
 					/>
-					{/* <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              color: ColorsApp.primaryTextColor,
-            }}
-          >
-          </View> */}
 				</View>
 			</PaperProvider>
 		);
