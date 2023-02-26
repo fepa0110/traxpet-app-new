@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { getPredictByPublication } from "../services/BoostingService";
 import { getFeaturesMapByPredict } from "../services/ValueService";
 import { getImagesByMascotaId, sendImage } from "../services/ImageService";
+import { sendNotificationOwnerUser } from "../services/NotificationService";
 
 import {
 	Provider as PaperProvider,
@@ -24,7 +25,10 @@ import { ColorsApp } from "../constants/Colors";
 import Header from "../components/Header";
 import IconButton from "../components/IconButton";
 import AwesomeAlert from "react-native-awesome-alerts";
-import { addUbicacionMascota, getPublicationByMascotaId } from "../services/PublicationService";
+import {
+	addUbicacionMascota,
+	getPublicationByPetId,
+} from "../services/PublicationService";
 
 const SimilarPetScreen = () => {
 	const navigation = useNavigation();
@@ -84,21 +88,12 @@ const SimilarPetScreen = () => {
 	};
 
 	const getPublicacionByMascota = async (mascotaId) => {
-		const publicacion = await getPublicationByMascotaId(mascotaId);
-		return await publicacion.data
-	}
+		const publicacion = await getPublicationByPetId(mascotaId);
+		return await publicacion.data;
+	};
 
 	const sendSimilarSelected = async (mascotaId) => {
-		// TODO: Agregar puntajes a las acciones
-		
-		//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
-		if(
-			publication.tipoPublicacion === "MASCOTA_BUSCADA"
-			&& getPublicacionByMascota(mascotaId).tipoPublicacion === "MASCOTA_ENCONTRADA"
-		){
-			// TODO: migrar dueño
-		}
-
+		// Actualizar ubicacion
 		if (
 			publication.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
 			!(Object.keys(location).length == 0)
@@ -117,17 +112,42 @@ const SimilarPetScreen = () => {
 				navigation.replace("HomeNavigation");
 			});
 		}
+
+		// TODO: Agregar puntajes a las acciones
+
+		const publicationSelect = await getPublicacionByMascota(mascotaId);
+		//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
+		if (
+			publication.tipoPublicacion === "MASCOTA_BUSCADA" &&
+			publicationSelect.tipoPublicacion ===
+				"MASCOTA_ENCONTRADA"
+		) {
+			// TODO: migrar dueño
+			console.log("Aca se supone que se migra");
+		}
+
+		// Si ambos son dueños
+		if (
+			publication.tipoPublicacion === "MASCOTA_BUSCADA" &&
+			publicationSelect.tipoPublicacion === "MASCOTA_BUSCADA"
+		) {
+			showAlert("Notificar al usuario dueño", "Gracias por aportar");
+			setAlertConfirmFunction(async () => {
+				await publicar(true, mascotaId);
+			});
+		}
 	};
 
-	const sendPublication = async () => {
+	const publicar = async (notificateSimilar, mascotaSimilarId) => {
 		setIsLoading(true);
 
-		const publicationData = await sendPublication(publication);
+		const publicationData = await sendPublication(publication, notificateSimilar, mascotaSimilarId);
 		//Si se publico existosamente
 		if (publicationData != null && publicationData.StatusCode == 200) {
 			images.map((image) => {
 				sendImage(image, publicationData.data.mascota.id);
 			});
+
 			navigation.navigate("Home");
 		} else {
 			setIsLoading(false);
@@ -164,9 +184,9 @@ const SimilarPetScreen = () => {
 				cancelButtonStyle={{
 					backgroundColor: ColorsApp.primaryBackgroundColor,
 					borderColor: ColorsApp.primaryColor,
-          borderWidth: 1
+					borderWidth: 1,
 				}}
-        cancelButtonTextStyle={{color: ColorsApp.primaryColor}}
+				cancelButtonTextStyle={{ color: ColorsApp.primaryColor }}
 				confirmButtonColor={ColorsApp.primaryColor}
 				onConfirmPressed={() => {
 					hideAlert();

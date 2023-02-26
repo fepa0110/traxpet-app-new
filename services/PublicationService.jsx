@@ -15,16 +15,17 @@ export async function getPublicacionById(publicacionId) {
 	});
 }
 
-export async function sendPublication(publicacionData) {
+export async function sendPublication(publicationData, notificateSimilar, mascotaSimilarId) {
 	try {
-		const responsePublication = await fetch(urlServer + publicacionesEndPoint, {
+		const responsePublication = await fetch(
+			`${urlServer}${publicacionesEndPoint}?notificateSimilar=${notificateSimilar}&idMascotaSimilar=${mascotaSimilarId}`, {
 			method: "POST",
 			headers: {
 				Accept: "application/json",
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(publicacionData.publication),
-		});
+			body: JSON.stringify(publicationData),
+		}).then((response) => {console.log(publicationData);});
 
 		return await responsePublication.json();
 	} catch (error) {
@@ -86,8 +87,9 @@ export async function markAsFound(publicationId){
 		});
 };
 
-export async function getPublicationByMascotaId(mascotaId){
-	return await fetch(`${urlServer}${publicacionesEndPoint}/mascota/${mascotaId}`)
-	.then((response) => {return response.json()})
-	.catch((error) => { console.log("No se pudo obtener la publicacion",error); })
+export async function getPublicationByPetId(id) {
+	return await fetch(urlServer + "/publicaciones/mascota/" + id)
+	.then((response) => {
+		return response.json();
+	});
 }
