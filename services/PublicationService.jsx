@@ -21,15 +21,15 @@ export async function sendPublication(publicationData, notificateSimilar, mascot
 			`${urlServer}${publicacionesEndPoint}?notificateSimilar=${notificateSimilar}&idMascotaSimilar=${mascotaSimilarId}`, {
 			method: "POST",
 			headers: {
-				Accept: "application/json",
+				"Accept": "application/json",
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(publicationData),
-		}).then((response) => {console.log(publicationData);});
+		});
 
 		return await responsePublication.json();
 	} catch (error) {
-		console.log("error ", error);
+		console.log("errorNewPublication ", error);
 	}
 }
 
@@ -37,7 +37,7 @@ export async function updatePublication(publicationId, publicationData) {
 	return await fetch(urlServer + publicacionesEndPoint + "/update/" + publicationId, {
 		method: "PUT",
 		headers: {
-			Accept: "application/json",
+			"Accept": "application/json",
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(publicationData),
@@ -57,7 +57,7 @@ export async function addUbicacionMascota(ubicacion, mascotaId) {
 		{
 			method: "PUT",
 			headers: {
-				Accept: "application/json",
+				"Accept": "application/json",
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(ubicacion),
