@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { urlServer } from "../constants/constants";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 
@@ -10,8 +9,6 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  FlatList,
-  TextInput,
   ScrollView,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -342,6 +339,7 @@ const EditFeatureAdminScreen = () => {
             inputStyle={{ color: ColorsApp.primaryTextColor }}
             inputContainerStyle={{color: ColorsApp.primaryTextColor }}
             containerStyle={{color: ColorsApp.primaryTextColor}}
+            cursorColor={ColorsApp.primaryColor}
             onChangeText={(text) => setNombreValor(text)}
             value={nombreValor}
           />

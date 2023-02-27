@@ -274,6 +274,7 @@ const NewPublicationBasicDataScreen = () => {
             containerStyle={{color: ColorsApp.primaryTextColor}}
             errorStyle={{ color: ColorsApp.errorColor }}
             onChangeText={(nombreValue) => setNombreMascota(nombreValue)}
+            cursorColor={ColorsApp.primaryColor}
           />
         </View>
 

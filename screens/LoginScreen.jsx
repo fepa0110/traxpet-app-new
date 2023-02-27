@@ -180,6 +180,7 @@ const LoginScreen = () => {
                     inputStyle={{ color: ColorsApp.primaryTextColor }}
                     inputContainerStyle={{color: ColorsApp.primaryTextColor }}
                     containerStyle={{color: ColorsApp.primaryTextColor}}
+                    cursorColor={ColorsApp.primaryColor}
                     leftIcon={
                     <Icon
                         name="user"
@@ -206,6 +207,7 @@ const LoginScreen = () => {
                 inputStyle={{ color: ColorsApp.primaryTextColor }}
                 inputContainerStyle={{color: ColorsApp.primaryTextColor }}
                 containerStyle={{color: ColorsApp.primaryTextColor}}
+                cursorColor={ColorsApp.primaryColor}
                 leftIcon={
                   <Icon
                     type="font-awesome-5"

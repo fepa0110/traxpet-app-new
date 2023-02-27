@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   ScrollView,
   Image,
-  TouchableOpacity,
   Platform,
-  TextInput,
 } from "react-native";
 
 import { Picker } from "@react-native-picker/picker";
@@ -20,16 +17,8 @@ import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import AwesomeAlert from "react-native-awesome-alerts";
 
-import { Avatar, Input } from "@rneui/themed";
+import { Input } from "@rneui/themed";
 
-import { useDispatch } from "react-redux";
-import {
-  setImages,
-  setLocation,
-  setNewPublication,
-} from "../redux/slices/publicationSlice";
-import { getEnabledSpecies } from "../services/SpecieService";
-import LargePrimaryButton from "../components/LargePrimaryButton";
 import PrimaryButton from "../components/PrimaryButton";
 import IconButton from "../components/IconButton";
 
@@ -403,6 +392,7 @@ const EditPublicationScreen = () => {
             inputStyle={{ color: ColorsApp.primaryTextColor }}
             inputContainerStyle={{ color: ColorsApp.primaryTextColor }}
             containerStyle={{ color: ColorsApp.primaryTextColor }}
+            cursorColor={ColorsApp.primaryColor}
             errorStyle={{ color: ColorsApp.errorColor }}
             onChangeText={(text) => {
               setNombreMascota(text);

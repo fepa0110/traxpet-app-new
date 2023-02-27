@@ -327,6 +327,7 @@ const SignUpScreen = () => {
                         inputStyle={{ color: ColorsApp.primaryTextColor }}
                         inputContainerStyle={{color: ColorsApp.primaryTextColor }}
                         containerStyle={{color: ColorsApp.primaryTextColor}}
+                        cursorColor={ColorsApp.primaryColor}
                         leftIcon={
                             <Icon
                                 name='user'
@@ -352,6 +353,7 @@ const SignUpScreen = () => {
                         inputStyle={{ color: ColorsApp.primaryTextColor }}
                         inputContainerStyle={{color: ColorsApp.primaryTextColor }}
                         containerStyle={{color: ColorsApp.primaryTextColor}}
+                        cursorColor={ColorsApp.primaryColor}
                         leftIcon={
                             <Icon
                                 name='envelope'
@@ -377,6 +379,7 @@ const SignUpScreen = () => {
                         inputStyle={{ color: ColorsApp.primaryTextColor }}
                         inputContainerStyle={{color: ColorsApp.primaryTextColor }}
                         containerStyle={{color: ColorsApp.primaryTextColor}}
+                        cursorColor={ColorsApp.primaryColor}
                         leftIcon={
                             <Icon
                                 name="lock"

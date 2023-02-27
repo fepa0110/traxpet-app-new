@@ -111,6 +111,7 @@ const NewSpecieAdminScreen = () => {
           inputContainerStyle={{color: ColorsApp.primaryTextColor }}
           containerStyle={{color: ColorsApp.primaryTextColor}}
           onChangeText={(text) => setNombreEspecie(text)}
+          cursorColor={ColorsApp.primaryColor}
           value={nombreEspecie}
         />
         <PrimaryButton

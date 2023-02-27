@@ -1,9 +1,6 @@
 import {
     StyleSheet,
-    Text,
     View, 
-    TextInput,
-    TouchableOpacity,
   } from "react-native";
 
   import { urlServer } from "../constants/constants";
@@ -127,6 +124,7 @@ import {
             inputContainerStyle={{color: ColorsApp.primaryTextColor }}
             containerStyle={{color: ColorsApp.primaryTextColor}}
             onChangeText={(text) => setNombreCaracteristica(text)}
+            cursorColor={ColorsApp.primaryColor}
             value={nombreCaracteristica}
           />
           <PrimaryButton
