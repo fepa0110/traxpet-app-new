@@ -28,10 +28,14 @@ import AwesomeAlert from "react-native-awesome-alerts";
 import {
 	addUbicacionMascota,
 	getPublicationByPetId,
-	sendPublication
+	sendPublication,
 } from "../services/PublicationService";
 
 const SimilarPetScreen = () => {
+	const user = {
+		id: useSelector((state) => state.user.id),
+		username: useSelector((state) => state.user.username),
+	};
 	const navigation = useNavigation();
 	const publication = useSelector((state) => state.newPublication).publication;
 	const images = useSelector((state) => state.newPublication).images;
@@ -63,6 +67,7 @@ const SimilarPetScreen = () => {
 	);
 
 	useEffect(() => {
+		console.log("location: ", location);
 		getPredict();
 	}, [publication]);
 
@@ -94,7 +99,7 @@ const SimilarPetScreen = () => {
 	};
 
 	const sendSimilarSelected = async (mascotaId) => {
-		console.log(""+JSON.stringify(publication));
+		console.log("" + JSON.stringify(publication));
 		// Actualizar ubicacion
 		if (
 			publication.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
@@ -114,50 +119,75 @@ const SimilarPetScreen = () => {
 				navigation.replace("HomeNavigation");
 			});
 		}
-
-		// TODO: Agregar puntajes a las acciones
-
-		const publicationSelect = await getPublicacionByMascota(mascotaId);
-		//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
-		if (
-			publication.tipoPublicacion === "MASCOTA_BUSCADA" &&
-			publicationSelect.tipoPublicacion ===
-				"MASCOTA_ENCONTRADA"
-		) {
-			// TODO: migrar dueño
-			console.log("Aca se supone que se migra");
+		else{
+			// TODO: Agregar puntajes a las acciones
+	
+			const publicationSelect = await getPublicacionByMascota(mascotaId);
+			//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
+			if (
+				publication.tipoPublicacion === "MASCOTA_BUSCADA" &&
+				publicationSelect.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
+				user.username !== publicationSelect.usuario.username
+			) {
+				// TODO: migrar dueño
+				console.log("Aca se supone que se migra");
+			}
+	
+			// Si ambos son dueños
+			if (
+				publication.tipoPublicacion === "MASCOTA_BUSCADA" &&
+				publicationSelect.tipoPublicacion === "MASCOTA_BUSCADA" &&
+				user.username !== publicationSelect.usuario.username
+			) {
+				showAlert("Notificar al usuario dueño", "Gracias por aportar");
+				setAlertConfirmFunction(async () => {
+					await publicar(true, mascotaId);
+				});
+			}
 		}
 
-		// Si ambos son dueños
-		if (
-			publication.tipoPublicacion === "MASCOTA_BUSCADA" &&
-			publicationSelect.tipoPublicacion === "MASCOTA_BUSCADA"
-		) {
-			showAlert("Notificar al usuario dueño", "Gracias por aportar");
-			setAlertConfirmFunction(async () => {
-				await publicar(true, mascotaId);
-			});
-		}
 	};
 
 	const publicar = async (notificateSimilar, mascotaSimilarId) => {
 		setIsLoading(true);
 
-		if(Object.keys(publication.ubication).length == 0){
-			publication.ubication = {
-				"latitude": 0,
-				"longitude": 0
+		let publicationToSend = {
+			publicacion: {
+				tipoPublicacion: publication.tipoPublicacion,
+				usuario: publication.usuario,
+				mascota: publication.mascota,
 			}
+		};
+
+		if (Object.keys(location).length == 0) {
+			publicationToSend = {
+				...publicationToSend,
+				ubicacion: {
+					latitude: 0,
+					longitude: 0,
+				},
+			};
+		} else {
+			publicationToSend = {
+				...publicationToSend,
+				ubicacion: location
+			};
 		}
-		
-		const publicationData = await sendPublication(publication, notificateSimilar, mascotaSimilarId);
+
+		console.log("publicacion: ", JSON.stringify(publicationToSend,2));
+
+		const publicationData = await sendPublication(
+			publicationToSend,
+			notificateSimilar,
+			mascotaSimilarId
+		);
 		//Si se publico existosamente
 		if (publicationData != null && publicationData.StatusCode == 200) {
 			images.map((image) => {
 				sendImage(image, publicationData.data.mascota.id);
 			});
 
-			navigation.navigate("Home");
+			// navigation.navigate("Home");
 		} else {
 			setIsLoading(false);
 			showAlert("Error", "Se produjo un error al generar la publicación");

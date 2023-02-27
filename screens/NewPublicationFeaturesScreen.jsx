@@ -158,14 +158,6 @@ const NewPublicationFeaturesScreen = () => {
 		return (
 			<ScrollView style={{ marginTop: 15, marginBottom: 15 }}>
 				{featuresPickers()}
-				<View style={styles.buttonContainer}>
-					<Divider
-						orientation="horizontal"
-						color="#AAA"
-						width={1}
-						style={{ width: 150, marginVertical: 15 }}
-					/>
-				</View>
 			</ScrollView>
 		);
 	};
