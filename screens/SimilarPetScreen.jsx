@@ -28,6 +28,7 @@ import AwesomeAlert from "react-native-awesome-alerts";
 import {
 	addUbicacionMascota,
 	getPublicationByPetId,
+	migrarDueño,
 	sendPublication,
 } from "../services/PublicationService";
 
@@ -98,6 +99,11 @@ const SimilarPetScreen = () => {
 		return await publicacion.data;
 	};
 
+	const migrarPublicacion = async (publicacionId, username) => {
+		const response = await migrarDueño(publicacionId, username);
+		return await response.StatusCode;
+	};
+
 	const sendSimilarSelected = async (mascotaId) => {
 		console.log("" + JSON.stringify(publication));
 		// Actualizar ubicacion
@@ -118,10 +124,9 @@ const SimilarPetScreen = () => {
 				await addUbicacionMascota(ubicacion, mascotaId);
 				navigation.replace("HomeNavigation");
 			});
-		}
-		else{
+		} else {
 			// TODO: Agregar puntajes a las acciones
-	
+
 			const publicationSelect = await getPublicacionByMascota(mascotaId);
 			//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
 			if (
@@ -129,10 +134,19 @@ const SimilarPetScreen = () => {
 				publicationSelect.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
 				user.username !== publicationSelect.usuario.username
 			) {
+				showAlert("Transferir dueño", "Se le transeferira la publicacion a usted");
 				// TODO: migrar dueño
-				console.log("Aca se supone que se migra");
+
+				setAlertConfirmFunction(async () => {
+					console.log("Migrando publicacion a nuevo dueño");
+					const statusCodeMigracion = await migrarPublicacion(publicationSelect.id, user.username);
+					if(statusCodeMigracion == 200){
+						navigation.replace("HomeNavigation");
+					}
+				});
+				
 			}
-	
+
 			// Si ambos son dueños
 			if (
 				publication.tipoPublicacion === "MASCOTA_BUSCADA" &&
@@ -145,7 +159,6 @@ const SimilarPetScreen = () => {
 				});
 			}
 		}
-
 	};
 
 	const publicar = async (notificateSimilar, mascotaSimilarId) => {
@@ -156,7 +169,7 @@ const SimilarPetScreen = () => {
 				tipoPublicacion: publication.tipoPublicacion,
 				usuario: publication.usuario,
 				mascota: publication.mascota,
-			}
+			},
 		};
 
 		if (Object.keys(location).length == 0) {
@@ -170,11 +183,11 @@ const SimilarPetScreen = () => {
 		} else {
 			publicationToSend = {
 				...publicationToSend,
-				ubicacion: location
+				ubicacion: location,
 			};
 		}
 
-		console.log("publicacion: ", JSON.stringify(publicationToSend,2));
+		console.log("publicacion: ", JSON.stringify(publicationToSend, 2));
 
 		const publicationData = await sendPublication(
 			publicationToSend,
@@ -230,7 +243,7 @@ const SimilarPetScreen = () => {
 				confirmButtonColor={ColorsApp.primaryColor}
 				onConfirmPressed={() => {
 					hideAlert();
-					alertConfirmFunction;
+					alertConfirmFunction();
 				}}
 			/>
 		);

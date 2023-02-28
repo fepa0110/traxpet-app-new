@@ -93,3 +93,18 @@ export async function getPublicationByPetId(id) {
 		return response.json();
 	});
 }
+
+export async function migrarDueño(publicacionId, username){
+	return await fetch(
+	`${urlServer}${publicacionesEndPoint}/migrarDueño?publicacionId=${publicacionId}&username=${username}`,
+		{
+			method: "PUT",
+		}
+	)
+		.then((response) => {
+			return response.json();
+		})
+		.catch((error) => {
+			console.log("error ", error);
+		});
+}
