@@ -66,68 +66,70 @@ const AchievementsScreen = () => {
 					<LoadingIndicator />
 				</View>
 			);
-		}
-		else return (
-			<View style={styles.mainView}>
-				<CircularProgress
-					ref={progressRef}
-					value={user.puntaje}
-					maxValue={nivelActual.puntajeMaximo}
-					radius={100}
-					duration={2000}
-					activeStrokeColor={ColorsApp.primaryColor}
-					inActiveStrokeColor={ColorsApp.secondaryColor}
-					progressValueColor={ColorsApp.primaryColor}
-					title="Puntos"
-					subtitle={"Nivel " + nivelActual.nivel}
-					subtitleStyle={{ color: ColorsApp.secondaryColor, fontSize: 25 }}
-					titleColor={ColorsApp.primaryColor}
-					titleStyle={{ fontSize: 25 }}
-				/>
-				<Text style={{ fontSize: 25, color: ColorsApp.secondaryColor }}>
-					Te faltan {nivelActual.puntajeMaximo - user.puntaje} para el
-					siguiente nivel
-				</Text>
-				<Separator width={width / 1.5} />
-				<View
-					style={{
-						paddingVertical: 15,
-						justifyContent: "center",
-						alignItems: "center",
-					}}>
-					<FontAwesome5
-						name="trophy"
-						size={60}
-						color={ColorsApp.primaryColor}
-					/>
-					<Text
-						style={{
+		} else
+			return (
+				<View style={styles.mainView}>
+					<CircularProgress
+						ref={progressRef}
+						value={user.puntaje}
+						maxValue={nivelActual.puntajeMaximo}
+						radius={100}
+						duration={2000}
+						activeStrokeColor={ColorsApp.primaryColor}
+						inActiveStrokeColor={ColorsApp.secondaryColor}
+						progressValueColor={ColorsApp.primaryColor}
+						title="Puntos"
+						subtitle={"Nivel " + nivelActual.nivel}
+						subtitleStyle={{
+							color: ColorsApp.secondaryColor,
 							fontSize: 25,
-							color: ColorsApp.primaryColor,
-							fontWeight: "bold",
-						}}>
-						Beneficios
+						}}
+						titleColor={ColorsApp.primaryColor}
+						titleStyle={{ fontSize: 25 }}
+					/>
+					<Text style={{ fontSize: 25, color: ColorsApp.secondaryColor }}>
+						Te faltan {nivelActual.puntajeMaximo - user.puntaje} para el
+						siguiente nivel
 					</Text>
+					<Separator width={width / 1.5} />
+					<View
+						style={{
+							paddingVertical: 15,
+							justifyContent: "center",
+							alignItems: "center",
+						}}>
+						<FontAwesome5
+							name="trophy"
+							size={60}
+							color={ColorsApp.primaryColor}
+						/>
+						<Text
+							style={{
+								fontSize: 25,
+								color: ColorsApp.primaryColor,
+								fontWeight: "bold",
+							}}>
+							Beneficios
+						</Text>
 						{nivelesObtenidos.map((item) => {
-							return(
-								<View
-									style={{
+							return (
+								<View style={{
 										marginVertical: 3,
 										flexDirection: "row",
 										alignItems: "center",
-									}}>
+									}} key={"premio"+item.id}>
 									<FontAwesome5
 										name="angle-right"
 										size={20}
 										color={ColorsApp.primaryColor}
 									/>
-									<Text style={{ fontSize: 16}}>{item.premio}</Text>
+									<Text style={{ fontSize: 16 }}>{item.premio}</Text>
 								</View>
-							)
+							);
 						})}
+					</View>
 				</View>
-			</View>
-		);
+			);
 	};
 
 	return (
