@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, TouchableOpacity, ScrollView, Text } from "react-native";
+import {
+	View,
+	TouchableOpacity,
+	ScrollView,
+	Text,
+	useWindowDimensions,
+} from "react-native";
 
 import { Avatar, Image } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
@@ -31,8 +37,11 @@ import {
 	migrarDueño,
 	sendPublication,
 } from "../services/PublicationService";
+import LargePrimaryButton from "../components/LargePrimaryButton";
 
 const SimilarPetScreen = () => {
+	const { height, width } = useWindowDimensions();
+
 	const user = {
 		id: useSelector((state) => state.user.id),
 		username: useSelector((state) => state.user.username),
@@ -134,17 +143,22 @@ const SimilarPetScreen = () => {
 				publicationSelect.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
 				user.username !== publicationSelect.usuario.username
 			) {
-				showAlert("Transferir dueño", "Se le transeferira la publicacion a usted");
+				showAlert(
+					"Transferir dueño",
+					"Se le transeferira la publicacion a usted"
+				);
 				// TODO: migrar dueño
 
 				setAlertConfirmFunction(async () => {
 					console.log("Migrando publicacion a nuevo dueño");
-					const statusCodeMigracion = await migrarPublicacion(publicationSelect.id, user.username);
-					if(statusCodeMigracion == 200){
+					const statusCodeMigracion = await migrarPublicacion(
+						publicationSelect.id,
+						user.username
+					);
+					if (statusCodeMigracion == 200) {
 						navigation.replace("HomeNavigation");
 					}
 				});
-				
 			}
 
 			// Si ambos son dueños
@@ -200,7 +214,7 @@ const SimilarPetScreen = () => {
 				sendImage(image, publicationData.data.mascota.id);
 			});
 
-			// navigation.navigate("Home");
+			navigation.navigate("Home");
 		} else {
 			setIsLoading(false);
 			showAlert("Error", "Se produjo un error al generar la publicación");
@@ -242,8 +256,8 @@ const SimilarPetScreen = () => {
 				cancelButtonTextStyle={{ color: ColorsApp.primaryColor }}
 				confirmButtonColor={ColorsApp.primaryColor}
 				onConfirmPressed={() => {
-					hideAlert();
-					alertConfirmFunction();
+					alertConfirmFunction;
+					hideAlert;
 				}}
 			/>
 		);
@@ -262,7 +276,7 @@ const SimilarPetScreen = () => {
 	const viewModal = () => {
 		return (
 			<PaperProvider>
-				<View>
+				<View style={{ height: "100%" }}>
 					<Portal>
 						<Dialog visible={visibleModal} onDismiss={hideModal}>
 							<Dialog.Content
@@ -426,7 +440,7 @@ const SimilarPetScreen = () => {
 	const showAccordionList = () => {
 		return (
 			<PaperProvider>
-				<View style={{ height: "100%" }}>
+				<View style={{ height: height - 110 }}>
 					<ScrollView
 						style={{
 							backgroundColor: ColorsApp.primaryBackgroundColor,
@@ -435,6 +449,7 @@ const SimilarPetScreen = () => {
 							{accordionItem()}
 						</DataTable>
 					</ScrollView>
+
 					<DataTable.Pagination
 						page={page}
 						numberOfPages={Math.ceil(
@@ -442,7 +457,9 @@ const SimilarPetScreen = () => {
 						)}
 						onPageChange={(page) => setPage(page)}
 						label={`${from + 1}-${to} de ${mascotasSimilares.length}`}
-						style={{ color: ColorsApp.primaryTextColor }}
+						style={{
+							color: ColorsApp.primaryTextColor,
+						}}
 						numberOfItemsPerPageList={numberOfItemsPerPageList}
 						numberOfItemsPerPage={numberOfItemsPerPage}
 						onItemsPerPageChange={onItemsPerPageChange}
@@ -457,17 +474,26 @@ const SimilarPetScreen = () => {
 			<View
 				style={{
 					backgroundColor: ColorsApp.primaryBackgroundColor,
-					height: "100%",
+					height: height,
 				}}>
 				<Header title="Mascotas similares" />
 				{showAccordionList()}
 				{viewModal()}
+				<View style={{ alignItems: "center", marginVertical: 10 }}>
+					<LargePrimaryButton
+						title="No es ninguna"
+						actionFunction={() => {
+							publicar(false, null);
+							navigation.navigate("Home");
+						}}
+					/>
+				</View>
 			</View>
 		);
 	};
 
 	return (
-		<View style={{ height: "100%" }}>
+		<View style={{ height: height }}>
 			{!isLoading ? showSimilarPetScreen() : <LoadingIndicator />}
 			{alert()}
 		</View>
