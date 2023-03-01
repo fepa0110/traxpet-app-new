@@ -134,8 +134,6 @@ const SimilarPetScreen = () => {
 				navigation.replace("HomeNavigation");
 			});
 		} else {
-			// TODO: Agregar puntajes a las acciones
-
 			const publicationSelect = await getPublicacionByMascota(mascotaId);
 			//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
 			if (
@@ -147,7 +145,6 @@ const SimilarPetScreen = () => {
 					"Transferir dueño",
 					"Se le transeferira la publicacion a usted"
 				);
-				// TODO: migrar dueño
 
 				setAlertConfirmFunction(async () => {
 					console.log("Migrando publicacion a nuevo dueño");
