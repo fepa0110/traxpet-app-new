@@ -24,10 +24,11 @@ import Header from "../components/Header";
 import LoadingIndicator from "../components/LoadingIndicator";
 
 import { ColorsApp } from "../constants/Colors";
-import CircularProgress, {
+/* import CircularProgress, {
 	ProgressRef,
-} from "react-native-circular-progress-indicator";
+} from "react-native-circular-progress-indicator"; */
 import Separator from "../components/Separator";
+import { CircularProgress } from "../components/CircularProgress";
 
 const AchievementsScreen = () => {
 	const { height, width } = useWindowDimensions();
@@ -59,6 +60,12 @@ const AchievementsScreen = () => {
 		setIsLoading(false);
 	};
 
+	const calcularPorcentaje = () => {
+		return (user.puntaje * 100) / nivelActual.puntajeMaximo;
+		// puntajeMaximo --> 100%
+		// puntajeActual --> porcentaje
+	};
+
 	const AchievementsView = () => {
 		if (isLoading) {
 			return (
@@ -70,22 +77,17 @@ const AchievementsScreen = () => {
 			return (
 				<View style={styles.mainView}>
 					<CircularProgress
-						ref={progressRef}
 						value={user.puntaje}
-						maxValue={nivelActual.puntajeMaximo}
-						radius={100}
-						duration={2000}
-						activeStrokeColor={ColorsApp.primaryColor}
-						inActiveStrokeColor={ColorsApp.secondaryColor}
-						progressValueColor={ColorsApp.primaryColor}
+						valueColor={ColorsApp.primaryTextColor}
+						valueSize={50}
+						progress={calcularPorcentaje()}
+						size={200}
 						title="Puntos"
+						titleColor={ColorsApp.primaryTextColor}
+						titleSize={20}
 						subtitle={"Nivel " + nivelActual.nivel}
-						subtitleStyle={{
-							color: ColorsApp.secondaryColor,
-							fontSize: 25,
-						}}
-						titleColor={ColorsApp.primaryColor}
-						titleStyle={{ fontSize: 25 }}
+						subtitleColor={ColorsApp.secondaryTextColor}
+						subtitleSize={20}
 					/>
 					<Text style={{ fontSize: 25, color: ColorsApp.secondaryColor }}>
 						Te faltan {nivelActual.puntajeMaximo - user.puntaje} para el
@@ -113,11 +115,13 @@ const AchievementsScreen = () => {
 						</Text>
 						{nivelesObtenidos.map((item) => {
 							return (
-								<View style={{
+								<View
+									style={{
 										marginVertical: 3,
 										flexDirection: "row",
 										alignItems: "center",
-									}} key={"premio"+item.id}>
+									}}
+									key={"premio" + item.id}>
 									<FontAwesome5
 										name="angle-right"
 										size={20}
@@ -135,6 +139,7 @@ const AchievementsScreen = () => {
 	return (
 		<View style={{ height: "100%" }}>
 			<Header title="Logros" />
+
 			<AchievementsView />
 		</View>
 	);
@@ -144,7 +149,7 @@ const styles = StyleSheet.create({
 	mainView: {
 		justifyContent: "center",
 		alignItems: "center",
-		marginVertical: 30,
+		marginVertical: 15,
 	},
 });
 
