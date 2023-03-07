@@ -10,23 +10,23 @@ import { ColorsApp } from "../constants/Colors";
 const UserStack = createNativeStackNavigator();
 
 const UserNavigation = () => {
-  return(
-    <UserStack.Navigator
-      screenOptions={{
-        headerShown: false,
-        headerTintColor: ColorsApp.secondaryColor,
-        headerStyle: {
-          backgroundColor: ColorsApp.primaryColor,
-        },
-        contentStyle: {backgroundColor: ColorsApp.primaryBackgroundColor}
-      }}
-    >
-    <UserStack.Screen
-    name="AchievementsScreen"
-    component={AchievementsScreen}
-  />
-  </UserStack.Navigator>
-
-  )}
+	return (
+		<UserStack.Navigator
+			screenOptions={{
+				headerShown: false,
+				headerTintColor: ColorsApp.secondaryColor,
+				headerStyle: {
+					backgroundColor: ColorsApp.primaryColor,
+				},
+				contentStyle: { backgroundColor: ColorsApp.primaryBackgroundColor },
+			}}>
+			<UserStack.Screen
+				name="AchievementsScreen"
+				component={AchievementsScreen}
+        options={{ title: "Logros",  }}
+			/>
+		</UserStack.Navigator>
+	);
+};
 
 export default UserNavigation;

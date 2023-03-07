@@ -27,19 +27,23 @@ const UserPublicationNavigation = () => {
       <UserPublicationStack.Screen
         name="UserPublicationScreen"
         component={UserPublicationScreen}
+        options={{ title: "Ver publicacion",  }}
       />
 
       <UserPublicationStack.Screen
         name="EditPublicationScreen"
         component={EditPublicationScreen}
+        options={{ title: "Editar publicacion",  }}
       />
       <UserPublicationStack.Screen
         name="LocationEditWebScreen"
         component={LocationEditWebScreen}
+        options={{ title: "Editar ubicacion",  }}
       />
       <UserPublicationStack.Screen
         name="LocationEditScreen"
         component={LocationEditScreen}
+        options={{ title: "Editar ubicacion",  }}
       />
     </UserPublicationStack.Navigator>
   );
