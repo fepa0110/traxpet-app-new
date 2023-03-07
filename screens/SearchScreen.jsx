@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import HeaderHome from '../components/HeaderHome'
 
 const SearchScreen = () => {
     return (
         <View>
-        <Text>SearchScreen</Text>
+            <HeaderHome title="Buscar"/>
         </View>
     )
 }
