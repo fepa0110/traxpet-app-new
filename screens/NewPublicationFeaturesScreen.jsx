@@ -47,6 +47,7 @@ const NewPublicationFeaturesScreen = () => {
 		setIsLoading(false);
 		setFeaturesValues(featuresData);
 	};
+
 	useEffect(() => {
 		getFeaturesData();
 	}, []);
@@ -55,8 +56,9 @@ const NewPublicationFeaturesScreen = () => {
 		let valuesSelected = [];
 		let publicacionAux = {};
 
-		for (let [nameValue, nameFeature] of selectedFeaturesValues) {
-			if (nameFeature !== "Seleccionar") {
+		
+		for (let [nameFeature, nameValue] of selectedFeaturesValues) {
+			if (nameValue !== "Seleccionar") {
 				valuesSelected.push({
 					nombre: nameValue,
 					caracteristica: {

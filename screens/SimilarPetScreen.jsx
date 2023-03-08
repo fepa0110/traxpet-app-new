@@ -56,14 +56,12 @@ const SimilarPetScreen = () => {
 
 	const [visibleModal, setVisibleModal] = useState(false);
 
-	const [showConfirmAlert, setShowConfirmAlert] = useState(false);
 	const [alertTitle, setAlertTitle] = useState("");
 	const [alertMessage, setAlertMessage] = useState("");
 	const [alertConfirmFunction, setAlertConfirmFunction] = useState(() => {});
 	const [mascotasSimilares, setMascotaSimilares] = useState([]);
 
 	const [imageData, setImageData] = useState("");
-	const [mapaCaracteristicas, setMapaCaracteristicas] = useState([]);
 
 	const numberOfItemsPerPageList = [5, 10, 20, 50];
 	const [page, setPage] = useState(0);
@@ -77,7 +75,6 @@ const SimilarPetScreen = () => {
 	);
 
 	useEffect(() => {
-		console.log("location: ", location);
 		getPredict();
 	}, [publication]);
 
@@ -96,11 +93,8 @@ const SimilarPetScreen = () => {
 				caracteristicas: mapFeatures.data[index],
 			};
 		});
-		console.log("predict: ", predict[0]);
 		setMascotaSimilares(predict);
-
 		setIsLoading(false);
-		// setMapaCaracteristicas(mapFeatures.data);
 	};
 
 	const getPublicacionByMascota = async (mascotaId) => {
@@ -120,7 +114,7 @@ const SimilarPetScreen = () => {
 			publication.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
 			!(Object.keys(location).length == 0)
 		) {
-			showAlert("Actualizar ubicacion", "Gracias por aportar");
+			console.log("Actualizar ubicacion...");
 
 			const ubicacion = {
 				latitude: location.latitude,
@@ -131,8 +125,10 @@ const SimilarPetScreen = () => {
 			};
 			setAlertConfirmFunction(async () => {
 				await addUbicacionMascota(ubicacion, mascotaId);
+				hideAlert();
 				navigation.replace("HomeNavigation");
 			});
+			showAlert("Actualizar ubicacion", "Gracias por aportar");
 		} else {
 			const publicationSelect = await getPublicacionByMascota(mascotaId);
 			//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
@@ -141,21 +137,19 @@ const SimilarPetScreen = () => {
 				publicationSelect.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
 				user.username !== publicationSelect.usuario.username
 			) {
-				showAlert(
-					"Transferir dueño",
-					"Se le transeferira la publicacion a usted"
-				);
+				console.log("Migrando...");
 
 				setAlertConfirmFunction(async () => {
-					console.log("Migrando publicacion a nuevo dueño");
-					const statusCodeMigracion = await migrarPublicacion(
-						publicationSelect.id,
-						user.username
-					);
-					if (statusCodeMigracion == 200) {
-						navigation.replace("HomeNavigation");
-					}
+					console.log("Migrando publicacion a nuevo dueño...");
+					await migrarPublicacion(publicationSelect.id, user.username);
+					hideAlert();
+					navigation.replace("HomeNavigation");
 				});
+
+				showAlert(
+					"Transferir dueño",
+					"Se le transferira la publicacion a usted"
+				);
 			}
 
 			// Si ambos son dueños
@@ -164,10 +158,13 @@ const SimilarPetScreen = () => {
 				publicationSelect.tipoPublicacion === "MASCOTA_BUSCADA" &&
 				user.username !== publicationSelect.usuario.username
 			) {
-				showAlert("Notificar al usuario dueño", "Gracias por aportar");
+				console.log("Creando nueva: ambos son dueños...");
+
 				setAlertConfirmFunction(async () => {
 					await publicar(true, mascotaId);
+					hideAlert();
 				});
+				showAlert("Notificar al usuario dueño", "Gracias por aportar");
 			}
 		}
 	};
@@ -179,7 +176,7 @@ const SimilarPetScreen = () => {
 			publicacion: {
 				tipoPublicacion: publication.tipoPublicacion,
 				usuario: publication.usuario,
-				mascota: publication.mascota,
+				mascota: publication.mascota
 			},
 		};
 
@@ -190,15 +187,19 @@ const SimilarPetScreen = () => {
 					latitude: 0,
 					longitude: 0,
 				},
+				idMascotaSimilar: mascotaSimilarId,
+				notificateSimilar: notificateSimilar
 			};
 		} else {
 			publicationToSend = {
 				...publicationToSend,
 				ubicacion: location,
+				idMascotaSimilar: mascotaSimilarId,
+				notificateSimilar: notificateSimilar
 			};
 		}
 
-		console.log("publicacion: ", JSON.stringify(publicationToSend, 2));
+		console.log("publicacion: ", publicationToSend);
 
 		const publicationData = await sendPublication(
 			publicationToSend,
@@ -252,10 +253,7 @@ const SimilarPetScreen = () => {
 				}}
 				cancelButtonTextStyle={{ color: ColorsApp.primaryColor }}
 				confirmButtonColor={ColorsApp.primaryColor}
-				onConfirmPressed={() => {
-					alertConfirmFunction;
-					hideAlert;
-				}}
+				onConfirmPressed={() => alertConfirmFunction()}
 			/>
 		);
 	};
@@ -480,7 +478,7 @@ const SimilarPetScreen = () => {
 					<LargePrimaryButton
 						title="No es ninguna"
 						actionFunction={() => {
-							publicar(false, null);
+							publicar(false, 0);
 							navigation.navigate("Home");
 						}}
 					/>

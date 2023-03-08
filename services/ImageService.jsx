@@ -14,13 +14,13 @@ export async function sendImage(image, mascotaId) {
         method: "POST",
         body: image,
         headers: {
-          "Content-Type": "multipart/form-data; ",
+          "Content-Type": "multipart/form-data",
         },
       }
     );
     return await responseImage.json();
   } catch (error) {
-    console.log("error ", error);
+    console.log("errorUploadImagen ", error);
   }
 }
 

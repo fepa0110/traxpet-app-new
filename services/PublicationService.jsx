@@ -1,31 +1,41 @@
 import { urlServer } from "../constants/constants";
 
-const publicacionesEndPoint = "/publicaciones"
+const publicacionesEndPoint = "/publicaciones";
 
 export async function getPublicacionesByUserRequest(username) {
-	return await fetch(`${urlServer}/publicaciones/usuario/${username}`)
-		.then((response) => {return response.json()}
+	return await fetch(`${urlServer}/publicaciones/usuario/${username}`).then(
+		(response) => {
+			return response.json();
+		}
 	);
 }
 
 export async function getPublicacionById(publicacionId) {
-	return await fetch(urlServer + publicacionesEndPoint + "/" + publicacionId)
-	.then((response) => {
+	return await fetch(
+		urlServer + publicacionesEndPoint + "/" + publicacionId
+	).then((response) => {
 		return response.json();
 	});
 }
 
-export async function sendPublication(publicationData, notificateSimilar, mascotaSimilarId) {
+export async function sendPublication(
+	publicationData,
+	notificateSimilar,
+	mascotaSimilarId
+) {
 	try {
 		const responsePublication = await fetch(
-			`${urlServer}${publicacionesEndPoint}?notificateSimilar=${notificateSimilar}&idMascotaSimilar=${mascotaSimilarId}`, {
-			method: "POST",
-			headers: {
-				"Accept": "application/json",
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(publicationData),
-		});
+			`${urlServer}${publicacionesEndPoint}/publicar?notificateSimilar=${notificateSimilar}&idMascotaSimilar=${mascotaSimilarId}`,
+			{
+				method: "POST",
+				headers: {
+					"Accept": "application/json",
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(publicationData),
+			}
+		);
+		console.log("publicaciondata: ",publicationData)
 
 		return await responsePublication.json();
 	} catch (error) {
@@ -34,34 +44,15 @@ export async function sendPublication(publicationData, notificateSimilar, mascot
 }
 
 export async function updatePublication(publicationId, publicationData) {
-	return await fetch(urlServer + publicacionesEndPoint + "/update/" + publicationId, {
-		method: "PUT",
-		headers: {
-			"Accept": "application/json",
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(publicationData),
-		// mode: "no-cors",
-	})
-		.then((response) => {
-			return response.json();
-		})
-		.catch((error) => {
-			console.log("error ", error);
-		});
-}
-
-export async function addUbicacionMascota(ubicacion, mascotaId) {
 	return await fetch(
-		urlServer + publicacionesEndPoint + "/addUbicacion?mascotaId=" + mascotaId,
+		urlServer + publicacionesEndPoint + "/update/" + publicationId,
 		{
 			method: "PUT",
 			headers: {
-				"Accept": "application/json",
+				Accept: "application/json",
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(ubicacion),
-			// mode: "no-cors",
+			body: JSON.stringify(publicationData),
 		}
 	)
 		.then((response) => {
@@ -72,7 +63,25 @@ export async function addUbicacionMascota(ubicacion, mascotaId) {
 		});
 }
 
-export async function markAsFound(publicationId){
+export async function addUbicacionMascota(ubicacion, mascotaId) {
+	const response = await fetch(
+		urlServer +
+			publicacionesEndPoint +
+			"/addUbicacion?mascotaId=" +
+			mascotaId,
+		{
+			method: "PUT",
+			headers: {
+				"Accept": "application/json",
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(ubicacion),
+		}
+	);
+	return await response.json();
+}
+
+export async function markAsFound(publicationId) {
 	return await fetch(
 		urlServer + "/publicaciones/markAsFound/" + publicationId,
 		{
@@ -85,26 +94,19 @@ export async function markAsFound(publicationId){
 		.catch((error) => {
 			console.log("error ", error);
 		});
-};
-
-export async function getPublicationByPetId(id) {
-	return await fetch(urlServer + "/publicaciones/mascota/" + id)
-	.then((response) => {
-		return response.json();
-	});
 }
 
-export async function migrarDueño(publicacionId, username){
-	return await fetch(
-	`${urlServer}${publicacionesEndPoint}/migrarDueño?publicacionId=${publicacionId}&username=${username}`,
+export async function getPublicationByPetId(id) {
+	const response = await fetch(urlServer + "/publicaciones/mascota/" + id);
+	return await response.json();
+}
+
+export async function migrarDueño(publicacionId, username) {
+	const response = await fetch(
+		`${urlServer}${publicacionesEndPoint}/migrarDueño?publicacionId=${publicacionId}&username=${username}`,
 		{
 			method: "PUT",
 		}
-	)
-		.then((response) => {
-			return response.json();
-		})
-		.catch((error) => {
-			console.log("error ", error);
-		});
+	);
+	return await response.json();
 }
