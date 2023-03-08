@@ -61,10 +61,23 @@ const AchievementsScreen = () => {
 	};
 
 	const calcularPorcentaje = () => {
-		return (user.puntaje * 100) / nivelActual.puntajeMaximo;
+		let puntajeUser = user.puntaje;
+
+		if(user.puntaje > nivelActual.puntajeMaximo) {
+			puntajeUser = nivelActual.puntajeMaximo;
+		}
+
+		return (puntajeUser * 100) / nivelActual.puntajeMaximo;
 		// puntajeMaximo --> 100%
 		// puntajeActual --> porcentaje
 	};
+
+	const mensajePuntosFaltantes = () => {
+		const puntajeRestante = nivelActual.puntajeMaximo - user.puntaje;
+		
+		if(puntajeRestante > 0) return "Te faltan "+puntajeRestante+ "para el siguiente nivel"
+		else return "Ya tenes el maximo de puntos!"
+	}
 
 	const AchievementsView = () => {
 		if (isLoading) {
@@ -90,8 +103,7 @@ const AchievementsScreen = () => {
 						subtitleSize={20}
 					/>
 					<Text style={{ fontSize: 25, color: ColorsApp.secondaryColor }}>
-						Te faltan {nivelActual.puntajeMaximo - user.puntaje} para el
-						siguiente nivel
+						{mensajePuntosFaltantes()}
 					</Text>
 					<Separator width={width / 1.5} />
 					<View
@@ -139,7 +151,6 @@ const AchievementsScreen = () => {
 	return (
 		<View style={{ height: "100%" }}>
 			<Header title="Logros" />
-
 			<AchievementsView />
 		</View>
 	);
