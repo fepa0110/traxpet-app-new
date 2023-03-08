@@ -8,6 +8,7 @@ import NewPublicationFeaturesScreen from "../screens/NewPublicationFeaturesScree
 import MapWebScreen from "../screens/MapWebScreen";
 import SimilarPetScreen from "../screens/SimilarPetScreen";
 import ImagePetScreen from "../screens/ImagePetScreen";
+import ConfirmSelectedPet from "../screens/ConfirmSelectedPet";
 
 const PublicationStack = createNativeStackNavigator();
 
@@ -50,6 +51,10 @@ const PublicationNavigation = () => {
       <PublicationStack.Screen
         name="ImagePetScreen"
         component={ImagePetScreen}
+      />
+      <PublicationStack.Screen
+        name="ConfirmSelectedPet"
+        component={ConfirmSelectedPet}
       />
     </PublicationStack.Navigator>
   );

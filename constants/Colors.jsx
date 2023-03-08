@@ -3,7 +3,7 @@ export const ColorsApp = {
     secondaryColor: "#BABABA",
     terciaryColor: "indianred",
 
-    errorColor: "red",
+    errorColor: "blue",
     primaryBackgroundColor: "white",
     primaryTextColor: "#000",
     secondaryTextColor: "gray",

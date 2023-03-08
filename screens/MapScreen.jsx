@@ -7,12 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLocation } from "../redux/slices/publicationSlice";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
-import { ColorsApp } from "../constants/Colors";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import IconButton from "../components/IconButton";
 
 import * as Location from "expo-location";
+import { ColorsApp } from "../constants/Colors";
 
 const MapScreen = () => {
   const navigation = useNavigation();
@@ -98,7 +98,7 @@ const MapScreen = () => {
 
     setDisableButton(false);
   };
-
+ 
   return (
     <View style={styles.container}>
       <MapView

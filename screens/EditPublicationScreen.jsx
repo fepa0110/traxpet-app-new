@@ -31,21 +31,21 @@ const EditPublicationScreen = () => {
   const [nombreMascota, setNombreMascota] = useState(
     route.params.publicacion.mascota.nombre
   );
-  const [formValid, setFormValid] = useState(true);
+  // const [formValid, setFormValid] = useState(true);
   const [publicacion, setPublicacion] = useState(route.params.publicacion);
   const [imagenes, setImagenes] = useState(route.params.images);
   const [firstImage, setFirstImage] = useState(null);
   const [secondImage, setSecondImage] = useState(null);
   const [thirdImage, setThirdImage] = useState(null);
   const [buttonEnable, setButtonEnable] = useState(true);
-  const [ubicacionData, setUbicacionData] = useState(route.params.ubicacion);
-  const [showAlert, setShowAlert] = useState(false);
+  // const [ubicacionData, setUbicacionData] = useState(route.params.ubicacion);
+  const [showAlerta, setShowAlerta] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
-  const [publicationSuccessfull, setPublicationSuccessfull] = useState(false);
-  const [firstImageSuccessfull, setFirstImageSuccessfull] = useState(false);
-  const [secondImageSuccessfull, setSecondImageSuccessfull] = useState(false);
-  const [thirdImageSuccessfull, setThirdImageSuccessfull] = useState(false);
+  // const [publicationSuccessfull, setPublicationSuccessfull] = useState(false);
+  // const [firstImageSuccessfull, setFirstImageSuccessfull] = useState(false);
+  // const [secondImageSuccessfull, setSecondImageSuccessfull] = useState(false);
+  // const [thirdImageSuccessfull, setThirdImageSuccessfull] = useState(false);
 
   useEffect(() => {
     if (imagenes[0] !== undefined) {
@@ -149,6 +149,7 @@ const EditPublicationScreen = () => {
   };
 
   const generatePublicationJson = () => {
+    console.log(nombreMascota);
     setPublicacion({
       id: publicacion.id,
       mascota: {
@@ -156,26 +157,16 @@ const EditPublicationScreen = () => {
         nombre: nombreMascota,
       },
     });
-
-    if (route.params.ubicacion == undefined) {
-      setPublicacion({
-        ubication: { id: 0, latitude: 0, longitude: 0 },
-      });
-    } else {
-      setPublicacion({
-        ubication: { id: 0, ...route.params.ubicacion },
-      });
-    }
   };
 
   //Falta agregar generico para cualquier imagen, agregar id de mascota y obtener formato
   const updateImage = async (imagenData, mascotaId, imagenId) => {
-    const responseImage = await updateImage(imagenData, mascotaId, imagenId);
+    await updateImage(imagenData, mascotaId, imagenId);
   };
 
   const sendPublication = async () => {
     if (nombreMascota.length > 50) {
-      showAlert(
+      openAlert(
         "Error",
         "El campo nombre de mascota no puede superar los 50 caracteres"
       );
@@ -198,11 +189,15 @@ const EditPublicationScreen = () => {
           id: thirdImage.id,
         });
 
-      await generatePublicationJson();
-
       let responsePublication = await updatePublication(
         publicacion.id,
-        publicacion
+        {
+          id: publicacion.id,
+          mascota: {
+            id: publicacion.mascota.id,
+            nombre: nombreMascota,
+          },
+        }
       );
 
       //Si se  edito existosamente
@@ -210,25 +205,25 @@ const EditPublicationScreen = () => {
         responsePublication != null &&
         responsePublication.StatusCode == 200
       ) {
-        setPublicationSuccessfull(true);
         imagenesEnviar.forEach((imagen, index) => {
           updateImage(imagen.imagen, publicacion.mascota.id, imagen.id);
         });
         navigation.replace("HomeNavigation");
+
       } else {
-        showAlert("Error", "Se produjo un error al generar la publicación");
+        openAlert("Error", "Se produjo un error al generar la publicación");
       }
     }
   };
 
   const openAlert = (title, messsage) => {
-    setShowAlert(true);
+    setShowAlerta(true);
     setAlertTitle(title);
     setAlertMessage(messsage);
   };
 
   const hideAlert = () => {
-    showAlert(false);
+    setShowAlerta(false);
   };
 
   const openFirstImagePickerAsync = async () => {
@@ -340,7 +335,7 @@ const EditPublicationScreen = () => {
   const alerta = () => {
     return (
       <AwesomeAlert
-        show={showAlert}
+        show={showAlerta}
         showProgress={false}
         title={alertTitle}
         message={alertMessage}
@@ -493,7 +488,7 @@ const EditPublicationScreen = () => {
         <PrimaryButton
           title="Guardar"
           actionFunction={() => {
-            sendPublication;
+            sendPublication();
           }}
           disabled={buttonEnable}
         />

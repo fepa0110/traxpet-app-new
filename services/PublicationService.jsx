@@ -35,7 +35,7 @@ export async function sendPublication(
 				body: JSON.stringify(publicationData),
 			}
 		);
-		console.log("publicaciondata: ",publicationData)
+		console.log("publicaciondata: ",JSON.stringify(publicationData))
 
 		return await responsePublication.json();
 	} catch (error) {

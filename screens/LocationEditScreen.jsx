@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { ColorsApp } from "../constants/Colors";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
-import IconButton from "../components/IconButton";
 import AwesomeAlert from "react-native-awesome-alerts";
 import MapView, { Marker } from "react-native-maps";
 
@@ -85,44 +84,53 @@ const LocationEditScreen = () => {
         }}
       />
     );
-  };
+  }; 
+
+  const mapaAndroid = () => {
+    return(
+      <View>
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            latitudeDelta: 0.0042,
+            longitudeDelta: 0.0121,
+          }}
+          loadingEnabled={true}
+          loadingIndicatorColor="#666666"
+          loadingBackgroundColor="#eeeeee"
+          moveOnMarkerPress={false}
+          showsUserLocation={true}
+          showsPointsOfInterest={false}
+          provider="google"
+          onPress={(e) => {
+            if (editable) onClickMap(e.nativeEvent);
+          }}
+        >
+          {showLocations()}
+        </MapView>
+        <View style={styles.buttonStyle}>
+          <SecondaryButton
+            title="Atras"
+            actionFunction={() => navigation.goBack()}
+          />
+          <PrimaryButton
+            title="Aceptar"
+            disabled={!editable}
+            actionFunction={() => {
+              openAlert("Coordenadas Ingresadas ", "Correctamente");
+            }}
+          />
+        </View>
+        {alerta()}
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        region={{
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-          latitudeDelta: 0.0042,
-          longitudeDelta: 0.0121,
-        }}
-        loadingEnabled={true}
-        loadingIndicatorColor="#666666"
-        loadingBackgroundColor="#eeeeee"
-        moveOnMarkerPress={false}
-        showsUserLocation={true}
-        showsPointsOfInterest={false}
-        provider="google"
-        onPress={(e) => {
-          if (editable) onClickMap(e.nativeEvent);
-        }}
-      >
-        {showLocations()}
-      </MapView>
-      <View style={styles.buttonStyle}>
-        <SecondaryButton
-          title="Atras"
-          actionFunction={() => navigation.goBack()}
-        />
-        <PrimaryButton
-          title="Aceptar"
-          disabled={!editable}
-          actionFunction={() => {
-            openAlert("Coordenadas Ingresadas ", "Correctamente");
-          }}
-        />
-      </View>
-      {alerta()}
+      {Platform.OS != "web" ?  mapaAndroid() : null}
     </View>
   );
 };

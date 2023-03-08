@@ -4,8 +4,9 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	ScrollView,
+	RefreshControl,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import HeaderHome from "../components/HeaderHome";
 
@@ -30,6 +31,8 @@ const HomeScreen = () => {
 		username: useSelector((state) => state.user.username),
 	};
 
+	const [refreshing, setRefreshing] = useState(false);
+
 	const navigation = useNavigation();
 	const [publicaciones, setPublicaciones] = useState([]);
 	const [notificaciones, setNotificaciones] = useState([]);
@@ -52,6 +55,15 @@ const HomeScreen = () => {
 	useEffect(() => {
 		getPublicaciones();
 		getNotificaciones();
+	}, []);
+
+	const onRefresh = useCallback(() => {
+		setRefreshing(true);
+		getPublicaciones();
+		getNotificaciones();
+		setTimeout(() => {
+			setRefreshing(false);
+		}, 2000);
 	}, []);
 
 	const listEmpty = () => {
@@ -111,8 +123,10 @@ const HomeScreen = () => {
 						{(item.tipoPublicacion === "MASCOTA_ENCONTRADA"
 							? "Mascota encontrada"
 							: "Mascota buscada") +
-							"\n" +
-							item.fechaPublicacion}
+							"\nCreada: " +
+							item.fechaPublicacion +
+							"\nModificada: " +
+							item.fechaModificacion}
 					</Text>
 				</View>
 			</TouchableOpacity>
@@ -143,7 +157,12 @@ const HomeScreen = () => {
 					</TouchableOpacity>
 				}
 			/>
-			<ScrollView>{showPublications()}</ScrollView>
+			<ScrollView
+				refreshControl={
+					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+				}>
+				{showPublications()}
+			</ScrollView>
 			<FloatingButton
 				visible={true}
 				onPressFunction={() => {

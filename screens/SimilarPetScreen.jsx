@@ -29,7 +29,6 @@ import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import LoadingIndicator from "../components/LoadingIndicator";
 import { ColorsApp } from "../constants/Colors";
 import Header from "../components/Header";
-import IconButton from "../components/IconButton";
 import AwesomeAlert from "react-native-awesome-alerts";
 import {
 	addUbicacionMascota,
@@ -94,6 +93,7 @@ const SimilarPetScreen = () => {
 			};
 		});
 		setMascotaSimilares(predict);
+		console.log("predict --> ",JSON.stringify(predict));
 		setIsLoading(false);
 	};
 
@@ -108,9 +108,10 @@ const SimilarPetScreen = () => {
 	};
 
 	const sendSimilarSelected = async (mascotaId) => {
+		navigation.navigate("ConfirmSelectedPet", {mascotaId: mascotaId});
 		console.log("" + JSON.stringify(publication));
 		// Actualizar ubicacion
-		if (
+/* 		if (
 			publication.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
 			!(Object.keys(location).length == 0)
 		) {
@@ -125,7 +126,7 @@ const SimilarPetScreen = () => {
 			};
 			setAlertConfirmFunction(async () => {
 				await addUbicacionMascota(ubicacion, mascotaId);
-				hideAlert();
+				// hideAlert();
 				navigation.replace("HomeNavigation");
 			});
 			showAlert("Actualizar ubicacion", "Gracias por aportar");
@@ -142,7 +143,7 @@ const SimilarPetScreen = () => {
 				setAlertConfirmFunction(async () => {
 					console.log("Migrando publicacion a nuevo dueño...");
 					await migrarPublicacion(publicationSelect.id, user.username);
-					hideAlert();
+					// hideAlert();
 					navigation.replace("HomeNavigation");
 				});
 
@@ -162,11 +163,11 @@ const SimilarPetScreen = () => {
 
 				setAlertConfirmFunction(async () => {
 					await publicar(true, mascotaId);
-					hideAlert();
+					// hideAlert();
 				});
 				showAlert("Notificar al usuario dueño", "Gracias por aportar");
 			}
-		}
+		} */
 	};
 
 	const publicar = async (notificateSimilar, mascotaSimilarId) => {
@@ -176,7 +177,7 @@ const SimilarPetScreen = () => {
 			publicacion: {
 				tipoPublicacion: publication.tipoPublicacion,
 				usuario: publication.usuario,
-				mascota: publication.mascota
+				mascota: publication.mascota,
 			},
 		};
 
@@ -188,14 +189,14 @@ const SimilarPetScreen = () => {
 					longitude: 0,
 				},
 				idMascotaSimilar: mascotaSimilarId,
-				notificateSimilar: notificateSimilar
+				notificateSimilar: notificateSimilar,
 			};
 		} else {
 			publicationToSend = {
 				...publicationToSend,
 				ubicacion: location,
 				idMascotaSimilar: mascotaSimilarId,
-				notificateSimilar: notificateSimilar
+				notificateSimilar: notificateSimilar,
 			};
 		}
 
@@ -311,7 +312,7 @@ const SimilarPetScreen = () => {
 			<List.Item
 				title="Imagen"
 				titleStyle={{ color: ColorsApp.primaryTextColor }}
-				right={(props) => (
+				right={() => (
 					<View
 						style={{
 							backgroundColor: ColorsApp.primaryBackgroundColor,
@@ -339,31 +340,33 @@ const SimilarPetScreen = () => {
 		);
 
 		for (let index = 0; index < lista.length; index++) {
-			let finded = valores.find(
-				(value) =>
-					value.caracteristica.nombre.normalize() ===
+			let finded = valores.find((value) => {
+				return (
+					value.nombre.normalize() ===
 					lista[index].nombre.normalize()
-			);
+				);
+			});
+
 			subItems.push(
 				<List.Item
 					title={
-						lista[index].nombre +
+						lista[index].caracteristica.nombre +
 						":   \t\t" +
-						lista[index].caracteristica.nombre
+						lista[index].nombre
 					}
 					right={(props) => (
 						<List.Icon
 							{...props}
 							color={
 								finded == undefined ||
-								finded.nombre.normalize() !==
+								finded.caracteristica.nombre.normalize() !==
 									lista[index].caracteristica.nombre.normalize()
 									? "red"
 									: "blue"
 							}
 							icon={
 								finded == undefined ||
-								finded.nombre.normalize() !==
+								finded.caracteristica.nombre.normalize() !==
 									lista[index].caracteristica.nombre.normalize()
 									? "close"
 									: "check-all"
@@ -395,10 +398,7 @@ const SimilarPetScreen = () => {
 						key={item.id + item.probabilidad}>
 						<TouchableOpacity
 							onPress={() => {
-								showAlert();
-								setAlertConfirmFunction(() => {
-									sendSimilarSelected(item.id);
-								});
+								sendSimilarSelected(item.id);
 							}}>
 							<MaterialCommunityIcons
 								name="cursor-pointer"
