@@ -74,16 +74,17 @@ const SimilarPetScreen = () => {
   );
 
   useEffect(() => {
+    console.log("Publicacion redux: ", JSON.stringify(publication));
     getPredict();
-  }, [publication]);
+  }, []);
 
   const getPredict = async () => {
     let predict = await getPredictByPublication(publication);
-
+    
     let idsPredict = predict.map((prediction) => {
       return prediction.id;
     });
-
+    
     let mapFeatures = await getFeaturesMapByPredict(idsPredict);
 
     predict = predict.map((prediction, index) => {
@@ -92,11 +93,10 @@ const SimilarPetScreen = () => {
         caracteristicas: mapFeatures.data[index],
       };
     });
-
     let mascotas = predict.map((prediccion) => {
       let count = 0;
       prediccion.caracteristicas.map((feature) => {
-        publication.mascota.valores.caracteristicas.map((featurePub) => {
+        publication.mascota.valores.map((featurePub) => {
           if (
             featurePub.caracteristica.nombre.normalize() ===
               feature.caracteristica.nombre.normalize() &&
@@ -109,7 +109,6 @@ const SimilarPetScreen = () => {
       });
       return { ...prediccion, countSimilar: count };
     });
-
     mascotas.sort((a, b) => b.countSimilar - a.countSimilar);
     setMascotaSimilares(mascotas);
     setIsLoading(false);
