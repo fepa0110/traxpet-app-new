@@ -78,6 +78,7 @@ const MapScreen = () => {
     setDisableButton(false);
   };
 
+
   const movementMarker = (e) => {
     const latitude = e.nativeEvent.coordinate.latitude;
     const longitude = e.nativeEvent.coordinate.longitude;
@@ -109,7 +110,10 @@ const MapScreen = () => {
           latitudeDelta: 0.0042,
           longitudeDelta: 0.0121,
         }}
-        onPress={(e) => onClickMap(e.nativeEvent)}
+        
+         zoomControlEnabled={true}
+        
+          onPress={(e) => onClickMap(e.nativeEvent)}
       >
         <Marker
           draggable
@@ -129,6 +133,7 @@ const MapScreen = () => {
           onPressFunction={() => getCurrentPosition()}
         />
         <PrimaryButton
+          
           title="Aceptar"
           disabled={disabledButton}
           actionFunction={() => {
@@ -147,6 +152,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: ColorsApp.primaryBackgroundColor,
+
   },
   map: {
     width: "100%",
@@ -156,7 +162,6 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "absolute",
     top: "90%",
-    justifyContent: "space-around",
     flexDirection: "row",
   },
 });
