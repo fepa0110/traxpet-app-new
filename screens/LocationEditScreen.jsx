@@ -6,6 +6,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import AwesomeAlert from "react-native-awesome-alerts";
 import MapView, { Marker } from "react-native-maps";
+import { StatusBar } from "expo-status-bar";
 
 const LocationEditScreen = () => {
   const route = useRoute();
@@ -86,9 +87,10 @@ const LocationEditScreen = () => {
     );
   }; 
 
-  const mapaAndroid = () => {
+  const MapaAndroid = () => {
     return(
-      <View>
+      <View style={styles.container}>
+        
         <MapView
           style={styles.map}
           region={{
@@ -100,9 +102,11 @@ const LocationEditScreen = () => {
           loadingEnabled={true}
           loadingIndicatorColor="#666666"
           loadingBackgroundColor="#eeeeee"
+          zoomControlEnabled={true}
           moveOnMarkerPress={false}
           showsUserLocation={true}
-          showsPointsOfInterest={false}
+          showsPointsOfInterest={true}
+          showsMyLocationButton={false}
           provider="google"
           onPress={(e) => {
             if (editable) onClickMap(e.nativeEvent);
@@ -115,13 +119,6 @@ const LocationEditScreen = () => {
             title="Atras"
             actionFunction={() => navigation.goBack()}
           />
-          <PrimaryButton
-            title="Aceptar"
-            disabled={!editable}
-            actionFunction={() => {
-              openAlert("Coordenadas Ingresadas ", "Correctamente");
-            }}
-          />
         </View>
         {alerta()}
       </View>
@@ -129,9 +126,7 @@ const LocationEditScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
-      {Platform.OS != "web" ?  mapaAndroid() : null}
-    </View>
+    <MapaAndroid />
   );
 };
 
@@ -139,10 +134,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: ColorsApp.primaryBackgroundColor,
+    justifyContent: "flex-end"
   },
   map: {
     width: "100%",
-    height: "100%",
+    height: "98%",
   },
   buttonStyle: {
     width: "100%",

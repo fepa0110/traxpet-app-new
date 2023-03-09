@@ -55,6 +55,8 @@ const HomeScreen = () => {
       getPublicaciones();
       getNotificaciones();
     });
+    getPublicaciones();
+    getNotificaciones();
     return unsubscribe;
   }, [navigation]);
 
@@ -164,6 +166,7 @@ const HomeScreen = () => {
       >
         {showPublications()}
       </ScrollView>
+      {/* TODO: Probar con replace para que se actualice al publicar */}
       <FloatingButton
         visible={true}
         onPressFunction={() => {

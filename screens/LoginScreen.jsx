@@ -226,6 +226,7 @@ const LoginScreen = () => {
                   />
                 }
                 errorMessage={passwordErrorMessage}
+                errorStyle={{ color: ColorsApp.errorColor }}
                 renderErrorMessage={renderPasswordErrorMessage}
                 secureTextEntry={showPassword}
                 onChangeText={(passwordValue) => {

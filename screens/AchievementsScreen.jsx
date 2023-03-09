@@ -11,7 +11,8 @@ import { FlashList } from "@shopify/flash-list";
 
 import { Input } from "@rneui/themed";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logIn } from "../redux/slices/userSlice";
 
 import { getUserByUsernameRequest } from "../services/UsuarioService";
 import {
@@ -24,9 +25,7 @@ import Header from "../components/Header";
 import LoadingIndicator from "../components/LoadingIndicator";
 
 import { ColorsApp } from "../constants/Colors";
-/* import CircularProgress, {
-	ProgressRef,
-} from "react-native-circular-progress-indicator"; */
+
 import Separator from "../components/Separator";
 import { CircularProgress } from "../components/CircularProgress";
 
@@ -38,11 +37,12 @@ const AchievementsScreen = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [nivelActual, setNivelActual] = useState({});
 	const [nivelesObtenidos, setNivelesObtenidos] = useState([]);
-
+	const [puntajeUser, setPuntajeUser] = useState(puntajeUser);
+	
 	const progressRef = useRef();
 
 	useEffect(() => {
-		console.log(user);
+		getUserData();
 		getNivelActual();
 		getNivelesObtenidos();
 	}, []);
@@ -60,10 +60,15 @@ const AchievementsScreen = () => {
 		setIsLoading(false);
 	};
 
+	const getUserData = async () => {
+		const newUserRequest = await getUserByUsernameRequest(user.username);
+		setPuntajeUser(newUserRequest.data.puntaje)
+	}
+	
 	const calcularPorcentaje = () => {
-		let puntajeUser = user.puntaje;
+		let puntajeUser = puntajeUser;
 
-		if(user.puntaje > nivelActual.puntajeMaximo) {
+		if(puntajeUser > nivelActual.puntajeMaximo) {
 			puntajeUser = nivelActual.puntajeMaximo;
 		}
 
@@ -73,9 +78,9 @@ const AchievementsScreen = () => {
 	};
 
 	const mensajePuntosFaltantes = () => {
-		const puntajeRestante = nivelActual.puntajeMaximo - user.puntaje;
+		const puntajeRestante = nivelActual.puntajeMaximo - puntajeUser;
 		
-		if(puntajeRestante > 0) return "Te faltan "+puntajeRestante+ "para el siguiente nivel"
+		if(puntajeRestante > 0) return "Te faltan "+puntajeRestante+ " para el siguiente nivel"
 		else return "Ya tenes el maximo de puntos!"
 	}
 
@@ -86,11 +91,13 @@ const AchievementsScreen = () => {
 					<LoadingIndicator />
 				</View>
 			);
+
+			
 		} else
 			return (
 				<View style={styles.mainView}>
 					<CircularProgress
-						value={user.puntaje}
+						value={puntajeUser}
 						valueColor={ColorsApp.primaryTextColor}
 						valueSize={50}
 						progress={calcularPorcentaje()}

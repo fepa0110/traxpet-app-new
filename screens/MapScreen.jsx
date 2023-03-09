@@ -111,7 +111,7 @@ const MapScreen = () => {
           longitudeDelta: 0.0121,
         }}
         
-         zoomControlEnabled={true}
+        zoomControlEnabled={true}
         
           onPress={(e) => onClickMap(e.nativeEvent)}
       >
@@ -133,7 +133,6 @@ const MapScreen = () => {
           onPressFunction={() => getCurrentPosition()}
         />
         <PrimaryButton
-          
           title="Aceptar"
           disabled={disabledButton}
           actionFunction={() => {
@@ -161,6 +160,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: "100%",
     position: "absolute",
+    justifyContent: "center",
     top: "90%",
     flexDirection: "row",
   },

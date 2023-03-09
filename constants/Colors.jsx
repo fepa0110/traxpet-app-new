@@ -1,7 +1,6 @@
 export const ColorsApp = {
-    primaryColor: "#FF4500",
+    primaryColor: "hotpink",
     secondaryColor: "#BABABA",
-    terciaryColor: "indianred",
 
     errorColor: "blue",
     primaryBackgroundColor: "white",
