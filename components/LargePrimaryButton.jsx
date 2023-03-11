@@ -12,7 +12,7 @@ import { ColorsApp } from "../constants/Colors";
 const LargePrimaryButton = (props) => {
     return (
         <TouchableOpacity
-            style={styles.primaryButton}
+            style={[styles.primaryButton,props.extraStyles]}
             onPress={props.actionFunction}
             disabled={props.disabled}
         >
