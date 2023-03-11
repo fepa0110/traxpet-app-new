@@ -173,7 +173,7 @@ const NewPublicationFeaturesScreen = () => {
 					title="Siguiente"
 					actionFunction={() => {
 						generatePublicationJson();
-						navigation.navigate("SimilarPetScreen");
+						navigation.navigate("PetsScreen");
 					}}
 					disabled={false}
 				/>

@@ -5,10 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NewPublicationBasicDataScreen from "../screens/NewPublicationBasicDataScreen";
 import MapScreen from "../screens/MapScreen";
 import NewPublicationFeaturesScreen from "../screens/NewPublicationFeaturesScreen";
-import MapWebScreen from "../screens/MapWebScreen";
-import SimilarPetScreen from "../screens/SimilarPetScreen";
-import ImagePetScreen from "../screens/ImagePetScreen";
 import ConfirmSelectedPet from "../screens/ConfirmSelectedPet";
+import PetsScreen from "../screens/PetsScreen";
 
 const PublicationStack = createNativeStackNavigator();
 
@@ -43,14 +41,9 @@ const PublicationNavigation = () => {
         options={{ title: "Caracteristicas de mascota" }}
       />
       <PublicationStack.Screen name="MapScreen" component={MapScreen} />
-      <PublicationStack.Screen name="MapWebScreen" component={MapWebScreen} />
       <PublicationStack.Screen
-        name="SimilarPetScreen"
-        component={SimilarPetScreen}
-      />
-      <PublicationStack.Screen
-        name="ImagePetScreen"
-        component={ImagePetScreen}
+        name="PetsScreen"
+        component={PetsScreen}
       />
       <PublicationStack.Screen
         name="ConfirmSelectedPet"
