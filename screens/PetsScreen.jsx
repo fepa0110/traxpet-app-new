@@ -9,24 +9,21 @@ import {
 	useWindowDimensions,
 } from "react-native";
 
-import Header from "../components/Header";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+
 import { getFeaturesMapByPredict } from "../services/ValueService";
-import { getImagesByMascotaId, sendImage } from "../services/ImageService";
-
-import { FontAwesome5 } from "@expo/vector-icons";
-import LoadingIndicator from "../components/LoadingIndicator";
-import { ColorsApp } from "../constants/Colors";
-import AwesomeAlert from "react-native-awesome-alerts";
-
-import LargePrimaryButton from "../components/LargePrimaryButton";
-import LargeSecondaryButton from "../components/LargeSecondaryButton";
+import { sendImage } from "../services/ImageService";
 import { getByModeloActivoEspecie } from "../services/MascotasEntrenadasService";
-import { urlServer } from "../constants/constants";
-import IconButton from "../components/IconButton";
-
 import { sendPublication } from "../services/PublicationService";
+
+import { ColorsApp } from "../constants/Colors";
+import { urlServer } from "../constants/constants";
+
+import Header from "../components/Header";
+import LargePrimaryButton from "../components/LargePrimaryButton";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 const PetsScreen = () => {
 	const user = {
@@ -41,7 +38,7 @@ const PetsScreen = () => {
 	const location = useSelector((state) => state.newPublication).location;
 
 	const [isLoading, setIsLoading] = useState(false);
-
+	const [isLoadingImages, setIsLoadingImages] = useState(false);
 
 	const [mascotasSimilares, setMascotaSimilares] = useState([]);
 
@@ -91,8 +88,6 @@ const PetsScreen = () => {
 			};
 		}
 
-		console.log("publicacion: ", publicationToSend);
-
 		const publicationData = await sendPublication(
 			publicationToSend,
 			notificateSimilar,
@@ -113,7 +108,7 @@ const PetsScreen = () => {
 	};
 
 	const fetchImages = async (mascotasSimilares) => {
-		console.log("Se actualizan imagenes");
+		setIsLoadingImages(true);
 		const mascotasSimilaresIds = mascotasSimilares.map((mascota) => {
 			return mascota.id;
 		});
@@ -122,8 +117,6 @@ const PetsScreen = () => {
 			page * numberOfItemsPerPage,
 			page * numberOfItemsPerPage + numberOfItemsPerPage
 		);
-
-		// console.log("🚀 mascotasParaBuscar:", mascotasParaBuscar);
 
 		if (mascotasParaBuscar.length !== 0) {
 			const response = await fetch(
@@ -142,10 +135,13 @@ const PetsScreen = () => {
 			const mascotitas = imagenesMascotas.concat(imagenes.data);
 			setImagenesMascotas(mascotitas);
 			setPage(page + 1);
+			setIsLoadingImages(false);
 		}
 	};
 
 	const getPredict = async () => {
+		setIsLoading(true);
+
 		let idsPredict = await getByModeloActivoEspecie(
 			publication.mascota.especie.nombre,
 			user.id
@@ -177,6 +173,7 @@ const PetsScreen = () => {
 		mascotas.sort((a, b) => b.countSimilar - a.countSimilar);
 		setMascotaSimilares(mascotas);
 		fetchImages(mascotas);
+
 		setIsLoading(false);
 	};
 
@@ -196,7 +193,6 @@ const PetsScreen = () => {
 			<View style={styles.imageContainer}>
 				<TouchableOpacity
 					onPress={() => {
-						console.log("🚀 mascota:", item.id);
 						sendSimilarSelected(item.id);
 					}}>
 					<Image
@@ -210,6 +206,11 @@ const PetsScreen = () => {
 				</TouchableOpacity>
 			</View>
 		);
+	};
+
+	const loadingIndicatorImages = () => {
+		if (isLoadingImages) return <LoadingIndicator size={40} />;
+		else return <></>;
 	};
 
 	const listaSimilares = () => {
@@ -229,12 +230,12 @@ const PetsScreen = () => {
 						alignItems: "center",
 						justifyContent: "center",
 						alignContent: "center",
-						// backgroundColor: "transparent",
 						position: "absolute",
 						bottom: 10,
 						right: 0,
 						left: 0,
 					}}>
+					{loadingIndicatorImages()}
 					<LargePrimaryButton
 						title={
 							mascotasSimilares.length == 0
