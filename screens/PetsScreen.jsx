@@ -29,19 +29,20 @@ import IconButton from "../components/IconButton";
 import { sendPublication } from "../services/PublicationService";
 
 const PetsScreen = () => {
+	const user = {
+		id: useSelector((state) => state.user.id),
+		username: useSelector((state) => state.user.username),
+	};
+
 	const navigation = useNavigation();
+
 	const publication = useSelector((state) => state.newPublication).publication;
 	const images = useSelector((state) => state.newPublication).images;
 	const location = useSelector((state) => state.newPublication).location;
 
 	const [isLoading, setIsLoading] = useState(false);
-	const [visibleAlert, setVisibleAlert] = useState(false);
 
-	const [visibleModal, setVisibleModal] = useState(false);
 
-	const [alertTitle, setAlertTitle] = useState("");
-	const [alertMessage, setAlertMessage] = useState("");
-	const [alertConfirmFunction, setAlertConfirmFunction] = useState(() => {});
 	const [mascotasSimilares, setMascotaSimilares] = useState([]);
 
 	const [page, setPage] = useState(0);
@@ -146,7 +147,8 @@ const PetsScreen = () => {
 
 	const getPredict = async () => {
 		let idsPredict = await getByModeloActivoEspecie(
-			publication.mascota.especie.nombre
+			publication.mascota.especie.nombre,
+			user.id
 		);
 		let mapFeatures = await getFeaturesMapByPredict(idsPredict.data);
 
