@@ -157,7 +157,8 @@ const SpeciesAdminScreen = () => {
         cancelButtonStyle={{ 
           borderColor: ColorsApp.primaryColor, 
           borderWidth: 1,
-          fontWeight: "bold"
+          fontWeight: "bold",
+          backgroundColor: ColorsApp.primaryBackgroundColor
         }}
         cancelButtonTextStyle={{ color: ColorsApp.primaryColor,}}
         onConfirmPressed={async () => {
