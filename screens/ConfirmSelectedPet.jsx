@@ -17,6 +17,8 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 
 import LoadingIndicator from "../components/LoadingIndicator";
 
+import { TipoPublicacion } from "../constants/TipoPublicacion"; '../constants/TipoPublicacion'
+
 const ConfirmSelectedPet = () => {
 	const route = useRoute();
 	const navigation = useNavigation();
@@ -106,7 +108,7 @@ const ConfirmSelectedPet = () => {
 		console.log("" + JSON.stringify(publication));
 		// Actualizar ubicacion
 		if (
-			publication.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
+			publication.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA &&
 			!(Object.keys(location).length == 0)
 		) {
 			console.log("Actualizar ubicacion...");
@@ -130,8 +132,8 @@ const ConfirmSelectedPet = () => {
 			const publicationSelect = await getPublicacionByMascota(mascotaId);
 			//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
 			if (
-				publication.tipoPublicacion === "MASCOTA_BUSCADA" &&
-				publicationSelect.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
+				publication.tipoPublicacion === TipoPublicacion.MASCOTA_BUSCADA &&
+				publicationSelect.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA &&
 				user.username !== publicationSelect.usuario.username
 			) {
 				console.log("Migrando...");
@@ -153,8 +155,8 @@ const ConfirmSelectedPet = () => {
 				); */
 			}
             else if (
-				publication.tipoPublicacion === "MASCOTA_BUSCADA" &&
-				publicationSelect.tipoPublicacion === "MASCOTA_ENCONTRADA" &&
+				publication.tipoPublicacion === TipoPublicacion.MASCOTA_BUSCADA &&
+				publicationSelect.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA &&
 				user.username === publicationSelect.usuario.username
 			){
                 setTitleHeader("Publicacion propia");
@@ -169,8 +171,8 @@ const ConfirmSelectedPet = () => {
 
 			// Si ambos son dueños
 			if (
-				publication.tipoPublicacion === "MASCOTA_BUSCADA" &&
-				publicationSelect.tipoPublicacion === "MASCOTA_BUSCADA" &&
+				publication.tipoPublicacion ===  TipoPublicacion.MASCOTA_BUSCADA &&
+				publicationSelect.tipoPublicacion === TipoPublicacion.MASCOTA_BUSCADA &&
 				user.username !== publicationSelect.usuario.username
 			) {
 				console.log("Creando nueva: ambos son dueños...");

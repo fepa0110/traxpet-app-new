@@ -34,6 +34,7 @@ import { getEnabledSpecies } from "../services/SpecieService";
 import LargePrimaryButton from "../components/LargePrimaryButton";
 import PrimaryButton from "../components/PrimaryButton";
 import IconButton from "../components/IconButton";
+import { TipoPublicacion } from "../constants/TipoPublicacion";
 
 const NewPublicationBasicDataScreen = () => {
 	const navigation = useNavigation();
@@ -308,11 +309,11 @@ const NewPublicationBasicDataScreen = () => {
 						<Picker.Item label="Seleccionar" value="Seleccionar" />
 						<Picker.Item
 							label="Mascota buscada"
-							value="MASCOTA_BUSCADA"
+							value={TipoPublicacion.MASCOTA_BUSCADA}
 						/>
 						<Picker.Item
-							label="Mascota encontrada"
-							value="MASCOTA_ENCONTRADA"
+							label="Mascota vista"
+							value={TipoPublicacion.MASCOTA_VISTA}
 						/>
 					</Picker>
 				</View>

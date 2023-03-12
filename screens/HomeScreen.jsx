@@ -24,6 +24,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getPublicacionesByUserRequest } from "../services/PublicationService";
 import { getNotificacionesByUserIdRequest } from "../services/NotificationService";
 import FloatingButton from "../components/FloatingButton";
+import { TipoPublicacion } from "../constants/TipoPublicacion";
 
 const HomeScreen = () => {
   const user = {
@@ -111,19 +112,19 @@ const HomeScreen = () => {
         <View style={{ marginHorizontal: 20 }}>
           <FontAwesome5
             name={
-              item.tipoPublicacion === "MASCOTA_ENCONTRADA"
+              item.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA
                 ? "map-marked-alt"
                 : "search-location"
             }
-            size={item.tipoPublicacion === "MASCOTA_ENCONTRADA" ? 28 : 32}
+            size={item.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA ? 28 : 32}
             color={ColorsApp.primaryColor}
           />
         </View>
         <View>
           <Text style={styles.itemTitle}>{item.mascota.especie.nombre}</Text>
           <Text style={styles.itemSubtitle}>
-            {(item.tipoPublicacion === "MASCOTA_ENCONTRADA"
-              ? "Mascota encontrada"
+            {(item.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA
+              ? "Mascota vista"
               : "Mascota buscada") +
               "\nCreada: " +
               item.fechaPublicacion +

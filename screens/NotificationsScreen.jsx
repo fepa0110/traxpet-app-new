@@ -19,6 +19,7 @@ import {
 	getNotificacionesByUserIdRequest,
 	readNotification,
 } from "../services/NotificationService";
+import { TipoPublicacion } from "../constants/TipoPublicacion";
 
 const NotificationsScreen = () => {
 	const user = {
@@ -83,11 +84,11 @@ const NotificationsScreen = () => {
 				<View style={{ marginHorizontal: 20, alignItems: "center" }}>
 					<FontAwesome5
 						name={
-							item.tipoPublicacion === "MASCOTA_ENCONTRADA"
+							item.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA
 								? "map-marked-alt"
 								: "search-location"
 						}
-						size={item.tipoPublicacion === "MASCOTA_ENCONTRADA" ? 28 : 32}
+						size={item.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA ? 28 : 32}
 						color={ColorsApp.primaryColor}
 					/>
 				</View>
@@ -99,8 +100,8 @@ const NotificationsScreen = () => {
 						{item.publicacion.mascota.especie.nombre}
 					</Text>
 					<Text style={styles.itemSubtitle}>
-						{(item.publicacion.tipoPublicacion === "MASCOTA_ENCONTRADA"
-							? "Mascota encontrada"
+						{(item.publicacion.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA
+							? "Mascota vista"
 							: "Mascota buscada") +
 							"\nVista: " +
 							item.fechaNotificacion +
