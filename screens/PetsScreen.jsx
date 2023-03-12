@@ -215,7 +215,7 @@ const PetsScreen = () => {
 
 	const listaSimilares = () => {
 		return (
-			<View style={{ height: "90%" }}>
+			<View style={{ height: "90%", backgroundColor: ColorsApp.primaryBackgroundColor}}>
 				<FlatList
 					data={imagenesMascotas}
 					keyExtractor={(item, index) => index.toString()}
@@ -224,7 +224,7 @@ const PetsScreen = () => {
 					onEndReached={() => fetchImages(mascotasSimilares)}
 					numColumns={listColumns}
 					ListEmptyComponent={listEmpty}
-				/>
+					/>
 				<View
 					style={{
 						alignItems: "center",
@@ -257,7 +257,7 @@ const PetsScreen = () => {
 	};
 
 	return (
-		<View style={{ height: "100%" }}>
+		<View style={{ height: "100%"}}>
 			<Header title="Mascotas similares" />
 			{!isLoading ? listaSimilares() : <LoadingIndicator />}
 		</View>
@@ -268,7 +268,7 @@ export default PetsScreen;
 
 const styles = StyleSheet.create({
 	imageContainer: {
-		backgroundColor: "#fff",
+		backgroundColor: ColorsApp.primaryBackgroundColor,
 		padding: 1,
 	},
 	message: {
