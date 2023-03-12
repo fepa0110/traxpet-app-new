@@ -108,33 +108,40 @@ const ConfirmSelectedPet = () => {
 		console.log("" + JSON.stringify(publication));
 		// Actualizar ubicacion
 		if (
-			publication.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA &&
-			!(Object.keys(location).length == 0)
+			publication.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA			
 		) {
-			console.log("Actualizar ubicacion...");
+			if(!(Object.keys(location).length == 0)){
+				console.log("Actualizar ubicacion...");
+	
+				const ubicacion = {
+					latitude: location.latitude,
+					longitude: location.longitude,
+					usuario: {
+						username: publication.usuario.username,
+					},
+				};
+				setConfirmFunction(() => async () => {
+					await addUbicacionMascota(ubicacion, mascotaId);
+					navigation.navigate("Home");
+				});
+	
+				setTitleHeader("Actualizar ubicacion");
+				setMensaje("Se actualizará la ubicacion de la mascota");
+			}
+			else{
+				setTitleHeader("Actualizar ubicacion");
+				setMensaje("No se actualizará la ubicacion de la mascota seleccionada ya que no haz ingresado una");
 
-			const ubicacion = {
-				latitude: location.latitude,
-				longitude: location.longitude,
-				usuario: {
-					username: publication.usuario.username,
-				},
-			};
-			setConfirmFunction(() => async () => {
-				await addUbicacionMascota(ubicacion, mascotaId);
-                navigation.navigate("Home");
-			});
-
-            setTitleHeader("Actualizar ubicacion");
-			setMensaje("Se actualizará la ubicacion de la mascota");
-			// showAlert("Actualizar ubicacion", "Gracias por aportar");
+				setConfirmFunction(() => async () => {
+					navigation.navigate("Home");
+				});
+			}
 		} else {
 			const publicationSelect = await getPublicacionByMascota(mascotaId);
 			//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
 			if (
 				publication.tipoPublicacion === TipoPublicacion.MASCOTA_BUSCADA &&
-				publicationSelect.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA &&
-				user.username !== publicationSelect.usuario.username
+				publicationSelect.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA
 			) {
 				console.log("Migrando...");
 
@@ -149,31 +156,12 @@ const ConfirmSelectedPet = () => {
 					"Se le transferira la publicación de la mascota a usted"
 				);
 
-				/* 				showAlert(
-					"Transferir dueño",
-					"Se le transferira la publicacion a usted"
-				); */
 			}
-            else if (
-				publication.tipoPublicacion === TipoPublicacion.MASCOTA_BUSCADA &&
-				publicationSelect.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA &&
-				user.username === publicationSelect.usuario.username
-			){
-                setTitleHeader("Publicacion propia");
-				setMensaje(
-					"Esta publicacion es de tu propiedad, no puedes modificarla"+
-                    ", presione cualquier boton para volver"
-				);
-                setConfirmFunction(() => async () => {
-                    navigation.goBack();
-				});
-            }
 
 			// Si ambos son dueños
 			if (
 				publication.tipoPublicacion ===  TipoPublicacion.MASCOTA_BUSCADA &&
-				publicationSelect.tipoPublicacion === TipoPublicacion.MASCOTA_BUSCADA &&
-				user.username !== publicationSelect.usuario.username
+				publicationSelect.tipoPublicacion === TipoPublicacion.MASCOTA_BUSCADA
 			) {
 				console.log("Creando nueva: ambos son dueños...");
 
@@ -184,8 +172,6 @@ const ConfirmSelectedPet = () => {
                 setTitleHeader("Notificar al usuario dueño");
 				setMensaje("Se le notificará al dueño que vio su mascota"+
                 " y se le creará una nueva publicación a usted");
-
-				// showAlert("Notificar al usuario dueño", "Gracias por aportar");
 			}
 		}
 	};
@@ -203,15 +189,15 @@ const ConfirmSelectedPet = () => {
 						alignContent: "space-between",
 						width:"80%",
 					}}>
-					<PrimaryButton
-						title="Aceptar"
-						actionFunction={confirmFunction}
-					/>
 					<SecondaryButton
 						title="Cancelar"
 						actionFunction={() => {
 							navigation.goBack();
 						}}
+					/>
+					<PrimaryButton
+						title="Aceptar"
+						actionFunction={confirmFunction}
 					/>
 				</View>
 			</View>
