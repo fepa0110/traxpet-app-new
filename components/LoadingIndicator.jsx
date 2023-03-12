@@ -3,10 +3,10 @@ import React from 'react'
 
 import { ColorsApp } from '../constants/Colors'
 
-const LoadingIndicator = () => {
+const LoadingIndicator = (props) => {
     return (
         <View>
-            <ActivityIndicator size={60} color={ColorsApp.primaryColor} />
+            <ActivityIndicator size={props.size || 60} color={ColorsApp.primaryColor} />
         </View>
     )
 }
