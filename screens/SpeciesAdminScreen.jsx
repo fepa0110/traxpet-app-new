@@ -30,8 +30,12 @@ const SpeciesAdminScreen = () => {
   const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      getEspeciesData();
+    });
     getEspeciesData();
-  }, []);
+    return unsubscribe;
+  }, [navigation]);
 
   const getEspeciesData = async () => {
     const especies = await getEspecies() ;

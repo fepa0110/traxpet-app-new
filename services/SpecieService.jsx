@@ -15,14 +15,14 @@ export async function getEspecies() {
     .then((response) => {return response.json()});
 };
 
-export async function sendFeatures(features) {
+export async function sendSpecie(specie) {
   fetch(urlServer + "/especies", {
     method: "POST", // or 'PUT'
-    body: JSON.stringify(features),
+    body: JSON.stringify(specie),
     // mode: "no-cors",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
+      "Accept": "application/json",
     },
   })
     .then((response) => response.json())

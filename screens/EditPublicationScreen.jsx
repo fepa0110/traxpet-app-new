@@ -23,6 +23,7 @@ import PrimaryButton from "../components/PrimaryButton";
 import IconButton from "../components/IconButton";
 
 import { updatePublication } from "../services/PublicationService";
+import { updateImage } from '../services/ImageService';
 
 const EditPublicationScreen = () => {
   const navigation = useNavigation();
@@ -136,7 +137,7 @@ const EditPublicationScreen = () => {
               id: imagenes[2].id,
             });
           } else {
-            seThirdImage({
+            setThirdImage({
               uri: pickerResult.assets[0].uri,
               imageDataBase64: pickerResult.assets[0].base64,
               send: true,
@@ -160,7 +161,7 @@ const EditPublicationScreen = () => {
   };
 
   //Falta agregar generico para cualquier imagen, agregar id de mascota y obtener formato
-  const updateImage = async (imagenData, mascotaId, imagenId) => {
+  const sendImages = async (imagenData, mascotaId, imagenId) => {
     await updateImage(imagenData, mascotaId, imagenId);
   };
 
@@ -183,7 +184,7 @@ const EditPublicationScreen = () => {
           imagen: secondImage.imageDataBase64,
           id: secondImage.id,
         });
-      if (thirdImage != null && secondImage.send == true)
+      if (thirdImage != null && thirdImage.send == true)
         imagenesEnviar.push({
           imagen: thirdImage.imageDataBase64,
           id: thirdImage.id,
@@ -206,9 +207,9 @@ const EditPublicationScreen = () => {
         responsePublication.StatusCode == 200
       ) {
         imagenesEnviar.forEach((imagen, index) => {
-          updateImage(imagen.imagen, publicacion.mascota.id, imagen.id);
+          sendImages(imagen.imagen, publicacion.mascota.id, imagen.id);
         });
-        navigation.replace("HomeNavigation");
+        navigation.navigate("Home");
 
       } else {
         openAlert("Error", "Se produjo un error al generar la publicación");
