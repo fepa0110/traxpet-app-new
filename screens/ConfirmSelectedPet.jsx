@@ -45,7 +45,7 @@ const ConfirmSelectedPet = () => {
 
 	const getPublicacionByMascota = async (mascotaId) => {
 		const publicacion = await getPublicationByPetId(mascotaId);
-		return await publicacion.data;
+		return publicacion.data;
 	};
 
 	const migrarPublicacion = async (publicacionId, username) => {
@@ -137,7 +137,9 @@ const ConfirmSelectedPet = () => {
 				});
 			}
 		} else {
+			console.log("🚀 ~mascotaId:", mascotaId)
 			const publicationSelect = await getPublicacionByMascota(mascotaId);
+			console.log("🚀 ~ publicationSelect:", publicationSelect)
 			//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
 			if (
 				publication.tipoPublicacion === TipoPublicacion.MASCOTA_BUSCADA &&

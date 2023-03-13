@@ -55,6 +55,7 @@ const PetsScreen = () => {
 	}, []);
 
 	const sendSimilarSelected = async (mascotaId) => {
+		console.log("🚀 ~ mascotaId:", mascotaId)
 		navigation.navigate("ConfirmSelectedPet", { mascotaId: mascotaId });
 	};
 
@@ -108,7 +109,8 @@ const PetsScreen = () => {
 	};
 
 	const fetchImages = async (mascotasSimilares) => {
-		setIsLoadingImages(true);
+		console.log("🚀 ~ mascotasSimilares:", mascotasSimilares);
+		
 		const mascotasSimilaresIds = mascotasSimilares.map((mascota) => {
 			return mascota.id;
 		});
@@ -119,6 +121,7 @@ const PetsScreen = () => {
 		);
 
 		if (mascotasParaBuscar.length !== 0) {
+			setIsLoadingImages(true);
 			const response = await fetch(
 				`${urlServer}/imagenesMascota/mascotasActivas`,
 				{
@@ -133,6 +136,7 @@ const PetsScreen = () => {
 			const imagenes = await response.json();
 
 			const mascotitas = imagenesMascotas.concat(imagenes.data);
+			console.log("🚀 imagenesMascotas:", imagenesMascotas)
 			setImagenesMascotas(mascotitas);
 			setPage(page + 1);
 			setIsLoadingImages(false);
@@ -189,10 +193,12 @@ const PetsScreen = () => {
 	};
 
 	const renderItem = ({ item }) => {
+		console.log("🚀 item:", item.id)
 		return (
 			<View style={styles.imageContainer}>
 				<TouchableOpacity
 					onPress={() => {
+						
 						sendSimilarSelected(item.id);
 					}}>
 					<Image
