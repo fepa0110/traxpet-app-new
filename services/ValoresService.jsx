@@ -13,7 +13,7 @@ export async function getValuesDataByFeatureAndSpecie (especieNombre,caracterist
   .then((response) => { return response.json() })
 };
 
-export async function saveValor (data) {
+export async function saveValor(data) {
   await fetch(urlServer + "/valores", {
     method: "POST",
     body: JSON.stringify(data),
@@ -24,7 +24,7 @@ export async function saveValor (data) {
   });
 };
 
-export async function disabledValue (data) {
+export async function disabledValue(data) {
   await fetch(urlServer + "/valores", {
     method: "PUT",
     body: JSON.stringify(data),

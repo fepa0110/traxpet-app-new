@@ -71,11 +71,13 @@ const EditFeatureAdminScreen = () => {
   };
 
   const saveValue = async (data) => {
-    await fetch(saveValor(data));
+    console.log("🚀 saveValue ~ data:", data);
+    
+    await saveValor(data);
   };
 
   const disableValue = async (data) => {
-    await fetch(disabledValue(data));
+    await disabledValue(data);
   };
 
   const valueExistValidate = () => {
@@ -99,10 +101,12 @@ const EditFeatureAdminScreen = () => {
     } else if (valorExist) {
       showAlertErrors("El valor ingresado ya existe");
     } else {
+      console.log("🚀 ~ caracteristica:", caracteristica);
+      
       let value = {
         nombre: nombreValor,
-        especie: especie.nombre,
-        caracteristica: { caracteristica },
+        especie: {"nombre":especie.nombre},
+        caracteristica: { "nombre": caracteristica },
       };
       values.push(value);
       valuesToSave.push(value);
@@ -174,7 +178,7 @@ const EditFeatureAdminScreen = () => {
         closeOnHardwareBackPress={false}
         showConfirmButton={true}
         confirmText="Aceptar"
-        confirmButtonColor="orangered"
+        confirmButtonColor={ColorsApp.primaryColor}
         onConfirmPressed={() => {
           this.hideAlert();
         }}
@@ -195,7 +199,7 @@ const EditFeatureAdminScreen = () => {
         showCancelButton={true}
         cancelText="No"
         confirmText="Si"
-        confirmButtonColor="orangered"
+        confirmButtonColor={ColorsApp.primaryColor}
         onCancelPressed={() => {
           this.hideAlert();
         }}
@@ -313,7 +317,7 @@ const EditFeatureAdminScreen = () => {
 
   return (
     <View style={{height: "100%"}}>
-      <Header title="Nueva caracteristica" />
+      <Header title="Nuevo valor" />
       <View style={styles.container}>
         <Text style={{ fontWeight: "bold", fontSize: 22, margin: 5 }}>
           Especie: {especie.nombre}
@@ -377,7 +381,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderBottomRightRadius: 25,
     borderTopLeftRadius: 25,
-    borderColor: "orangered",
+    borderColor: ColorsApp.primaryColor,
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "space-between",
