@@ -1,7 +1,8 @@
 import { urlServer } from "../constants/constants";
 
+const formatoImagen = "jpg";
+
 export async function sendImage(image, mascotaId) {
-  const formatoImagen = "jpg";
   try {
     const responseImage = await fetch(
       urlServer +
