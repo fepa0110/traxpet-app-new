@@ -26,23 +26,29 @@ export async function sendImage(image, mascotaId) {
 }
 
 export async function updateImage(imagenData, mascotaId, imagenId){
-  return await fetch(urlServer + "/imagenesMascota/update?" +
+  console.log("imagen mascota data c",imagenData)
+    return await fetch(urlServer + "/imagenesMascota/update?" +
   "mascotaId=" + mascotaId +
   "&formatoImagen=" + formatoImagen +
   "&imagenId=" + imagenId
   , {
     method: 'PUT',
-    body: imagenData,
-    // mode: "no-cors",
+    body: JSON.stringify(imagenData),
+    // mode: "no-cors",c
 
     headers: {
       'Content-Type': 'multipart/form-data; ',
     },
   })
-  .then((response) => { return response.json() })
+  .then((response) => { 
+  
+    return response.json() })
   .catch((error) => {
+    
+
     console.log("error UpdateImage: ",error);
   });
+
 }
 
 export async function getImagesByMascotaId(mascotaId) {
