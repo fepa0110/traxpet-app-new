@@ -12,15 +12,17 @@ import { getImagesByMascotaId, sendImage } from "../services/ImageService";
 import Header from "../components/Header";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
+import Separator from "../components/Separator";
+import LoadingIndicator from "../components/LoadingIndicator";
+
 import { useSelector } from "react-redux";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
-import LoadingIndicator from "../components/LoadingIndicator";
-
 import { TipoPublicacion } from "../constants/TipoPublicacion";
+import { ColorsApp } from "../constants/Colors";
+
 import { FlashList } from "@shopify/flash-list";
 import { FontAwesome5 } from "@expo/vector-icons";
-import Separator from "../components/Separator";
 
 const ConfirmSelectedPet = () => {
 	const route = useRoute();
@@ -112,6 +114,8 @@ const ConfirmSelectedPet = () => {
 	};
 
 	const setSimilarSelected = async () => {
+		setIsLoading(true);
+
 		const publicationSelect = await getPublicacionByMascota(mascotaId);
 		showMatchingFeatures(await publicationSelect);
 
@@ -186,6 +190,7 @@ const ConfirmSelectedPet = () => {
 				);
 			}
 		}
+		setIsLoading(false);
 	};
 
 	const showMatchingFeatures = (publicationSelected) => {
@@ -239,6 +244,28 @@ const ConfirmSelectedPet = () => {
 		);
 	};
 
+	const listEmpty = () => {
+		return (
+			<View
+				style={{
+					justifyContent: "center",
+					alignItems: "center",
+					alignContent: "center",
+				}}>
+				<Text
+					style={{
+						fontWeight: "bold",
+						fontSize: 16,
+						textAlign: "center",
+						padding: 5,
+						color: ColorsApp.primaryTextColor,
+					}}>
+					No hay caracteristicas seleccionadas
+				</Text>
+			</View>
+		);
+	};
+
 	const confirmScreen = () => {
 		return (
 			<View style={{ height: "90%", width: "100%" }}>
@@ -253,17 +280,26 @@ const ConfirmSelectedPet = () => {
 							margin: 10,
 						}}
 					/>
-					<FlashList
-						contentContainerStyle={{
-							paddingVertical: 20,
-						}}
-						data={featuresMatched}
-						renderItem={renderItem}
-						estimatedItemSize={5}
-						ItemSeparatorComponent={itemDivider}
-					/>
+					<View
+						style={{
+							height:
+								featuresMatched.length > 0
+									? featuresMatched.length * 55
+									: 80,
+						}}>
+						<FlashList
+							contentContainerStyle={{
+								paddingVertical: 20,
+							}}
+							data={featuresMatched}
+							renderItem={renderItem}
+							estimatedItemSize={5}
+							ItemSeparatorComponent={itemDivider}
+							ListEmptyComponent={listEmpty}
+						/>
+					</View>
 
-					<View style={{alignItems: "center", width: "100%" }}>
+					<View style={{ alignItems: "center", width: "100%" }}>
 						<Separator width="100%" />
 					</View>
 
@@ -286,7 +322,7 @@ const ConfirmSelectedPet = () => {
 							width: "100%",
 						}}>
 						<SecondaryButton
-							title="Cancelar"
+							title="Volver"
 							actionFunction={() => {
 								navigation.goBack();
 							}}
