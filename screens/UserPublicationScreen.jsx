@@ -58,7 +58,6 @@ const UserPublicationScreen = () => {
   };
 
   const getTitleBotonEncontrado = () => {
-    console.log(publicacion.estado);
     if (!publicacion.estado) {
       setTitleBotonEncontrado("ERROR");
     } else {
@@ -269,7 +268,6 @@ const styles = StyleSheet.create({
   image: {
     height: 110,
     width: 110,
-    borderRadius: 200,
     resizeMode: "cover",
     marginBottom: 5,
   },
@@ -313,7 +311,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: ColorsApp.primaryTextColor,
   },
-
   message: {
     fontWeight: "bold",
     fontSize: 16,
