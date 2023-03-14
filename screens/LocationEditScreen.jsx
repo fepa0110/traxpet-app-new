@@ -100,7 +100,10 @@ const LocationEditScreen = () => {
         <PrimaryButton
           title="Agregar"
           actionFunction={() => {
-            addLocation();
+            openAlert(
+              "Agregar ubicacion",
+              "¿Esta seguro de agregar esta ubicacion a la publicacion?"
+            );
           }}
         />
       );
@@ -115,10 +118,14 @@ const LocationEditScreen = () => {
         closeOnTouchOutside={true}
         closeOnHardwareBackPress={false}
         showConfirmButton={true}
-        confirmText="Aceptar"
+        showCancelButton={true}
+        cancelText="No"
+        onCancelPressed={hideAlert}
+        confirmText="Si"
         confirmButtonColor={ColorsApp.primaryColor}
         onConfirmPressed={() => {
           hideAlert();
+          addLocation();
         }}
       />
     );
