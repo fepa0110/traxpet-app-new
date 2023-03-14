@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Image,
-  Platform,
-} from "react-native";
+import { StyleSheet, View, ScrollView, Image, Platform } from "react-native";
 
 import { Picker } from "@react-native-picker/picker";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -21,9 +15,10 @@ import { Input } from "@rneui/themed";
 
 import PrimaryButton from "../components/PrimaryButton";
 import IconButton from "../components/IconButton";
+import { getPublicationLocations } from "../services/LocationService";
 
 import { updatePublication } from "../services/PublicationService";
-import { updateImage } from '../services/ImageService';
+import { updateImage } from "../services/ImageService";
 
 const EditPublicationScreen = () => {
   const navigation = useNavigation();
@@ -39,33 +34,42 @@ const EditPublicationScreen = () => {
   const [secondImage, setSecondImage] = useState(null);
   const [thirdImage, setThirdImage] = useState(null);
   const [buttonEnable, setButtonEnable] = useState(true);
+
+  const [locationsData, setLocationsData] = useState({});
   // const [ubicacionData, setUbicacionData] = useState(route.params.ubicacion);
   const [showAlerta, setShowAlerta] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
-  // const [publicationSuccessfull, setPublicationSuccessfull] = useState(false);
-  // const [firstImageSuccessfull, setFirstImageSuccessfull] = useState(false);
-  // const [secondImageSuccessfull, setSecondImageSuccessfull] = useState(false);
-  // const [thirdImageSuccessfull, setThirdImageSuccessfull] = useState(false);
 
   useEffect(() => {
-    if (imagenes[0] !== undefined) {
-      setFirstImage({
-        uri: "data:image/jpg;base64," + imagenes[0].ImagenData,
-      });
-    }
+    const unsubscribe = navigation.addListener("focus", () => {
+      if (imagenes[0] !== undefined) {
+        setFirstImage({
+          uri: "data:image/jpg;base64," + imagenes[0].ImagenData,
+        });
+      }
 
-    if (imagenes[1] !== undefined) {
-      setSecondImage({
-        uri: "data:image/jpg;base64," + imagenes[1].ImagenData,
-      });
+      if (imagenes[1] !== undefined) {
+        setSecondImage({
+          uri: "data:image/jpg;base64," + imagenes[1].ImagenData,
+        });
+      }
+      if (imagenes[2] !== undefined) {
+        setThirdImage({
+          uri: "data:image/jpg;base64," + imagenes[2].ImagenData,
+        });
+      }
+      getUbicaciones();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  const getUbicaciones = async () => {
+    const response = await getPublicationLocations(publicacion.id);
+    if (response.StatusCode == 200) {
+      setLocationsData(response.data);
     }
-    if (imagenes[2] !== undefined) {
-      setThirdImage({
-        uri: "data:image/jpg;base64," + imagenes[2].ImagenData,
-      });
-    }
-  }, []);
+  };
 
   const showCameraAsync = async (imageNumber) => {
     let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
@@ -190,16 +194,13 @@ const EditPublicationScreen = () => {
           id: thirdImage.id,
         });
 
-      let responsePublication = await updatePublication(
-        publicacion.id,
-        {
-          id: publicacion.id,
-          mascota: {
-            id: publicacion.mascota.id,
-            nombre: nombreMascota,
-          },
-        }
-      );
+      let responsePublication = await updatePublication(publicacion.id, {
+        id: publicacion.id,
+        mascota: {
+          id: publicacion.mascota.id,
+          nombre: nombreMascota,
+        },
+      });
 
       //Si se  edito existosamente
       if (
@@ -210,7 +211,6 @@ const EditPublicationScreen = () => {
           sendImages(imagen.imagen, publicacion.mascota.id, imagen.id);
         });
         navigation.navigate("Home");
-
       } else {
         openAlert("Error", "Se produjo un error al generar la publicación");
       }
@@ -485,13 +485,26 @@ const EditPublicationScreen = () => {
           )}
         </View>
       </ScrollView>
-      <View style={styles.saveButton}>
+      <View style={styles.buttonContainer}>
         <PrimaryButton
           title="Guardar"
           actionFunction={() => {
             sendPublication();
           }}
           disabled={buttonEnable}
+        />
+        <PrimaryButton
+          title="Agregar ubicacion"
+          actionFunction={() => {
+            navigation.navigate("UserPublicationNavigation", {
+              screen: "LocationEditScreen",
+              params: {
+                mascotaId: publicacion.mascota.id,
+                locationsData: locationsData,
+                editable: true,
+              },
+            });
+          }}
         />
       </View>
       {alerta()}
@@ -513,11 +526,10 @@ const styles = StyleSheet.create({
     height: 40,
     width: 250,
   },
-  saveButton: {
-    alignSelf: "center",
-    padding: 5,
-    width: "50%",
-    alignItems: "center",
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingBottom: 20,
   },
   image: {
     height: 120,

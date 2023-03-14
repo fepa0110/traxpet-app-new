@@ -7,12 +7,20 @@ import SecondaryButton from "../components/SecondaryButton";
 import AwesomeAlert from "react-native-awesome-alerts";
 import MapView, { Marker } from "react-native-maps";
 import { StatusBar } from "expo-status-bar";
+import { addUbicacionMascota } from "../services/PublicationService";
+import { useSelector } from "react-redux";
 
 const LocationEditScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const user = {
+    id: useSelector((state) => state.user.id),
+    username: useSelector((state) => state.user.username),
+  };
 
   const locationsData = route.params.locationsData;
+  const mascotaId = route.params.mascotaId;
+
   const editable = route.params.editable;
   const [coords, setCoords] = useState({
     latitude: -42.78585228825225,
@@ -23,14 +31,7 @@ const LocationEditScreen = () => {
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 
-  useEffect(() => {
-    if (locationsData != undefined || locationsData.lenght != 0) {
-      setCoords({
-        latitude: locationsData[0].latitude,
-        longitude: locationsData[0].longitude,
-      });
-    }
-  }, []);
+  useEffect(() => {}, []);
 
   const openAlert = (title, messsage) => {
     setShowAlert(true);
@@ -40,6 +41,16 @@ const LocationEditScreen = () => {
 
   const hideAlert = () => {
     setShowAlert(false);
+  };
+
+  const movementMarker = (e) => {
+    const latitude = e.nativeEvent.coordinate.latitude;
+    const longitude = e.nativeEvent.coordinate.longitude;
+
+    setCoords({
+      latitude: latitude,
+      longitude: longitude,
+    });
   };
 
   const showLocations = () => {
@@ -57,16 +68,42 @@ const LocationEditScreen = () => {
         />
       );
     });
+
+    if (editable === true) {
+      markers.push(
+        <Marker
+          key={"Nueva ubicacion"}
+          draggable
+          coordinate={coords}
+          title="Nueva ubicacion"
+        />
+      );
+    }
     return markers;
   };
 
-  const onClickMap = (e) => {
-    const { latitude, longitude } = e.coordinate;
+  const addLocation = async () => {
+    const ubicacion = {
+      latitude: coords.latitude,
+      longitude: coords.longitude,
+      usuario: {
+        username: user.username,
+      },
+    };
+    await addUbicacionMascota(ubicacion, mascotaId);
+    navigation.goBack();
+  };
 
-    setCoords({
-      latitude: latitude,
-      longitude: longitude,
-    });
+  const showAddLocation = () => {
+    if (editable)
+      return (
+        <PrimaryButton
+          title="Agregar"
+          actionFunction={() => {
+            addLocation();
+          }}
+        />
+      );
   };
 
   const alerta = () => {
@@ -85,56 +122,46 @@ const LocationEditScreen = () => {
         }}
       />
     );
-  }; 
+  };
 
   const MapaAndroid = () => {
-    return(
+    return (
       <View style={styles.container}>
-        
         <MapView
           style={styles.map}
-          region={{
+          initialRegion={{
             latitude: coords.latitude,
             longitude: coords.longitude,
             latitudeDelta: 0.0042,
             longitudeDelta: 0.0121,
           }}
-          loadingEnabled={true}
-          loadingIndicatorColor="#666666"
-          loadingBackgroundColor="#eeeeee"
           zoomControlEnabled={true}
-          moveOnMarkerPress={false}
-          showsUserLocation={true}
-          showsPointsOfInterest={true}
-          showsMyLocationButton={false}
-          provider="google"
-          onPress={(e) => {
-            if (editable) onClickMap(e.nativeEvent);
-          }}
+          onPress={(direction) => movementMarker(direction)}
         >
           {showLocations()}
         </MapView>
         <View style={styles.buttonStyle}>
           <SecondaryButton
             title="Atras"
-            actionFunction={() => navigation.goBack()}
+            actionFunction={() => {
+              navigation.goBack();
+            }}
           />
+          {showAddLocation()}
         </View>
         {alerta()}
       </View>
-    )
-  }
+    );
+  };
 
-  return (
-    <MapaAndroid />
-  );
+  return <MapaAndroid />;
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: ColorsApp.primaryBackgroundColor,
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   map: {
     width: "100%",
