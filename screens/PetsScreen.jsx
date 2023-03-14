@@ -54,9 +54,9 @@ const PetsScreen = () => {
 		getPredict();
 	}, []);
 
-	const sendSimilarSelected = async (mascotaId) => {
-		console.log("🚀 ~ mascotaId:", mascotaId)
-		navigation.navigate("ConfirmSelectedPet", { mascotaId: mascotaId });
+	const sendSimilarSelected = async (mascotaId, imagenSelected) => {
+		// console.log("🚀 ~ mascotaId:", mascotaId)
+		navigation.navigate("ConfirmSelectedPet", { mascotaId: mascotaId, imageSelected: imagenSelected });
 	};
 
 	const publicar = async (notificateSimilar, mascotaSimilarId) => {
@@ -109,7 +109,7 @@ const PetsScreen = () => {
 	};
 
 	const fetchImages = async (mascotasSimilares) => {
-		console.log("🚀 ~ mascotasSimilares:", mascotasSimilares);
+		// console.log("🚀 ~ mascotasSimilares:", mascotasSimilares);
 		
 		const mascotasSimilaresIds = mascotasSimilares.map((mascota) => {
 			return mascota.id;
@@ -120,7 +120,7 @@ const PetsScreen = () => {
 			page * numberOfItemsPerPage + numberOfItemsPerPage
 		);
 
-		if (mascotasParaBuscar.length !== 0) {
+		if (mascotasParaBuscar.length != 0) {
 			setIsLoadingImages(true);
 			const response = await fetch(
 				`${urlServer}/imagenesMascota/mascotasActivas`,
@@ -185,21 +185,20 @@ const PetsScreen = () => {
 		return (
 			<View style={styles.container}>
 				<Text style={styles.message}>
-					No hay publicaciones de esta especie
 				</Text>
-				<FontAwesome5 name="paw" size={32} color={ColorsApp.primaryColor} />
+				{/* <FontAwesome5 name="paw" size={32} color={ColorsApp.primaryColor} /> */}
 			</View>
 		);
 	};
 
 	const renderItem = ({ item }) => {
-		console.log("🚀 item:", item.id)
+		// console.log("🚀 item:", item.id)
 		return (
 			<View style={styles.imageContainer}>
 				<TouchableOpacity
 					onPress={() => {
 						
-						sendSimilarSelected(item.id);
+						sendSimilarSelected(item.id, item.ImagenData);
 					}}>
 					<Image
 						source={{ uri: `data:image/jpg;base64,${item.ImagenData}` }}
