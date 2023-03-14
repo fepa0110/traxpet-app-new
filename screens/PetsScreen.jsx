@@ -136,7 +136,7 @@ const PetsScreen = () => {
 			const imagenes = await response.json();
 
 			const mascotitas = imagenesMascotas.concat(imagenes.data);
-			console.log("🚀 imagenesMascotas:", imagenesMascotas)
+			// console.log("🚀 imagenesMascotas:", imagenesMascotas)
 			setImagenesMascotas(mascotitas);
 			setPage(page + 1);
 			setIsLoadingImages(false);
