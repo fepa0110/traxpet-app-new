@@ -147,7 +147,7 @@ const HomeScreen = () => {
 
   const showViewedPublications = () => {
     return (
-      <View>
+      <View style={{ height: (height / 2) - 40, width: "100%" }}>
         <Text style={styles.title}>Mascotas vistas</Text>
         <FlashList
           data={publicacionesVistas}
@@ -162,7 +162,7 @@ const HomeScreen = () => {
 
   const showSearchedPublications = () => {
     return (
-      <View>
+      <View style={{ height: (height / 2) - 40, width: "100%" }}>
         <Text style={styles.title}>Mascotas buscadas</Text>
         <FlashList
           data={publicacionesBuscadas}
@@ -239,7 +239,7 @@ const HomeScreen = () => {
 
   const showScreen = () => {
     return (
-      <ScrollView
+      <View
         style={{ height: "100%", width: "100%" }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -247,7 +247,7 @@ const HomeScreen = () => {
       >
         {showSearchedPublications()}
         {showViewedPublications()}
-      </ScrollView>
+      </View>
     );
   };
 
