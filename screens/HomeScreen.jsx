@@ -5,12 +5,14 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  FlatList,
+  Image,
+  useWindowDimensions,
 } from "react-native";
 import React, { useEffect, useState, useCallback } from "react";
 
 import HeaderHome from "../components/HeaderHome";
 
-import { FlashList } from "@shopify/flash-list";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -21,12 +23,22 @@ import { useNavigation } from "@react-navigation/native";
 import { resetNewPublication } from "../redux/slices/publicationSlice";
 
 import { useSelector, useDispatch } from "react-redux";
-import { getPublicacionesByUserRequest } from "../services/PublicationService";
+import {
+  getPublicacionesBuscadasByUserRequest,
+  getPublicacionesVistasByUserRequest,
+} from "../services/PublicationService";
 import { getNotificacionesByUserIdRequest } from "../services/NotificationService";
 import FloatingButton from "../components/FloatingButton";
 import { TipoPublicacion } from "../constants/TipoPublicacion";
+import { FlashList } from "@shopify/flash-list";
+
+import { urlServer } from "../constants/constants";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 const HomeScreen = () => {
+  const { width, height } = useWindowDimensions();
+  const listColumns = 3;
+
   const user = {
     id: useSelector((state) => state.user.id),
     username: useSelector((state) => state.user.username),
@@ -36,13 +48,67 @@ const HomeScreen = () => {
 
   const navigation = useNavigation();
   const [publicaciones, setPublicaciones] = useState([]);
+
+  const [publicacionesVistas, setPublicacionesVistas] = useState([]);
+  const [publicacionesBuscadas, setPublicacionesBuscadas] = useState([]);
+
+  const [imagenesMascotasVistas, setImagenesMascotasVistas] = useState([]);
+  const [imagenesMascotasBuscadas, setImagenesMascotasBuscadas] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const [notificaciones, setNotificaciones] = useState([]);
   const dispatch = useDispatch();
 
   const getPublicaciones = async () => {
-    let publicacionesUser = await getPublicacionesByUserRequest(user.username);
+    setIsLoading(true);
+    const vistas = await getPublicacionesVistasByUserRequest(user.username);
 
-    setPublicaciones(publicacionesUser.data);
+    const vistasIds = vistas.data.map((pub) => {
+      return pub.mascota.id;
+    });
+
+    if (vistasIds.length !== 0) {
+      const response = await fetch(
+        `${urlServer}/imagenesMascota/mascotasActivas`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(vistasIds),
+        }
+      );
+      const imagenes = await response.json();
+
+      setImagenesMascotasVistas(imagenes.data);
+    }
+    const buscadas = await getPublicacionesBuscadasByUserRequest(user.username);
+
+    const buscadasIds = buscadas.data.map((pub) => {
+      return pub.mascota.id;
+    });
+
+    if (buscadasIds.length !== 0) {
+      const response = await fetch(
+        `${urlServer}/imagenesMascota/mascotasActivas`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(buscadasIds),
+        }
+      );
+      const imagenes = await response.json();
+
+      setImagenesMascotasBuscadas(imagenes.data);
+    }
+    setPublicacionesBuscadas(buscadas.data);
+    setPublicacionesVistas(vistas.data);
+    setIsLoading(false);
   };
 
   const getNotificaciones = async () => {
@@ -56,8 +122,6 @@ const HomeScreen = () => {
       getPublicaciones();
       getNotificaciones();
     });
-    getPublicaciones();
-    getNotificaciones();
     return unsubscribe;
   }, [navigation]);
 
@@ -74,72 +138,124 @@ const HomeScreen = () => {
     return (
       <View style={styles.container}>
         <Text style={styles.message}>
-          El usuario aun no ha realizado publicaciones
+          El usuario aun no ha realizado publicaciones de este tipo
         </Text>
         <FontAwesome5 name="paw" size={32} color={ColorsApp.primaryColor} />
       </View>
     );
   };
 
-  const showPublications = () => {
+  const showViewedPublications = () => {
     return (
-      <FlashList
-        contentContainerStyle={{ paddingVertical: 20 }}
-        data={publicaciones}
-        renderItem={renderItem}
-        estimatedItemSize={60}
-        ListEmptyComponent={listEmpty}
-      />
+      <View>
+        <Text style={styles.title}>Mascotas vistas</Text>
+        <FlashList
+          data={publicacionesVistas}
+          renderItem={renderVistas}
+          estimatedItemSize={30}
+          ListEmptyComponent={listEmpty}
+          numColumns={listColumns}
+        />
+      </View>
     );
   };
 
-  const renderItem = ({ item }) => (
-    <View>
-      <TouchableOpacity
-        style={{
-          flexDirection: "row",
-          marginVertical: 5,
-        }}
-        onPress={() => {
-          navigation.navigate("UserPublicationNavigation", {
-            screen: "UserPublicationScreen",
-            params: {
-              publication: item,
-            },
-          });
-        }}
-      >
-        <View style={{ marginHorizontal: 20 }}>
-          <FontAwesome5
-            name={
-              item.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA
-                ? "map-marked-alt"
-                : "search-location"
-            }
-            size={item.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA ? 28 : 32}
-            color={ColorsApp.primaryColor}
+  const showSearchedPublications = () => {
+    return (
+      <View>
+        <Text style={styles.title}>Mascotas buscadas</Text>
+        <FlashList
+          data={publicacionesBuscadas}
+          renderItem={renderBuscadas}
+          estimatedItemSize={30}
+          ListEmptyComponent={listEmpty}
+          numColumns={listColumns}
+        />
+      </View>
+    );
+  };
+
+  const renderVistas = ({ item }) => {
+    const image = imagenesMascotasVistas.find(
+      (imagen) => imagen.id === item.mascota.id
+    );
+    return (
+      <View style={styles.imageContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("UserPublicationNavigation", {
+              screen: "UserPublicationScreen",
+              params: {
+                publication: item,
+              },
+            });
+          }}
+        >
+          <Image
+            source={{ uri: `data:image/jpg;base64,${image.ImagenData}` }}
+            style={{
+              height: width / listColumns - 5,
+              width: width / listColumns - 5,
+              resizeMode: "stretch",
+              borderRadius: 20,
+            }}
           />
-        </View>
-        <View>
-          <Text style={styles.itemTitle}>{item.mascota.especie.nombre}</Text>
-          <Text style={styles.itemSubtitle}>
-            {(item.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA
-              ? "Mascota vista"
-              : "Mascota buscada") +
-              "\nCreada: " +
-              item.fechaPublicacion +
-              "\nModificada: " +
-              item.fechaModificacion}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
+          <Text>Ultima actividad: {item.fechaModificacion}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const renderBuscadas = ({ item }) => {
+    const image = imagenesMascotasBuscadas.find(
+      (imagen) => imagen.id === item.mascota.id
+    );
+    return (
+      <View style={styles.imageContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("UserPublicationNavigation", {
+              screen: "UserPublicationScreen",
+              params: {
+                publication: item,
+              },
+            });
+          }}
+        >
+          <Image
+            source={{ uri: `data:image/jpg;base64,${image.ImagenData}` }}
+            style={{
+              height: width / listColumns - 5,
+              width: width / listColumns - 5,
+              resizeMode: "stretch",
+              borderRadius: 20,
+            }}
+          />
+          <Text>Ultima actividad: {item.fechaModificacion}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const showScreen = () => {
+    return (
+      <ScrollView
+        style={{ height: "100%", width: "100%" }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        {showSearchedPublications()}
+        {showViewedPublications()}
+      </ScrollView>
+    );
+  };
 
   return (
     <View
       style={{
         height: "100%",
+        width: "100%",
         backgroundColor: ColorsApp.primaryBackgroundColor,
       }}
     >
@@ -160,14 +276,8 @@ const HomeScreen = () => {
           </TouchableOpacity>
         }
       />
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        {showPublications()}
-      </ScrollView>
-      {/* TODO: Probar con replace para que se actualice al publicar */}
+      {isLoading ? <LoadingIndicator /> : showScreen()}
+
       <FloatingButton
         visible={true}
         onPressFunction={() => {
@@ -185,6 +295,10 @@ const styles = StyleSheet.create({
   headerRightComponent: {
     paddingTop: 10,
     flexDirection: "row",
+  },
+  imageContainer: {
+    backgroundColor: ColorsApp.primaryBackgroundColor,
+    padding: 2,
   },
   textNotification: {
     flex: 2,
@@ -222,6 +336,12 @@ const styles = StyleSheet.create({
   message: {
     fontWeight: "bold",
     fontSize: 16,
+    padding: 5,
+    color: ColorsApp.primaryTextColor,
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 32,
     padding: 5,
     color: ColorsApp.primaryTextColor,
   },
