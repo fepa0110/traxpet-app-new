@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   image: {
     height: 110,
     width: 110,
-    resizeMode: "cover",
+    resizeMode: "stretch",
     marginBottom: 5,
   },
   containerSectionImagesWeb: {

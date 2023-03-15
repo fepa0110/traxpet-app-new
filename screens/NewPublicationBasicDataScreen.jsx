@@ -520,8 +520,7 @@ const styles = StyleSheet.create({
 	image: {
 		height: 110,
 		width: 110,
-		borderRadius: 200,
-		resizeMode: "cover",
+		resizeMode: "stretch",
 		marginBottom: 5,
 	},
 	containerSectionImagesWeb: {
@@ -545,7 +544,6 @@ const styles = StyleSheet.create({
 		marginHorizontal: 5,
 		marginBottom: 20,
 	},
-
 	buttonCamera: {
 		backgroundColor: "orangered",
 		alignItems: "center",

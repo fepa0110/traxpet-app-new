@@ -92,7 +92,7 @@ const ConfirmSelectedPet = () => {
 			};
 		}
 
-		console.log("publicacion: ", publicationToSend);
+		// console.log("publicacion: ", publicationToSend);
 
 		const publicationData = await sendPublication(
 			publicationToSend,
@@ -119,11 +119,11 @@ const ConfirmSelectedPet = () => {
 		const publicationSelect = await getPublicacionByMascota(mascotaId);
 		showMatchingFeatures(await publicationSelect);
 
-		console.log("" + JSON.stringify(publication));
+		// console.log("" + JSON.stringify(publication));
 		// Actualizar ubicacion
 		if (publication.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA) {
 			if (!(Object.keys(location).length == 0)) {
-				console.log("Actualizar ubicacion...");
+				// console.log("Actualizar ubicacion...");
 
 				const ubicacion = {
 					latitude: location.latitude,
@@ -150,17 +150,17 @@ const ConfirmSelectedPet = () => {
 				});
 			}
 		} else {
-			console.log("🚀 ~mascotaId:", mascotaId);
-			console.log("🚀 ~ publicationSelect:", publicationSelect);
+			// console.log("🚀 ~mascotaId:", mascotaId);
+			// console.log("🚀 ~ publicationSelect:", publicationSelect);
 			//Si soy el dueño y selecciono una mascota encontrada entonces migrar dueño
 			if (
 				publication.tipoPublicacion === TipoPublicacion.MASCOTA_BUSCADA &&
 				publicationSelect.tipoPublicacion === TipoPublicacion.MASCOTA_VISTA
 			) {
-				console.log("Migrando...");
+				// console.log("Migrando...");
 
 				setConfirmFunction(() => async () => {
-					console.log("Migrando publicacion a nuevo dueño...");
+					// console.log("Migrando publicacion a nuevo dueño...");
 					await migrarPublicacion(publicationSelect.id, user.username);
 					navigation.navigate("Home");
 				});
@@ -177,7 +177,7 @@ const ConfirmSelectedPet = () => {
 				publicationSelect.tipoPublicacion ===
 					TipoPublicacion.MASCOTA_BUSCADA
 			) {
-				console.log("Creando nueva: ambos son dueños...");
+				// console.log("Creando nueva: ambos son dueños...");
 
 				setConfirmFunction(() => async () => {
 					await publicar(true, mascotaId);
@@ -214,7 +214,7 @@ const ConfirmSelectedPet = () => {
 						: true,
 			});
 		}
-		console.log("🚀 listMatch:", listMatch);
+		// console.log("🚀 listMatch:", listMatch);
 		setFeaturesMatched(listMatch);
 	};
 
