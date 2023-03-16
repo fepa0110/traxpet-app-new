@@ -1,15 +1,15 @@
 import React from "react";
 
-import AdministrationScreen from "../screens/AdministrationScreen";
-import SpeciesAdminScreen from "../screens/SpeciesAdminScreen";
-import FeaturesAdminScreen from "../screens/FeaturesAdminScreen";
-import NewFeatureAdminScreen from "../screens/NewFeatureAdminScreen";
-import NewSpecieAdminScreen from "../screens/NewSpecieAdminScreen";
-import EditSpecieAdminScreen from "../screens/EditSpecieAdminScreen";
-import EditFeatureAdminScreen from "../screens/EditFeatureAdminScreen";
+import AdministrationScreen from "screens/AdministrationScreen";
+import SpeciesAdminScreen from "screens/SpeciesAdminScreen";
+import FeaturesAdminScreen from "screens/FeaturesAdminScreen";
+import NewFeatureAdminScreen from "screens/NewFeatureAdminScreen";
+import NewSpecieAdminScreen from "screens/NewSpecieAdminScreen";
+import EditSpecieAdminScreen from "screens/EditSpecieAdminScreen";
+import EditFeatureAdminScreen from "screens/EditFeatureAdminScreen";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
 const AdminScreenStack = createNativeStackNavigator();
 

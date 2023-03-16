@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { urlServer } from "../constants/constants";
+import { urlServer } from "constants/constants";
 
 export async function getValuesDataByFeatureAndSpecie (especieNombre,caracteristica) {
   return await fetch(

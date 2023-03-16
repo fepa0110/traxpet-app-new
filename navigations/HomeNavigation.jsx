@@ -1,15 +1,15 @@
 import React from "react";
 import { Platform, TouchableOpacity, View } from "react-native";
 
-import UserScreen from "../screens/UserScreen";
-import HomeScreen from "../screens/HomeScreen";
-import SearchScreen from "../screens/SearchScreen";
+import UserScreen from "screens/UserScreen";
+import HomeScreen from "screens/HomeScreen";
+import SearchScreen from "screens/SearchScreen";
 
 import { Ionicons } from "@expo/vector-icons";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
 const Tab = createBottomTabNavigator();
 

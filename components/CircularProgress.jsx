@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { Svg, Circle, Text } from "react-native-svg";
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
 export const CircularProgress = (props) => {
 	const size = props.size;

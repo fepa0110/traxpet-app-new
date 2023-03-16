@@ -11,21 +11,21 @@ import { FlashList } from "@shopify/flash-list";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
-import { getPublicationLocations } from "../services/LocationService";
-import { getImagesByMascotaId } from "../services/ImageService";
-import LargePrimaryButton from "../components/LargePrimaryButton";
-import LargeSecondaryButton from "../components/LargeSecondaryButton";
-import SecondaryButton from "../components/SecondaryButton";
+import { getPublicationLocations } from "services/LocationService";
+import { getImagesByMascotaId } from "services/ImageService";
+import LargePrimaryButton from "@/LargePrimaryButton";
+import LargeSecondaryButton from "@/LargeSecondaryButton";
+import SecondaryButton from "@/SecondaryButton";
 
-import Header from "../components/Header";
+import Header from "@/Header";
 
 import {
   getPublicacionById,
   markAsFound,
-} from "../services/PublicationService";
-import LoadingIndicator from "../components/LoadingIndicator";
+} from "services/PublicationService";
+import LoadingIndicator from "@/LoadingIndicator";
 
 const UserPublicationScreen = () => {
   const navigation = useNavigation();

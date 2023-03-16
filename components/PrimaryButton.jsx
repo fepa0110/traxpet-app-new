@@ -6,7 +6,7 @@
  */
 import { React } from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
 const PrimaryButton = (props) => {
   return (

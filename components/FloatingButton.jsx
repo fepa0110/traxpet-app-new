@@ -9,7 +9,7 @@ import React from 'react'
 
 import { FAB } from "@rneui/themed";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
 const FloatingButton = (props) => {
     return (

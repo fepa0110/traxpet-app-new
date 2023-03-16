@@ -1,17 +1,17 @@
 
-import HomeNavigation from './navigations/HomeNavigation';
-import LoginNavigation from './navigations/LoginNavigation'
-import PublicationNavigation from './navigations/PublicationNavigation'
-import AdminNavigation from './navigations/AdminNavigation'
-import UserPublicationNavigation from './navigations/UserPublicationNavigation'
-import UserNavigation from './navigations/UserNavigation'
+import HomeNavigation from 'navigations/HomeNavigation';
+import LoginNavigation from 'navigations/LoginNavigation'
+import PublicationNavigation from 'navigations/PublicationNavigation'
+import AdminNavigation from 'navigations/AdminNavigation'
+import UserPublicationNavigation from 'navigations/UserPublicationNavigation'
+import UserNavigation from 'navigations/UserNavigation'
 
-import NotificationsScreen from './screens/NotificationsScreen'
+import NotificationsScreen from 'screens/NotificationsScreen'
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import store from './redux/store'
+import store from './config-redux/store'
 import { Provider } from 'react-redux'
 
 import { ColorsApp } from './constants/Colors'

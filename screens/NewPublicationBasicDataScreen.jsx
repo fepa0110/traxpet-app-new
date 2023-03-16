@@ -13,8 +13,8 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 
-import Header from "../components/Header";
-import { ColorsApp } from "../constants/Colors";
+import Header from "@/Header";
+import { ColorsApp } from "constants/Colors";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import defaultImage from "../assets/defaultImage.jpg";
@@ -29,12 +29,12 @@ import {
 	setLocation,
 	setNewPublication,
 	resetNewPublication,
-} from "../redux/slices/publicationSlice";
-import { getEnabledSpecies } from "../services/SpecieService";
-import LargePrimaryButton from "../components/LargePrimaryButton";
-import PrimaryButton from "../components/PrimaryButton";
-import IconButton from "../components/IconButton";
-import { TipoPublicacion } from "../constants/TipoPublicacion";
+} from "../config-redux/slices/publicationSlice";
+import { getEnabledSpecies } from "services/SpecieService";
+import LargePrimaryButton from "@/LargePrimaryButton";
+import PrimaryButton from "@/PrimaryButton";
+import IconButton from "@/IconButton";
+import { TipoPublicacion } from "constants/TipoPublicacion";
 
 const NewPublicationBasicDataScreen = () => {
 	const navigation = useNavigation();

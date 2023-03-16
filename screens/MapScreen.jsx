@@ -1,18 +1,18 @@
 import { View, Alert, StyleSheet } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import React, { useState } from "react";
 import AwesomeAlert from "react-native-awesome-alerts";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setLocation } from "../redux/slices/publicationSlice";
+import { setLocation } from "../config-redux/slices/publicationSlice";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
-import PrimaryButton from "../components/PrimaryButton";
-import SecondaryButton from "../components/SecondaryButton";
-import IconButton from "../components/IconButton";
+import PrimaryButton from "@/PrimaryButton";
+import SecondaryButton from "@/SecondaryButton";
+import IconButton from "@/IconButton";
 
 import * as Location from "expo-location";
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
 const MapScreen = () => {
   const navigation = useNavigation();
@@ -110,6 +110,7 @@ const MapScreen = () => {
           latitudeDelta: 0.0042,
           longitudeDelta: 0.0121,
         }}
+				provider={PROVIDER_GOOGLE}
         
         zoomControlEnabled={true}
         

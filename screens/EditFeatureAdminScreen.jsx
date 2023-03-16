@@ -19,15 +19,15 @@ import {
   saveValor,
   getValuesDataByFeatureAndSpecie,
   disabledValue,
-} from "../services/ValoresService";
+} from "services/ValoresService";
 
 import { Input } from "@rneui/themed";
 
-import { ColorsApp } from "../constants/Colors";
-import Header from "../components/Header";
-import Separator from "../components/Separator";
-import PrimaryButton from "../components/PrimaryButton";
-import IconButton from "../components/IconButton";
+import { ColorsApp } from "constants/Colors";
+import Header from "@/Header";
+import Separator from "@/Separator";
+import PrimaryButton from "@/PrimaryButton";
+import IconButton from "@/IconButton";
 
 const EditFeatureAdminScreen = () => {
   const route = useRoute();

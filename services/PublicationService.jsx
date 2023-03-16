@@ -1,4 +1,4 @@
-import { urlServer } from "../constants/constants";
+import { urlServer } from "constants/constants";
 
 const publicacionesEndPoint = "/publicaciones";
 

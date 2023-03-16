@@ -6,7 +6,7 @@
 
 import { React } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
 import { Header as HeaderElements } from "@rneui/themed" ; 
 

@@ -2,15 +2,15 @@ import React, { Component } from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import NewPublicationBasicDataScreen from "../screens/NewPublicationBasicDataScreen";
-import MapScreen from "../screens/MapScreen";
-import NewPublicationFeaturesScreen from "../screens/NewPublicationFeaturesScreen";
-import ConfirmSelectedPet from "../screens/ConfirmSelectedPet";
-import PetsScreen from "../screens/PetsScreen";
+import NewPublicationBasicDataScreen from "screens/NewPublicationBasicDataScreen";
+import MapScreen from "screens/MapScreen";
+import NewPublicationFeaturesScreen from "screens/NewPublicationFeaturesScreen";
+import ConfirmSelectedPet from "screens/ConfirmSelectedPet";
+import PetsScreen from "screens/PetsScreen";
 
 const PublicationStack = createNativeStackNavigator();
 
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
 const PublicationNavigation = () => {
   return (

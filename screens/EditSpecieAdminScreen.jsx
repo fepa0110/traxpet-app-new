@@ -12,11 +12,11 @@ import { FlashList } from "@shopify/flash-list";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-import { getFeatures } from "../services/FeatureService";
+import { getFeatures } from "services/FeatureService";
 
-import { ColorsApp } from "../constants/Colors";
-import Header from "../components/Header";
-import Separator from "../components/Separator";
+import { ColorsApp } from "constants/Colors";
+import Header from "@/Header";
+import Separator from "@/Separator";
 
 const EditSpecieAdminScreen = () => {
   const route = useRoute();

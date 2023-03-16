@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-import { urlServer } from "../constants/constants";
+import { urlServer } from "constants/constants";
 
 export async function loginRequest(userData) {
     return await fetch(urlServer + "/usuarios/login", {

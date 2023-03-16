@@ -5,16 +5,16 @@ import {
   View,
   ScrollView,
 } from "react-native";
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 
-import Header from "../components/Header";
-import Separator from "../components/Separator";
+import Header from "@/Header";
+import Separator from "@/Separator";
 import { FlashList } from "@shopify/flash-list";
 import { FontAwesome5 } from "@expo/vector-icons";
-import FloatingButton from "../components/FloatingButton";
+import FloatingButton from "@/FloatingButton";
 
-import { getFeatures } from "../services/FeatureService";
+import { getFeatures } from "services/FeatureService";
 
 
 const FeaturesAdminScreen = () => {

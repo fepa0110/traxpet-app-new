@@ -1,7 +1,7 @@
 import { View, ActivityIndicator } from 'react-native'
 import React from 'react'
 
-import { ColorsApp } from '../constants/Colors'
+import { ColorsApp } from 'constants/Colors'
 
 const LoadingIndicator = (props) => {
     return (

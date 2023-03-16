@@ -13,17 +13,17 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-import { getFeaturesMapByPredict } from "../services/ValueService";
-import { sendImage } from "../services/ImageService";
-import { getByModeloActivoEspecie } from "../services/MascotasEntrenadasService";
-import { sendPublication } from "../services/PublicationService";
+import { getFeaturesMapByPredict } from "services/ValueService";
+import { sendImage } from "services/ImageService";
+import { getByModeloActivoEspecie } from "services/MascotasEntrenadasService";
+import { sendPublication } from "services/PublicationService";
 
-import { ColorsApp } from "../constants/Colors";
-import { urlServer } from "../constants/constants";
+import { ColorsApp } from "constants/Colors";
+import { urlServer } from "constants/constants";
 
-import Header from "../components/Header";
-import LargePrimaryButton from "../components/LargePrimaryButton";
-import LoadingIndicator from "../components/LoadingIndicator";
+import Header from "@/Header";
+import LargePrimaryButton from "@/LargePrimaryButton";
+import LoadingIndicator from "@/LoadingIndicator";
 
 const PetsScreen = () => {
 	const user = {

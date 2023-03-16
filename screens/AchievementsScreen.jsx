@@ -12,22 +12,22 @@ import { FlashList } from "@shopify/flash-list";
 import { Input } from "@rneui/themed";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { logIn } from "../redux/slices/userSlice";
+import { logIn } from "../config-redux/slices/userSlice";
 
-import { getUserByUsernameRequest } from "../services/UsuarioService";
+import { getUserByUsernameRequest } from "services/UsuarioService";
 import {
 	getGivenLevelsByUsername,
 	getLevels,
 	getLevelByUsername,
-} from "../services/AchievementsService";
+} from "services/AchievementsService";
 
-import Header from "../components/Header";
-import LoadingIndicator from "../components/LoadingIndicator";
+import Header from "@/Header";
+import LoadingIndicator from "@/LoadingIndicator";
 
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
-import Separator from "../components/Separator";
-import { CircularProgress } from "../components/CircularProgress";
+import Separator from "@/Separator";
+import { CircularProgress } from "@/CircularProgress";
 
 const AchievementsScreen = () => {
 	const { height, width } = useWindowDimensions();

@@ -14,11 +14,11 @@ import {
 import { FontAwesome5 } from "@expo/vector-icons";
 import AwesomeAlert from "react-native-awesome-alerts";
 
-import Header from "../components/Header";
-import { ColorsApp } from "../constants/Colors";
-import { getEspecies, disableEspecieRequest } from "../services/SpecieService";
-import FloatingButton from "../components/FloatingButton";
-import Separator from "../components/Separator";
+import Header from "@/Header";
+import { ColorsApp } from "constants/Colors";
+import { getEspecies, disableEspecieRequest } from "services/SpecieService";
+import FloatingButton from "@/FloatingButton";
+import Separator from "@/Separator";
 
 const SpeciesAdminScreen = () => {
 

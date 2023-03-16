@@ -1,16 +1,16 @@
 import { View, Text, StyleSheet, Platform } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
-import PrimaryButton from "../components/PrimaryButton";
-import SecondaryButton from "../components/SecondaryButton";
-import IconButton from "../components/IconButton";
+import PrimaryButton from "@/PrimaryButton";
+import SecondaryButton from "@/SecondaryButton";
+import IconButton from "@/IconButton";
 
 import AwesomeAlert from "react-native-awesome-alerts";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
-import { addUbicacionMascota } from "../services/PublicationService";
+import { addUbicacionMascota } from "services/PublicationService";
 import { useSelector } from "react-redux";
 import * as Location from "expo-location";
 
@@ -163,6 +163,7 @@ const LocationEditScreen = () => {
 						latitudeDelta: 0.0042,
 						longitudeDelta: 0.0121,
 					}}
+					provider={PROVIDER_GOOGLE}
 					zoomControlEnabled={true}
 					onPress={(direction) => movementMarker(direction)}>
 					{showLocations()}

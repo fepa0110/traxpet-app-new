@@ -11,29 +11,28 @@ import {
 } from "react-native";
 import React, { useEffect, useState, useCallback } from "react";
 
-import HeaderHome from "../components/HeaderHome";
+import HeaderHome from "@/HeaderHome";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
 import { useNavigation } from "@react-navigation/native";
 
-import { resetNewPublication } from "../redux/slices/publicationSlice";
+import { resetNewPublication } from "../config-redux/slices/publicationSlice";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
 	getPublicacionesBuscadasByUserRequest,
 	getPublicacionesVistasByUserRequest,
-} from "../services/PublicationService";
-import { getNotificacionesByUserIdRequest } from "../services/NotificationService";
-import FloatingButton from "../components/FloatingButton";
-import { TipoPublicacion } from "../constants/TipoPublicacion";
+} from "services/PublicationService";
+import { getNotificacionesByUserIdRequest } from "services/NotificationService";
+import FloatingButton from "@/FloatingButton";
 import { FlashList } from "@shopify/flash-list";
 
-import { urlServer } from "../constants/constants";
-import LoadingIndicator from "../components/LoadingIndicator";
+import { urlServer } from "constants/constants";
+import LoadingIndicator from "@/LoadingIndicator";
 
 const HomeScreen = () => {
 	const { width, height } = useWindowDimensions();

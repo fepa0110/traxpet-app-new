@@ -1,4 +1,4 @@
-import { urlServer } from "../constants/constants";
+import { urlServer } from "constants/constants";
 
 export async function getPublicationLocations(publicationId) {
     return await fetch(

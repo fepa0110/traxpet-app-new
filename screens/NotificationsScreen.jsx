@@ -9,17 +9,16 @@ import React, { useEffect, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { ColorsApp } from "../constants/Colors";
-import { urlServer } from "../constants/constants";
-import Header from "../components/Header";
+import { ColorsApp } from "constants/Colors";
+import Header from "@/Header";
 
 import { useSelector } from "react-redux";
 
 import {
 	getNotificacionesByUserIdRequest,
 	readNotification,
-} from "../services/NotificationService";
-import { TipoPublicacion } from "../constants/TipoPublicacion";
+} from "services/NotificationService";
+import { TipoPublicacion } from "constants/TipoPublicacion";
 
 const NotificationsScreen = () => {
 	const user = {

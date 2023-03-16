@@ -1,8 +1,8 @@
 import { Text, View, ScrollView,StyleSheet } from "react-native";
 import React  from 'react'
-import { ColorsApp } from '../constants/Colors';
-import Header from '../components/Header';
-import LargePrimaryButton from '../components/LargePrimaryButton'
+import { ColorsApp } from 'constants/Colors';
+import Header from '@/Header';
+import LargePrimaryButton from '@/LargePrimaryButton'
 
 const AdministrationScreen = ({ navigation }) => {
     return (

@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { Entypo, Ionicons } from "@expo/vector-icons";
@@ -15,10 +15,10 @@ import {
 	getEspecies,
 	disabledEspecie,
 	sendSpecie,
-} from "../services/SpecieService";
-import Header from "../components/Header";
+} from "services/SpecieService";
+import Header from "@/Header";
 import { Input } from "@rneui/themed";
-import PrimaryButton from "../components/PrimaryButton";
+import PrimaryButton from "@/PrimaryButton";
 
 const NewSpecieAdminScreen = () => {
 	const navigation = useNavigation();

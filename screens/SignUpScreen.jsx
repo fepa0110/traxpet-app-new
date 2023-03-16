@@ -13,18 +13,18 @@ import * as Crypto from "expo-crypto";
 
 import { useNavigation } from "@react-navigation/native";
 
-import { urlServer } from "../constants/constants";
-import { ColorsApp } from "../constants/Colors";
+import { urlServer } from "constants/constants";
+import { ColorsApp } from "constants/Colors";
 
 import { useSelector, useDispatch } from "react-redux";
-import { logIn } from "../redux/slices/userSlice";
+import { logIn } from "../config-redux/slices/userSlice";
 
 import validator from 'validator'
-import LargePrimaryButton from '../components/LargePrimaryButton';
-import LoadingIndicator from '../components/LoadingIndicator';
-import LargeSecondaryButton from '../components/LargeSecondaryButton';
-import { getUserByEmailRequest, getUserByUsernameRequest, registerUserRequest } from '../services/UsuarioService';
-import Separator from '../components/Separator';
+import LargePrimaryButton from '@/LargePrimaryButton';
+import LoadingIndicator from '@/LoadingIndicator';
+import LargeSecondaryButton from '@/LargeSecondaryButton';
+import { getUserByEmailRequest, getUserByUsernameRequest, registerUserRequest } from 'services/UsuarioService';
+import Separator from '@/Separator';
 
 const SignUpScreen = () => {
     const navigation = useNavigation();

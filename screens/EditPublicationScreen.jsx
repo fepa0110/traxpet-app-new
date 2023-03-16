@@ -4,8 +4,8 @@ import { StyleSheet, View, ScrollView, Image, Platform } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-import Header from "../components/Header";
-import { ColorsApp } from "../constants/Colors";
+import Header from "@/Header";
+import { ColorsApp } from "constants/Colors";
 import * as ImagePicker from "expo-image-picker";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -13,13 +13,13 @@ import AwesomeAlert from "react-native-awesome-alerts";
 
 import { Input } from "@rneui/themed";
 
-import PrimaryButton from "../components/PrimaryButton";
-import IconButton from "../components/IconButton";
-import { getPublicationLocations } from "../services/LocationService";
+import PrimaryButton from "@/PrimaryButton";
+import IconButton from "@/IconButton";
+import { getPublicationLocations } from "services/LocationService";
 
-import { updatePublication } from "../services/PublicationService";
-import { updateImage } from "../services/ImageService";
-import LargePrimaryButton from "../components/LargePrimaryButton";
+import { updatePublication } from "services/PublicationService";
+import { updateImage } from "services/ImageService";
+import LargePrimaryButton from "@/LargePrimaryButton";
 
 const EditPublicationScreen = () => {
 	const navigation = useNavigation();

@@ -1,14 +1,14 @@
 import { StyleSheet, View } from "react-native";
 
-import { urlServer } from "../constants/constants";
+import { urlServer } from "constants/constants";
 import { useNavigation } from "@react-navigation/native";
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 import React, { useState, useEffect } from "react";
 import AwesomeAlert from "react-native-awesome-alerts";
 
-import Header from "../components/Header";
+import Header from "@/Header";
 import { Input } from "@rneui/themed";
-import PrimaryButton from "../components/PrimaryButton";
+import PrimaryButton from "@/PrimaryButton";
 
 const NewFeatureAdminScreen = () => {
 	const navigation = useNavigation();

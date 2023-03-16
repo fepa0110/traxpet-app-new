@@ -6,20 +6,20 @@ import {
 	getPublicationByPetId,
 	migrarDueño,
 	sendPublication,
-} from "../services/PublicationService";
-import { getImagesByMascotaId, sendImage } from "../services/ImageService";
+} from "services/PublicationService";
+import { getImagesByMascotaId, sendImage } from "services/ImageService";
 
-import Header from "../components/Header";
-import PrimaryButton from "../components/PrimaryButton";
-import SecondaryButton from "../components/SecondaryButton";
-import Separator from "../components/Separator";
-import LoadingIndicator from "../components/LoadingIndicator";
+import Header from "@/Header";
+import PrimaryButton from "@/PrimaryButton";
+import SecondaryButton from "@/SecondaryButton";
+import Separator from "@/Separator";
+import LoadingIndicator from "@/LoadingIndicator";
 
 import { useSelector } from "react-redux";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
-import { TipoPublicacion } from "../constants/TipoPublicacion";
-import { ColorsApp } from "../constants/Colors";
+import { TipoPublicacion } from "constants/TipoPublicacion";
+import { ColorsApp } from "constants/Colors";
 
 import { FlashList } from "@shopify/flash-list";
 import { FontAwesome5 } from "@expo/vector-icons";

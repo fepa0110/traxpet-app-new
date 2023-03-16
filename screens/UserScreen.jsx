@@ -10,12 +10,12 @@ import {
 import { Avatar } from "@rneui/themed";
 
 import { useSelector, useDispatch } from "react-redux";
-import { logOut } from "../redux/slices/userSlice";
+import { logOut } from "../config-redux/slices/userSlice";
 
-import HeaderHome from "../components/HeaderHome";
-import { ColorsApp } from "../constants/Colors";
-import LargePrimaryButton from "../components/LargePrimaryButton";
-import LargeSecondaryButton from "../components/LargeSecondaryButton";
+import HeaderHome from "@/HeaderHome";
+import { ColorsApp } from "constants/Colors";
+import LargePrimaryButton from "@/LargePrimaryButton";
+import LargeSecondaryButton from "@/LargeSecondaryButton";
 import { useNavigation } from "@react-navigation/native";
 
 const UserScreen = () => {

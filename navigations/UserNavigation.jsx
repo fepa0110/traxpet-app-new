@@ -1,11 +1,11 @@
 import React from "react";
 import { Platform, TouchableOpacity, View } from "react-native";
 
-import AchievementsScreen from "../screens/AchievementsScreen";
+import AchievementsScreen from "screens/AchievementsScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 
 const UserStack = createNativeStackNavigator();
 

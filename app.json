@@ -24,15 +24,20 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "config":{
+        "googleMaps": {
+          "apiKey": ""
+        }
+      },
+      "package": "com.fepa0110.traxpetnew"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "eas": {
-        "projectId": "aaf12b5b-8cfc-46e8-966f-b1f1d01b97f8"
-      }
-    }
+      
+    },
+    "owner": ""
   }
 }

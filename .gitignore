@@ -12,5 +12,5 @@ web-build/
 
 # macOS
 .DS_Store
-constants/constants.jsx
+constants/constants.js
 package-lock.json

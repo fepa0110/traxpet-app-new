@@ -1,4 +1,4 @@
-import { urlServerBoosting } from "../constants/constants";
+import { urlServerBoosting } from "constants/constants";
 
 export async function getPredictByPublication(publication) {
   try {

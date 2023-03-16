@@ -7,18 +7,18 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { ColorsApp } from "../constants/Colors";
+import { ColorsApp } from "constants/Colors";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
 import AwesomeAlert from "react-native-awesome-alerts";
-import TraxpetHeader from "../components/Header";
+import TraxpetHeader from "@/Header";
 
 import { useSelector, useDispatch } from "react-redux";
-import { setNewPublication } from "../redux/slices/publicationSlice";
-import { getFeaturesBySpecieName } from "../services/FeatureService";
+import { setNewPublication } from "../config-redux/slices/publicationSlice";
+import { getFeaturesBySpecieName } from "services/FeatureService";
 
-import LoadingIndicator from "../components/LoadingIndicator";
-import LargePrimaryButton from "../components/LargePrimaryButton";
+import LoadingIndicator from "@/LoadingIndicator";
+import LargePrimaryButton from "@/LargePrimaryButton";
 import { Divider } from "@rneui/themed";
 
 const NewPublicationFeaturesScreen = () => {
