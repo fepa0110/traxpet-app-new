@@ -25,9 +25,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "config":{
+      "config": {
         "googleMaps": {
-          "apiKey": ""
+          "apiKey": "AIzaSyDLAdyb3WSTQ7n5ws3zCFhH3ggg2L55KO8"
         }
       },
       "package": "com.fepa0110.traxpetnew"
@@ -36,8 +36,10 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      
+      "eas": {
+        "projectId": "cb97d467-f73d-4ab3-a712-24a155b306f1"
+      }
     },
-    "owner": ""
+    "owner": "fepa0110"
   }
 }

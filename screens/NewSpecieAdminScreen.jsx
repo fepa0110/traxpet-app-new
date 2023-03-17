@@ -56,7 +56,7 @@ const NewSpecieAdminScreen = () => {
       sendSpecieData({
         nombre: nombreEspecie.trim(),
       });
-      navigation.goBack();
+      navigation.navigate("SpeciesAdminScreen");
     }
   };
 
