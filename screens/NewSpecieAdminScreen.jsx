@@ -18,7 +18,6 @@ import PrimaryButton from "@/PrimaryButton";
 const NewSpecieAdminScreen = () => {
   const navigation = useNavigation();
   const [nombreEspecie, setNombreEspecie] = useState("");
-  const [especieValues, setEspecieValues] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");

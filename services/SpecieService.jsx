@@ -5,13 +5,17 @@ export async function getEnabledSpecies() {
   return await response.json();
 }
 
+export const getSpeciesUsables = async () => {
+  const response = await fetch(urls.server + "/especies/usables");
+  return await response.json();
+};
+
 export async function getEspecies() {
   const response = await fetch(urls.server + "/especies");
   return await response.json();
 }
 
 export async function sendSpecie(specie) {
-  console.log("data: ", specie);
   const response = await fetch(urls.server + "/especies", {
     method: "POST",
     body: JSON.stringify(specie),

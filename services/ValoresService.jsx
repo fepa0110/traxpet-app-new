@@ -1,27 +1,34 @@
-import React from 'react'
+import React from "react";
 
-import {urls} from "constants/constants";
+import { urls } from "constants/constants";
 
-export async function getValuesDataByFeatureAndSpecie (especieNombre,caracteristica) {
+export async function getValuesDataByFeatureAndSpecie(
+  especieNombre,
+  caracteristica
+) {
   return await fetch(
     urls.server +
       "/valores/allByEspecieYCaracteristica?especieNombre=" +
       especieNombre +
       "&&caracteristicaNombre=" +
       caracteristica
-  )
-  .then((response) => { return response.json() })
-};
+  ).then((response) => {
+    return response.json();
+  });
+}
 
-export async function saveValor(data) {
-  await fetch(urls.server + "/valores", {
+export const saveValor = async (data) => {
+  console.log("Save valor");
+  console.log(data.length);
+  const response = await fetch(urls.server + "/valores/byList", {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
-      "Accept": "application/json",
+      Accept: "application/json",
     },
   });
+  return await response.json();
 };
 
 export async function disabledValue(data) {
@@ -30,7 +37,7 @@ export async function disabledValue(data) {
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
-      "Accept": "application/json",
+      Accept: "application/json",
     },
   })
     .then((response) => response.json())
@@ -38,4 +45,4 @@ export async function disabledValue(data) {
     .then((json) => {
       console.log(json);
     });
-};
+}

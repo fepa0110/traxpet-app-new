@@ -17,7 +17,6 @@ import { getFeaturesBySpecieName } from "services/FeatureService";
 
 import LoadingIndicator from "@/LoadingIndicator";
 import LargePrimaryButton from "@/LargePrimaryButton";
-import { Divider } from "@rneui/themed";
 
 const NewPublicationFeaturesScreen = () => {
   const navigation = useNavigation();

@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { ColorsApp } from "constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 
@@ -16,44 +11,43 @@ import FloatingButton from "@/FloatingButton";
 
 import { getFeatures } from "services/FeatureService";
 
-
 const FeaturesAdminScreen = () => {
   const navigation = useNavigation();
-
   const [featuresValues, setFeaturesValues] = useState([]);
-  const [selectedEspecieValue, setSelectedEspecieValue] = useState("");
 
   useEffect(() => {
-    getFeaturesData();
-  });
+    const unsubscribe = navigation.addListener("focus", async () => {
+      await getFeaturesData();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const getFeaturesData = async () => {
-    const features = await getFeatures(); ;
-    
+    const features = await getFeatures();
     setFeaturesValues(features.data);
   };
 
   const renderItem = ({ item }) => (
-    <View style={{
-      flexDirection:"row", 
-      alignItems: "center",
-      justifyContent:"space-between",
-    }}>
-      <View style={{
-          marginHorizontal: 20, 
-          flexDirection: "row",
-          alignItems: "center"
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
       }}
+    >
+      <View
+        style={{
+          marginHorizontal: 20,
+          flexDirection: "row",
+          alignItems: "center",
+        }}
       >
-          <FontAwesome5
-            name="angle-right"
-            size={20}
-            color={ColorsApp.primaryColor}
-          />
-          <Text style={styles.itemTitle}>
-            {item.nombre}
-          </Text>
-          
+        <FontAwesome5
+          name="angle-right"
+          size={20}
+          color={ColorsApp.primaryColor}
+        />
+        <Text style={styles.itemTitle}>{item.nombre}</Text>
       </View>
     </View>
   );
@@ -82,16 +76,13 @@ const FeaturesAdminScreen = () => {
   return (
     <View style={{ height: "100%" }}>
       <Header title="Caracteristicas" />
-      <ScrollView style={styles.container}>
-        <FlashList
-          contentContainerStyle={{ paddingVertical: 20 }}
-          data={featuresValues}
-          renderItem={renderItem}
-          estimatedItemSize={10}
-          ListEmptyComponent={listEmpty}
-          ItemSeparatorComponent={itemDivider}
-        />
-      </ScrollView>
+      <FlashList
+        data={featuresValues}
+        renderItem={renderItem}
+        estimatedItemSize={20}
+        ListEmptyComponent={listEmpty}
+        ItemSeparatorComponent={itemDivider}
+      />
       <FloatingButton
         visible={true}
         onPressFunction={() => {
@@ -100,7 +91,7 @@ const FeaturesAdminScreen = () => {
       />
     </View>
   );
-}
+};
 
 export default FeaturesAdminScreen;
 
@@ -111,10 +102,10 @@ const styles = StyleSheet.create({
     width: "75%",
     alignSelf: "center",
   },
-  message: { 
-    fontWeight: "bold", 
-    fontSize: 16, 
-    padding: 5
+  message: {
+    fontWeight: "bold",
+    fontSize: 16,
+    padding: 5,
   },
   title: {
     color: "black",
@@ -159,16 +150,16 @@ const styles = StyleSheet.create({
     borderColor: "gray",
   },
 
-  message: { 
-    fontWeight: "bold", 
-    fontSize: 16, 
+  message: {
+    fontWeight: "bold",
+    fontSize: 16,
     padding: 5,
-    color: ColorsApp.primaryTextColor
+    color: ColorsApp.primaryTextColor,
   },
   itemTitle: {
     fontSize: 15,
     fontWeight: "bold",
     marginHorizontal: 10,
-    color: ColorsApp.primaryTextColor
+    color: ColorsApp.primaryTextColor,
   },
 });

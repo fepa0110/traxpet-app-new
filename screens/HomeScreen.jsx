@@ -117,9 +117,9 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      getPublicaciones();
-      getNotificaciones();
+    const unsubscribe = navigation.addListener("focus", async() => {
+      await getPublicaciones();
+      await getNotificaciones();
     });
     return unsubscribe;
   }, [navigation]);

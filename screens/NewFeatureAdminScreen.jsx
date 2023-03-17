@@ -15,9 +15,7 @@ const NewFeatureAdminScreen = () => {
   const navigation = useNavigation();
 
   const [nombreCaracteristica, setNombreCaracteristica] = useState("");
-  const [featuresValues, setFeaturesValues] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
-  const [featureExist, setFeatureExist] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 

@@ -28,6 +28,7 @@ import Header from "@/Header";
 import Separator from "@/Separator";
 import PrimaryButton from "@/PrimaryButton";
 import IconButton from "@/IconButton";
+import { positions } from "@mui/system";
 
 const EditFeatureAdminScreen = () => {
   const route = useRoute();
@@ -38,7 +39,6 @@ const EditFeatureAdminScreen = () => {
   const [values, setValues] = useState([]);
   const [showAlertError, setShowAlertError] = useState(false);
   const [showAlertConfirm, setShowAlertConfirm] = useState(false);
-  const [valorExist, setValorExist] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [saveAlert, setSaveAlert] = useState(false);
@@ -59,20 +59,23 @@ const EditFeatureAdminScreen = () => {
   };
 
   const showAlertErrors = (messsage) => {
-    setShowAlertError(true), setAlertMessage(messsage);
+    setShowAlertError(true);
+    setAlertMessage(messsage);
   };
 
   const showAlertConfirms = (title, messsage) => {
-    setShowAlertConfirm(true), setAlertTitle(title), setAlertMessage(messsage);
+    setShowAlertConfirm(true);
+    setAlertTitle(title);
+    setAlertMessage(messsage);
   };
 
   const hideAlert = () => {
-    setShowAlertError(false), setSaveAlert(false), setShowAlertConfirm(false);
+    setShowAlertError(false);
+    setSaveAlert(false);
+    setShowAlertConfirm(false);
   };
 
   const saveValue = async (data) => {
-    console.log("🚀 saveValue ~ data:", data);
-    
     await saveValor(data);
   };
 
@@ -80,87 +83,61 @@ const EditFeatureAdminScreen = () => {
     await disabledValue(data);
   };
 
-  const valueExistValidate = () => {
-    setValorExist(false);
-    values.map((valores) => {
-      if (
-        Object.is(
-          valores.nombre.toUpperCase().trim(),
+  const addCaracteristica = () => {
+    let valorExistente = values
+      .concat(valuesToSave)
+      .find(
+        (valores) =>
+          valores.nombre.toUpperCase().trim() ===
           nombreValor.toUpperCase().trim()
-        )
-      ) {
-        setValorExist(true);
-      }
-    });
-  };
-
-  const refreshScreen = () => {
-    valueExistValidate();
+      );
     if (nombreValor.trim().length === 0) {
       showAlertErrors(`El nombre del valor no puede estar vacio`);
-    } else if (valorExist) {
+    } else if (valorExistente != undefined) {
       showAlertErrors("El valor ingresado ya existe");
     } else {
-      console.log("🚀 ~ caracteristica:", caracteristica);
-      
       let value = {
-        nombre: nombreValor,
-        especie: {"nombre":especie.nombre},
-        caracteristica: { "nombre": caracteristica },
+        nombre: nombreValor.trim(),
+        especie: { nombre: especie.nombre.trim() },
+        caracteristica: { nombre: caracteristica.trim() },
       };
-      values.push(value);
-      valuesToSave.push(value);
-
-      setValues(values.slice(0));
+      setValuesToSave([...valuesToSave, value]);
     }
     setNombreValor("");
   };
 
   const removeItem = (value) => {
-    if (valuesToSave.some((valor) => valor.nombre === value)) {
-      setValuesToSave(valuesToSave.filter((el) => el.nombre != value));
-      setValues(values.filter((el) => el.nombre != value));
-
-      setValues(values.slice(0));
-    } else {
-      let posicion = values
-        .map(function (e) {
-          return e.nombre;
-        })
-        .indexOf(value);
-      valuesToDisable.push(values[posicion]);
-      values[posicion].deshabilitado = true;
-      setValues(values.slice(0));
-    }
+    setValuesToSave(
+      valuesToSave.filter(
+        (valueTosave) =>
+          valueTosave.nombre.toUpperCase().trim() !== value.toUpperCase().trim()
+      )
+    );
+    let posicion = values
+      .map((e) => {
+        return e.nombre;
+      })
+      .indexOf(value);
+    setValuesToDisable([...valuesToDisable, values[posicion]]);
+    let newValues = values.map((value, index) => {
+      if (index === posicion) {
+        return { ...value, deshabilitado: true };
+      } else {
+        return value;
+      }
+    });
+    setValues(newValues);
   };
 
   let saveChanges = () => {
     setSaveAlert(true);
-    const sendValues = valuesToSave;
-    const toDisableValues = valuesToDisable;
     if (
-      (sendValues != undefined && sendValues.length != 0) ||
-      (toDisableValues != undefined && toDisableValues.length != 0)
+      (valuesToSave != undefined && valuesToSave.length != 0) ||
+      (valuesToDisable != undefined && valuesToDisable.length != 0)
     ) {
       showAlertConfirms(
         "Confirmar cambios",
         "¿Quiere confirmar los cambios realizados?"
-      );
-    } else {
-      navigation.goBack();
-    }
-  };
-
-  let goToPrevScreen = () => {
-    const sendValues = valuesToSave;
-    const toDisableValues = valuesToDisable;
-    if (
-      (sendValues != undefined && sendValues.length != 0) ||
-      (toDisableValues != undefined && toDisableValues.length != 0)
-    ) {
-      showAlertConfirms(
-        "Confirmar retroceso",
-        "¿Quiere volver a la pantalla anterior sin realizar cambios?"
       );
     } else {
       navigation.goBack();
@@ -179,9 +156,7 @@ const EditFeatureAdminScreen = () => {
         showConfirmButton={true}
         confirmText="Aceptar"
         confirmButtonColor={ColorsApp.primaryColor}
-        onConfirmPressed={() => {
-          this.hideAlert();
-        }}
+        onConfirmPressed={hideAlert}
       />
     );
   };
@@ -200,100 +175,101 @@ const EditFeatureAdminScreen = () => {
         cancelText="No"
         confirmText="Si"
         confirmButtonColor={ColorsApp.primaryColor}
-        onCancelPressed={() => {
-          this.hideAlert();
-        }}
+        onCancelPressed={hideAlert}
         onConfirmPressed={() => {
           if (saveAlert) {
-            valuesToSave.map((valor) => {
-              saveValue(valor);
-            });
+            saveValue(valuesToSave);
             valuesToDisable.map((valor) => {
               disableValue(valor);
             });
-            hideAlert();
           }
+          hideAlert();
           navigation.goBack();
         }}
       />
     );
   };
 
-  const renderItem = ({ item }) =>
-    !item.deshabilitado ? (
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+  const renderItem = ({ item }) => {
+    if (!item.deshabilitado) {
+      return (
         <View
           style={{
-            marginHorizontal: 20,
             flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          <FontAwesome5
-            name="angle-right"
-            size={20}
-            color={ColorsApp.primaryColor}
-          />
-          <Text style={styles.itemTitle}>{item.nombre}</Text>
-        </View>
-
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity
-            onPress={() => {
-              removeItem(item.nombre);
+          <View
+            style={{
+              marginHorizontal: 20,
+              flexDirection: "row",
+              alignItems: "center",
             }}
           >
             <FontAwesome5
-              name="trash-alt"
+              name="angle-right"
               size={20}
               color={ColorsApp.primaryColor}
             />
-          </TouchableOpacity>
+            <Text style={styles.itemTitle}>{item.nombre}</Text>
+          </View>
+
+          <View style={{ flexDirection: "row" }}>
+            <TouchableOpacity
+              onPress={() => {
+                removeItem(item.nombre);
+              }}
+            >
+              <FontAwesome5
+                name="trash-alt"
+                size={20}
+                color={ColorsApp.primaryColor}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    ) : (
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+      );
+    } else {
+      return (
         <View
           style={{
-            marginHorizontal: 20,
             flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          <FontAwesome5
-            name="angle-right"
-            size={20}
-            color={ColorsApp.primaryColor}
-          />
-          <Text style={styles.itemTitle}>
-            {item.nombre + " (Deshabilitado)"}
-          </Text>
-        </View>
-
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity disabled={true}>
+          <View
+            style={{
+              marginHorizontal: 20,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
             <FontAwesome5
-              name="power-off"
+              name="angle-right"
               size={20}
               color={ColorsApp.primaryColor}
             />
-          </TouchableOpacity>
+            <Text style={styles.itemTitle}>
+              {item.nombre + " (Deshabilitado)"}
+            </Text>
+          </View>
+
+          <View style={{ flexDirection: "row" }}>
+            <TouchableOpacity disabled={true}>
+              <FontAwesome5
+                name="power-off"
+                size={20}
+                color={ColorsApp.primaryColor}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    );
-  
+      );
+    }
+  };
+
   const listEmpty = () => {
     return (
       <View style={styles.container}>
@@ -316,7 +292,7 @@ const EditFeatureAdminScreen = () => {
   };
 
   return (
-    <View style={{height: "100%"}}>
+    <View style={{ height: "100%" }}>
       <Header title="Nuevo valor" />
       <View style={styles.container}>
         <Text style={{ fontWeight: "bold", fontSize: 22, margin: 5 }}>
@@ -328,7 +304,7 @@ const EditFeatureAdminScreen = () => {
         <ScrollView style={styles.scrollView}>
           <FlashList
             contentContainerStyle={{ paddingVertical: 20 }}
-            data={values}
+            data={values.concat(valuesToSave)}
             renderItem={renderItem}
             estimatedItemSize={10}
             ListEmptyComponent={listEmpty}
@@ -339,17 +315,17 @@ const EditFeatureAdminScreen = () => {
           <Input
             label="Agregar Valor"
             placeholder="Pelaje"
-            labelStyle={{color: ColorsApp.primaryTextColor }}
+            labelStyle={{ color: ColorsApp.primaryTextColor }}
             inputStyle={{ color: ColorsApp.primaryTextColor }}
-            inputContainerStyle={{color: ColorsApp.primaryTextColor }}
-            containerStyle={{color: ColorsApp.primaryTextColor}}
+            inputContainerStyle={{ color: ColorsApp.primaryTextColor }}
+            containerStyle={{ color: ColorsApp.primaryTextColor }}
             cursorColor={ColorsApp.primaryColor}
             onChangeText={(text) => setNombreValor(text)}
             value={nombreValor}
           />
           <IconButton
             onPressFunction={() => {
-              refreshScreen();
+              addCaracteristica();
             }}
             iconName="plus"
             size={45}
@@ -420,7 +396,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
     marginHorizontal: 10,
-    color: ColorsApp.primaryTextColor
+    color: ColorsApp.primaryTextColor,
   },
 });
 
