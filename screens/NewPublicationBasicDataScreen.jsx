@@ -62,8 +62,8 @@ const NewPublicationBasicDataScreen = () => {
 	}, []);
 
 	const getEspecies = async () => {
-		let speciesData = await getEnabledSpecies();
-		setEspeciesValues(speciesData);
+		let especies = await getEnabledSpecies();
+		setEspeciesValues(especies.data);
 	};
 
 	const especiesOptions = especieValues.map((value, index) => {

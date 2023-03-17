@@ -1,12 +1,11 @@
-import { Entypo, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
 import React, { useEffect, useState } from "react";
 
 import {
-  StyleSheet, 
-  Text, 
-  TouchableOpacity, 
+  StyleSheet,
+  Text,
+  TouchableOpacity,
   View,
   ScrollView,
 } from "react-native";
@@ -21,7 +20,6 @@ import FloatingButton from "@/FloatingButton";
 import Separator from "@/Separator";
 
 const SpeciesAdminScreen = () => {
-
   const navigation = useNavigation();
   const [especieValues, setEspecieValues] = useState([]);
   const [especieSeleccionada, setEspecieSeleccionada] = useState([]);
@@ -33,88 +31,92 @@ const SpeciesAdminScreen = () => {
     const unsubscribe = navigation.addListener("focus", () => {
       getEspeciesData();
     });
-    getEspeciesData();
     return unsubscribe;
   }, [navigation]);
 
   const getEspeciesData = async () => {
-    const especies = await getEspecies() ;
-
+    const especies = await getEspecies();
     setEspecieValues(especies.data);
-
   };
   const disableEspecie = async () => {
     await disableEspecieRequest(especieSeleccionada);
     setEspecieSeleccionada("");
-    getEspeciesData();
+    await getEspeciesData();
   };
-  
+
   const showAlertConfirms = (title, messsage) => {
-        setShowAlertConfirm(true),
-        setAlertTitle (title),
-        setAlertMessage( messsage)
+    setShowAlertConfirm(true), setAlertTitle(title), setAlertMessage(messsage);
   };
-    
-  const  hideAlertConfirms = () => {
-    setShowAlertConfirm( false);
+
+  const hideAlertConfirms = () => {
+    setShowAlertConfirm(false);
   };
 
   const listEmpty = () => {
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>
-          No hay especies
-        </Text>
-        <FontAwesome5 name="frown-open" size={32} color={ColorsApp.primaryColor} />
+        <Text style={styles.message}>No hay especies</Text>
+        <FontAwesome5
+          name="frown-open"
+          size={32}
+          color={ColorsApp.primaryColor}
+        />
       </View>
     );
   };
 
   const itemDivider = () => {
-    return(
-      <View style={{alignItems: "center", height: "100%" }}>
-        <Separator width="50%"/>
+    return (
+      <View style={{ alignItems: "center", height: "100%" }}>
+        <Separator width="50%" />
       </View>
     );
   };
 
-  const renderItem = ({ item }) => (
-    <View style={{
-      flexDirection:"row", 
-      alignItems: "center",
-      justifyContent:"space-between",
-    }}>
-      <View style={{
-          marginHorizontal: 20, 
+  const renderItem = ({ item }) => {
+    console.log(item);
+    return (
+      <View
+        style={{
           flexDirection: "row",
-          alignItems: "center"
-      }}
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
       >
+        <View
+          style={{
+            marginHorizontal: 20,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
           <FontAwesome5
             name="angle-right"
             size={20}
             color={ColorsApp.primaryColor}
           />
           <Text style={styles.itemTitle}>
-            {!item.deshabilitado ?
-            item.nombre : item.nombre + " (deshabilitado)"}
+            {!item.deshabilitado === true
+              ? item.nombre
+              : item.nombre + " (deshabilitado)"}
           </Text>
-          
-      </View>
-
-      <View style={{ flexDirection: "row"}}>
+        </View>
+        <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
             style={styles.buttonEdit}
-            onPress={() => navigation.navigate
-              ("EditSpecieAdminScreen", {
+            onPress={() =>
+              navigation.navigate("EditSpecieAdminScreen", {
                 especie: item,
               })
             }
           >
-            <FontAwesome5 name="pencil-alt" size={20} color={ColorsApp.primaryColor} />
+            <FontAwesome5
+              name="pencil-alt"
+              size={20}
+              color={ColorsApp.primaryColor}
+            />
           </TouchableOpacity>
-
-          {!item.deshabilitado ? (
+          {!item.deshabilitado === true ? (
             <TouchableOpacity
               style={styles.buttonEdit}
               onPress={() => {
@@ -122,23 +124,23 @@ const SpeciesAdminScreen = () => {
 
                 showAlertConfirms(
                   "Confirmar cambios",
-                  "¿Quiere confirmar los cambios realizados?",
+                  "¿Quiere confirmar los cambios realizados?"
                 );
               }}
             >
-              <FontAwesome5 
-                name="trash-alt" 
-                size={20} 
+              <FontAwesome5
+                name="trash-alt"
+                size={20}
                 color={ColorsApp.primaryColor}
               />
             </TouchableOpacity>
-            ) : (
-            <View style={{ paddingEnd: 4, alignItems: "center" }}>
-            </View>
+          ) : (
+            <View style={{ paddingEnd: 4, alignItems: "center" }}></View>
           )}
+        </View>
       </View>
-    </View>
-  );
+    );
+  };
 
   const alerta = () => {
     return (
@@ -155,30 +157,31 @@ const SpeciesAdminScreen = () => {
         confirmText="Aceptar"
         confirmButtonColor={ColorsApp.primaryColor}
         cancelButtonColor={ColorsApp.secondaryColor}
-        confirmButtonStyle={{ 
-          borderColor: ColorsApp.primaryColor, borderWidth: 1 
+        confirmButtonStyle={{
+          borderColor: ColorsApp.primaryColor,
+          borderWidth: 1,
         }}
-        cancelButtonStyle={{ 
-          borderColor: ColorsApp.primaryColor, 
+        cancelButtonStyle={{
+          borderColor: ColorsApp.primaryColor,
           borderWidth: 1,
           fontWeight: "bold",
-          backgroundColor: ColorsApp.primaryBackgroundColor
+          backgroundColor: ColorsApp.primaryBackgroundColor,
         }}
-        cancelButtonTextStyle={{ color: ColorsApp.primaryColor,}}
+        cancelButtonTextStyle={{ color: ColorsApp.primaryColor }}
         onConfirmPressed={async () => {
           await disableEspecie();
-          setShowAlertConfirm(false);
+          hideAlertConfirms();
         }}
         onCancelPressed={() => {
-          setShowAlertConfirm(false);
+          hideAlertConfirms();
         }}
       />
     );
   };
 
   return (
-    <View style={{ height: "100%" }} >
-    <Header title="Especies"/>
+    <View style={{ height: "100%" }}>
+      <Header title="Especies" />
       <ScrollView style={styles.container}>
         <FlashList
           contentContainerStyle={{ paddingVertical: 20 }}
@@ -192,7 +195,7 @@ const SpeciesAdminScreen = () => {
       <FloatingButton
         visible={true}
         onPressFunction={() => {
-          navigation.navigate("NewSpecieAdminScreen")
+          navigation.navigate("NewSpecieAdminScreen");
         }}
       />
       {alerta()}
@@ -205,9 +208,9 @@ export default SpeciesAdminScreen;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: ColorsApp.primaryBackgroundColor,
-    height:"100%",
+    height: "100%",
     width: "75%",
-    alignSelf: "center"
+    alignSelf: "center",
   },
   buttonEdit: {
     backgroundColor: ColorsApp.primaryBackgroundColor,
@@ -220,16 +223,16 @@ const styles = StyleSheet.create({
     marginLeft: 2,
     marginRight: 2,
   },
-  message: { 
-    fontWeight: "bold", 
-    fontSize: 16, 
+  message: {
+    fontWeight: "bold",
+    fontSize: 16,
     padding: 5,
-    color: ColorsApp.primaryTextColor
+    color: ColorsApp.primaryTextColor,
   },
   itemTitle: {
     fontSize: 15,
     fontWeight: "bold",
-    marginHorizontal:10,
-    color: ColorsApp.primaryTextColor
+    marginHorizontal: 10,
+    color: ColorsApp.primaryTextColor,
   },
 });
