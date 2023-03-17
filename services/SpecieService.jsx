@@ -28,9 +28,8 @@ export async function sendSpecie(specie) {
 }
 
 export async function disableEspecieRequest(especieNombre) {
-  const response = await fetch(urls.server + "/especies/desabilitar", {
+  const response = await fetch(urls.server + "/especies/deshabilitar/"+especieNombre, {
     method: "PUT",
-    body: especieNombre,
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
