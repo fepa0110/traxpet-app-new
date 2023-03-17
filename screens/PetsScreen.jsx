@@ -19,7 +19,7 @@ import { getByModeloActivoEspecie } from "services/MascotasEntrenadasService";
 import { sendPublication } from "services/PublicationService";
 
 import { ColorsApp } from "constants/Colors";
-import { urlServer } from "constants/constants";
+import {urls} from "constants/constants";
 
 import Header from "@/Header";
 import LargePrimaryButton from "@/LargePrimaryButton";
@@ -123,7 +123,7 @@ const PetsScreen = () => {
 		if (mascotasParaBuscar.length != 0) {
 			setIsLoadingImages(true);
 			const response = await fetch(
-				`${urlServer}/imagenesMascota/mascotasActivas`,
+				`${urls.server}/imagenesMascota/mascotasActivas`,
 				{
 					method: "POST",
 					headers: {

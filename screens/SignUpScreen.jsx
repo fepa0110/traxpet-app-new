@@ -13,7 +13,7 @@ import * as Crypto from "expo-crypto";
 
 import { useNavigation } from "@react-navigation/native";
 
-import { urlServer } from "constants/constants";
+import {urls} from "constants/constants";
 import { ColorsApp } from "constants/Colors";
 
 import { useSelector, useDispatch } from "react-redux";

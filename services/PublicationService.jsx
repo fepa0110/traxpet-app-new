@@ -1,9 +1,9 @@
-import { urlServer } from "constants/constants";
+import {urls} from "constants/constants";
 
 const publicacionesEndPoint = "/publicaciones";
 
 export async function getPublicacionesByUserRequest(username) {
-  return await fetch(`${urlServer}/publicaciones/usuario/${username}`).then(
+  return await fetch(`${urls.server}/publicaciones/usuario/${username}`).then(
     (response) => {
       return response.json();
     }
@@ -12,7 +12,7 @@ export async function getPublicacionesByUserRequest(username) {
 
 export async function getPublicacionesVistasByUserRequest(username) {
   const response = await fetch(
-    `${urlServer}/publicaciones/vistasByUsername/${username}`
+    `${urls.server}/publicaciones/vistasByUsername/${username}`
   );
   const json = await response.json();
   return json;
@@ -20,7 +20,7 @@ export async function getPublicacionesVistasByUserRequest(username) {
 
 export async function getPublicacionesBuscadasByUserRequest(username) {
   const response = await fetch(
-    `${urlServer}/publicaciones/buscadasByUsername/${username}`
+    `${urls.server}/publicaciones/buscadasByUsername/${username}`
   );
   const json = await response.json();
   return json;
@@ -28,7 +28,7 @@ export async function getPublicacionesBuscadasByUserRequest(username) {
 
 export async function getPublicacionById(publicacionId) {
   return await fetch(
-    urlServer + publicacionesEndPoint + "/" + publicacionId
+    urls.server + publicacionesEndPoint + "/" + publicacionId
   ).then((response) => {
     return response.json();
   });
@@ -41,7 +41,7 @@ export async function sendPublication(
 ) {
   try {
     const responsePublication = await fetch(
-      `${urlServer}${publicacionesEndPoint}/publicar?notificateSimilar=${notificateSimilar}&idMascotaSimilar=${mascotaSimilarId}`,
+      `${urls.server}${publicacionesEndPoint}/publicar?notificateSimilar=${notificateSimilar}&idMascotaSimilar=${mascotaSimilarId}`,
       {
         method: "POST",
         headers: {
@@ -61,7 +61,7 @@ export async function sendPublication(
 
 export async function updatePublication(publicationId, publicationData) {
   return await fetch(
-    urlServer + publicacionesEndPoint + "/update/" + publicationId,
+    urls.server + publicacionesEndPoint + "/update/" + publicationId,
     {
       method: "PUT",
       headers: {
@@ -81,7 +81,7 @@ export async function updatePublication(publicationId, publicationData) {
 
 export async function addUbicacionMascota(ubicacion, mascotaId) {
   const response = await fetch(
-    urlServer + publicacionesEndPoint + "/addUbicacion?mascotaId=" + mascotaId,
+    urls.server + publicacionesEndPoint + "/addUbicacion?mascotaId=" + mascotaId,
     {
       method: "PUT",
       headers: {
@@ -96,7 +96,7 @@ export async function addUbicacionMascota(ubicacion, mascotaId) {
 
 export async function markAsFound(publicationId) {
   return await fetch(
-    urlServer + "/publicaciones/markAsFound/" + publicationId,
+    urls.server + "/publicaciones/markAsFound/" + publicationId,
     {
       method: "PUT",
     }
@@ -110,13 +110,13 @@ export async function markAsFound(publicationId) {
 }
 
 export async function getPublicationByPetId(id) {
-  const response = await fetch(urlServer + "/publicaciones/mascota/" + id);
+  const response = await fetch(urls.server + "/publicaciones/mascota/" + id);
   return await response.json();
 }
 
 export async function migrarDueño(publicacionId, username) {
   const response = await fetch(
-    `${urlServer}${publicacionesEndPoint}/migrarDueño?publicacionId=${publicacionId}&username=${username}`,
+    `${urls.server}${publicacionesEndPoint}/migrarDueño?publicacionId=${publicacionId}&username=${username}`,
     {
       method: "PUT",
     }

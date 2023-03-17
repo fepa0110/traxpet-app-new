@@ -1,8 +1,8 @@
-import { urlServer } from "constants/constants";
+import { urls } from "constants/constants";
 
 export async function readNotification(notificacion) {
-	return await fetch(urlServer + "/notificaciones", {
-		method: "PUT", // or 'PUT'
+	return await fetch(urls.server + "/notificaciones", {
+		method: "PUT",
 		body: JSON.stringify(notificacion),
 		headers: {
 			"Content-Type": "application/json",
@@ -18,22 +18,24 @@ export async function readNotification(notificacion) {
 }
 
 export async function getNotificacionesByUserIdRequest(userId) {
-	return await fetch(`${urlServer}/notificaciones/usuario/${userId}`).then(
+	return await fetch(`${urls.server}/notificaciones/usuario/${userId}`).then(
 		(response) => {
 			return response.json();
 		}
 	);
 }
 
-
-export async function sendNotificationOwnerUser(idSelectPet,idPublication,) {
-	return await fetch(`${urlServer}/notificaciones/${idSelectPet}/${idPublication}`, {
-		method: "POST", 
-		headers: {
-			"Content-Type": "application/json",
-			Accept: "application/json",
-		},
-	})
+export async function sendNotificationOwnerUser(idSelectPet, idPublication) {
+	return await fetch(
+		`${urls.server}/notificaciones/${idSelectPet}/${idPublication}`,
+		{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+			},
+		}
+	)
 		.then((response) => {
 			return response.json();
 		})

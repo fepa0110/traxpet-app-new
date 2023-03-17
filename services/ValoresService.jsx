@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { urlServer } from "constants/constants";
+import {urls} from "constants/constants";
 
 export async function getValuesDataByFeatureAndSpecie (especieNombre,caracteristica) {
   return await fetch(
-    urlServer +
+    urls.server +
       "/valores/allByEspecieYCaracteristica?especieNombre=" +
       especieNombre +
       "&&caracteristicaNombre=" +
@@ -14,7 +14,7 @@ export async function getValuesDataByFeatureAndSpecie (especieNombre,caracterist
 };
 
 export async function saveValor(data) {
-  await fetch(urlServer + "/valores", {
+  await fetch(urls.server + "/valores", {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -25,7 +25,7 @@ export async function saveValor(data) {
 };
 
 export async function disabledValue(data) {
-  await fetch(urlServer + "/valores", {
+  await fetch(urls.server + "/valores", {
     method: "PUT",
     body: JSON.stringify(data),
     headers: {

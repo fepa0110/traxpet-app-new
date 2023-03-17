@@ -1,7 +1,7 @@
-import { urlServer } from "constants/constants";
+import {urls} from "constants/constants";
 
 export async function getFeaturesMapByPredict(predict) {
-	return await fetch(urlServer + "/valores/byMascotas",{
+	return await fetch(urls.server + "/valores/byMascotas",{
     method: "POST",
       headers: {
         "Accept": "application/json",

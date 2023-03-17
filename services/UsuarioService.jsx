@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-import { urlServer } from "constants/constants";
+import {urls} from "constants/constants";
 
 export async function loginRequest(userData) {
-    return await fetch(urlServer + "/usuarios/login", {
+    return await fetch(urls.server + "/usuarios/login", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -21,7 +21,7 @@ export async function loginRequest(userData) {
 }
 
 export async function registerUserRequest(newUserData) {
-    return await fetch(urlServer + "/usuarios", {
+    return await fetch(urls.server + "/usuarios", {
         method: 'POST',
         headers: {
             "Accept": 'application/json',
@@ -39,7 +39,7 @@ export async function registerUserRequest(newUserData) {
 }
 
 export async function getUserByUsernameRequest(username) {
-    return await fetch(`${urlServer}/usuarios/username/${username}`)
+    return await fetch(`${urls.server}/usuarios/username/${username}`)
         .then((response) => {
             return response.json()
         }
@@ -47,14 +47,14 @@ export async function getUserByUsernameRequest(username) {
 }
 
 export async function getUserByEmailRequest(email) {
-    return await fetch(`${urlServer}/usuarios/email/${email}`)
+    return await fetch(`${urls.server}/usuarios/email/${email}`)
         .then((response) => { 
             return response.json()
         }
     )}
 
     export async function addScore(usuario,puntaje) {
-        await fetch(urlServer + "/usuarios/addScore"+puntaje, {
+        await fetch(urls.server + "/usuarios/addScore"+puntaje, {
           method: "PUT",
           body: usuario,
           headers: {
@@ -67,7 +67,7 @@ export async function getUserByEmailRequest(email) {
       };
 
 export async function addScoreUserByUsername(username, puntaje){
-    return await fetch(urlServer+"/usuarios/addScore/"+puntaje, {
+    return await fetch(urls.server+"/usuarios/addScore/"+puntaje, {
         method: "PUT",
         headers: {
             Accept: "application/json",

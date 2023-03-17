@@ -1,21 +1,25 @@
-import { urlServer } from "constants/constants";
+import { urls } from "constants/constants";
 
-export async function getFeaturesBySpecieName(specieName) {
-  try {
-    const response = await fetch(
-      urlServer +
-        "/valores/caracteristicasByEspecie?especieNombre=" +
-        specieName
-    );
-    const json = await response.json();
-    return json.data;
-  } catch (error) {
-    console.log("error", error);
-  }
-}
+export const getFeaturesBySpecieName = async (specieName) => {
+  const response = await fetch(
+    urls.server + "/valores/caracteristicasByEspecie?especieNombre=" + specieName
+  );
+  return await response.json();
+};
 
-export async function getFeatures() {
-  const resp = await fetch(urlServer + "/caracteristicas");
-  const data = await resp.json();
-  return data;
-}
+export const sendFeaturesData = async (caracteristica) => {
+  const response = await fetch(urls.server + "/caracteristicas", {
+    method: "POST",
+    body: JSON.stringify(caracteristica),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
+  return await response.json();
+};
+
+export const getFeatures = async () => {
+  const response = await fetch(urls.server + "/caracteristicas");
+  return await response.json();
+};

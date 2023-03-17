@@ -1,8 +1,8 @@
-import { urlServerBoosting } from "constants/constants";
+import {urls} from "constants/constants";
 
 export async function getPredictByPublication(publication) {
   try {
-    const response = await fetch(urlServerBoosting + "/predict", {
+    const response = await fetch(urls.boosting + "/predict", {
       method: "POST",
       headers: {
         Accept: "application/json",

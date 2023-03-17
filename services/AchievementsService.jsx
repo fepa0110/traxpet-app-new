@@ -1,20 +1,20 @@
-import { urlServer } from "constants/constants";
+import {urls} from "constants/constants";
 
 const levelsEndPoint = "/niveles"
 
 export async function getLevels() {
-    return await fetch(`${urlServer}${levelsEndPoint}`)
+    return await fetch(`${urls.server}${levelsEndPoint}`)
     .then((response) => {
         return response.json();
     });
 }
 
 export async function getLevelByUsername(username){
-    return await fetch(urlServer + levelsEndPoint + "/calcularNivel?username="  + username)
+    return await fetch(urls.server + levelsEndPoint + "/calcularNivel?username="  + username)
         .then((response) => { return response.json()});
 }
 
 export async function getGivenLevelsByUsername(username){
-    return await fetch(urlServer + levelsEndPoint + "/nivelesObtenidos?username="  + username)
+    return await fetch(urls.server + levelsEndPoint + "/nivelesObtenidos?username="  + username)
         .then((response) => { return response.json()});
 }

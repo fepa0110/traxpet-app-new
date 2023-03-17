@@ -2,7 +2,7 @@ export const ColorsApp = {
     primaryColor: "orangered",
     secondaryColor: "#BABABA",
     
-    errorColor: "blue",
+    errorColor: "red",
     primaryBackgroundColor: "white",
     primaryTextColor: "#000",
     secondaryTextColor: "gray",

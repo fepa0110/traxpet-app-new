@@ -1,8 +1,8 @@
-import { urlServer } from "constants/constants";
+import {urls} from "constants/constants";
 
 export async function getByModeloActivoEspecie(especieNombre,usuarioId) {
 	return await fetch(
-		urlServer + "/mascotasEntrenadas/predict?especieNombre="+especieNombre+"&usuarioId=" + usuarioId
+		urls.server + "/mascotasEntrenadas/predict?especieNombre="+especieNombre+"&usuarioId=" + usuarioId
 	).then((response) => {
 		return response.json();
 	});

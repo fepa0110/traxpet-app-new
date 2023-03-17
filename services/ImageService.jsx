@@ -1,11 +1,11 @@
-import { urlServer } from "constants/constants";
+import {urls} from "constants/constants";
 
 const formatoImagen = "jpg";
 
 export async function sendImage(image, mascotaId) {
 	try {
 		const responseImage = await fetch(
-			urlServer +
+			urls.server +
 				"/imagenesMascota/upload?" +
 				"mascotaId=" +
 				mascotaId +
@@ -28,7 +28,7 @@ export async function sendImage(image, mascotaId) {
 export async function updateImage(imagenData, mascotaId, imagenId) {
 	// console.log("imagen mascota data c",imagenData)
 	return await fetch(
-		urlServer +
+		urls.server +
 			"/imagenesMascota/update?" +
 			"mascotaId=" +
 			mascotaId +
@@ -55,7 +55,7 @@ export async function updateImage(imagenData, mascotaId, imagenId) {
 }
 
 export async function getImagesByMascotaId(mascotaId) {
-	return await fetch(urlServer + "/imagenesMascota/" + mascotaId).then(
+	return await fetch(urls.server + "/imagenesMascota/" + mascotaId).then(
 		(response) => {
 			return response.json();
 		}
