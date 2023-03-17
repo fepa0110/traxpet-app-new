@@ -3,13 +3,11 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ColorsApp } from "constants/Colors";
 import { Picker } from "@react-native-picker/picker";
-import { Ionicons } from "@expo/vector-icons";
 import AwesomeAlert from "react-native-awesome-alerts";
 import TraxpetHeader from "@/Header";
 
@@ -33,8 +31,6 @@ const NewPublicationFeaturesScreen = () => {
   const [selectedFeaturesValues, setSelectedFeaturesValues] = useState(
     new Map()
   );
-  const [selectedFeatureValue, setselectedFeatureValue] = useState([]);
-  useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");

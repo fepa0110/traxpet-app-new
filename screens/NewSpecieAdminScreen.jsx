@@ -10,7 +10,6 @@ import React, { useState, useEffect } from "react";
 import { ColorsApp } from "constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import AwesomeAlert from "react-native-awesome-alerts";
-import { Entypo, Ionicons } from "@expo/vector-icons";
 import { getEspecies, sendSpecie } from "services/SpecieService";
 import Header from "@/Header";
 import { Input } from "@rneui/themed";

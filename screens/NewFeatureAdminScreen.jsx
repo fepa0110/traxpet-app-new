@@ -1,6 +1,5 @@
 import { StyleSheet, View } from "react-native";
 
-import { urlServer } from "constants/constants";
 import { useNavigation } from "@react-navigation/native";
 import { ColorsApp } from "constants/Colors";
 import React, { useState, useEffect } from "react";

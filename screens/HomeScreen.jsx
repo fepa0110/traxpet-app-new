@@ -31,7 +31,7 @@ import { getNotificacionesByUserIdRequest } from "services/NotificationService";
 import FloatingButton from "@/FloatingButton";
 import { FlashList } from "@shopify/flash-list";
 
-import { urlServer } from "constants/constants";
+import { urls } from "constants/constants";
 import LoadingIndicator from "@/LoadingIndicator";
 
 const HomeScreen = () => {
@@ -69,7 +69,7 @@ const HomeScreen = () => {
 
     if (vistasIds.length !== 0) {
       const response = await fetch(
-        `${urlServer}/imagenesMascota/mascotasActivas`,
+        `${urls.server}/imagenesMascota/mascotasActivas`,
         {
           method: "POST",
           headers: {
@@ -91,7 +91,7 @@ const HomeScreen = () => {
 
     if (buscadasIds.length !== 0) {
       const response = await fetch(
-        `${urlServer}/imagenesMascota/mascotasActivas`,
+        `${urls.server}/imagenesMascota/mascotasActivas`,
         {
           method: "POST",
           headers: {

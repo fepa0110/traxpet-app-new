@@ -6,7 +6,6 @@ import {
 	StyleSheet,
 	Image,
 	Platform,
-	TouchableOpacity,
 } from "react-native";
 import React, { useEffect } from "react";
 
@@ -16,7 +15,6 @@ import { Picker } from "@react-native-picker/picker";
 import Header from "@/Header";
 import { ColorsApp } from "constants/Colors";
 import * as ImagePicker from "expo-image-picker";
-import { Ionicons } from "@expo/vector-icons";
 import defaultImage from "../assets/defaultImage.jpg";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import AwesomeAlert from "react-native-awesome-alerts";
